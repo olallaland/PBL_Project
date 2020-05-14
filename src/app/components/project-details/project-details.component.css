@@ -1,0 +1,50 @@
+.sidebar-container {
+  margin-top: 50px;
+  padding: 120px 0;
+  width: 20%;
+  //opacity: 0.8;
+  float: left;
+  background: linear-gradient(to bottom, #4A148C, #f6f6f6) !important;
+}
+
+.sidebar-row {
+  font-size: 20px;
+  border: double white 1px;
+}
+
+.sidebar .selected {
+  background-color: #4A148C;
+}
+
+button {
+  color: white;
+  font-size: 18px;
+  text-align: center;
+  margin-left: 50px;
+}
+
+.sidebar {
+  font-size: 25px !important;
+  padding: 0;
+  background-color:rgba(255, 255, 255, 0) !important;
+}
+
+#tab-content-container {
+  margin: 50px;
+  float: left;
+  width: 70%;
+}
+
+#tab-content-container div {
+  display: none;
+}
+
+#tab-content-container .current-tab {
+  display: block;
+}
+
+.tab-content {
+  width: 100%;
+  height: 500px;
+  background-color: blanchedalmond;
+}

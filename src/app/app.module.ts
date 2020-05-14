@@ -29,6 +29,8 @@ import {MatListModule} from '@angular/material/list';
 import {ProjectService} from './services/project.service';
 import {ProjectDetailDialogComponent} from './components/dialogs/project-detail-dialog/project-detail-dialog.component';
 import { ProjectDetailsComponent } from './components/project-details/project-details.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -65,7 +67,9 @@ import { ProjectDetailsComponent } from './components/project-details/project-de
     ReactiveFormsModule,
     MatMenuModule,
     MatTabsModule,
-    MatListModule
+    MatListModule,
+    MatSidenavModule,
+    MatIconModule
   ],
   providers: [CourseService, SessionService, FormBuilder, MatMenuModule, ProjectService],
   bootstrap: [AppComponent]

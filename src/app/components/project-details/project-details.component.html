@@ -1,1 +1,57 @@
-<p>project-details works!</p>
+
+<div class="sidebar-container">
+  <mat-toolbar class="sidebar">
+    <mat-toolbar-row class="sidebar-row selected">
+      <button mat-button (click)="changeTab(0)">项目简介</button>
+    </mat-toolbar-row>
+
+    <mat-toolbar-row class="sidebar-row">
+      <button mat-button (click)="changeTab(1)">小组成员</button>
+    </mat-toolbar-row>
+
+    <mat-toolbar-row class="sidebar-row">
+      <button mat-button (click)="changeTab(2)">任务</button>
+    </mat-toolbar-row>
+
+    <mat-toolbar-row class="sidebar-row">
+      <button mat-button  (click)="changeTab(3)">讨论</button>
+    </mat-toolbar-row>
+
+    <mat-toolbar-row class="sidebar-row">
+      <button mat-button  (click)="changeTab(4)">评分</button>
+    </mat-toolbar-row>
+
+    <mat-toolbar-row class="sidebar-row">
+      <button mat-button  (click)="changeTab(5)">文件管理</button>
+    </mat-toolbar-row>
+
+  </mat-toolbar>
+
+</div>
+
+<section id="tab-content-container">
+  <div class="tab-content current-tab">
+    项目简介
+  </div>
+
+  <div class="tab-content">
+    小组成员
+  </div>
+
+  <div class="tab-content">
+    任务
+  </div>
+
+  <div class="tab-content">
+    讨论
+  </div>
+
+  <div class="tab-content">
+    评分
+  </div>
+
+  <div class="tab-content">
+    文件管理
+  </div>
+</section>
+
