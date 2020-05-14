@@ -1,0 +1,23 @@
+.course-card {
+  max-width: 400px;
+  flex: 1;
+  min-width: 400px;
+  margin: 10px;
+}
+
+.course-list-container {
+  display: flex;
+  flex-flow:row wrap;
+  justify-content:center;
+  align-items:center;
+
+}
+
+.content-header {
+  margin: 50px;
+  text-align:center;
+}
+
+#add-course {
+  padding: 50px 150px;
+}

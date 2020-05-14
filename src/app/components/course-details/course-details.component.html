@@ -1,0 +1,41 @@
+<div class="course-header">
+  <h1 class="course-info" style="font-size: 50px;">基于Unity引擎的游戏开发基础</h1>
+  <p>授课老师：李老师</p>
+  <p>随着互联网和智能手机的快速发展，《Angry Birds》（愤怒的小鸟）、《Temple Run》（神庙逃亡）等手游作品取得巨大成功，
+    让独立开发者赚得第一桶金。移动平台的3D网络游戏开发成为趋势，优秀作品雨后春笋般涌现，Supercell Oy公司开发的《Clash of Clans》
+    （部落冲突）与Blizzard Entertainment公司开发的《Hearth Stone》（炉石传说）风靡全球。网易、腾讯、巨人、
+    恺英网络等业界著名公司也将游戏业务重心转向移动平台，市场涌现出莉莉丝、银汉科技等一大批新锐手游公司。</p>
+  <p></p>
+</div>
+
+<mat-tab-group>
+  <mat-tab label="关于">
+    <div class="course-content-container">
+      <p>授课时间：</p>
+      <p>考试时间：</p>
+    </div>
+  </mat-tab>
+
+  <mat-tab label="课程项目" class="course-content-container">
+    <!-- project list-->
+    <div class="project-list-container">
+      <mat-card *ngFor="let project of projectList; index as projectIndex" class="project-card">
+        <mat-card-header>
+          <mat-card-title>{{ project.name }}</mat-card-title>
+          <mat-card-subtitle>{{ project.pj_id }}</mat-card-subtitle>
+          <mat-card-subtitle>开始时间：{{ project.start_time }}</mat-card-subtitle>
+          <mat-card-subtitle>开始时间：{{ project.end_time }}</mat-card-subtitle>
+        </mat-card-header>
+        <!--      <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
+        <mat-card-content>
+<!--          <p>-->
+<!--            {{ project.desc }}-->
+<!--          </p>-->
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button (click)="openDialog(projectIndex)">查看详情</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </mat-tab>
+</mat-tab-group>

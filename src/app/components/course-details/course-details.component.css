@@ -1,0 +1,30 @@
+.course-header {
+  padding: 50px 500px 50px 50px;
+  height: 250px;
+  //opacity: 0.8;
+  color: #ffffff;
+  //background: linear-gradient(90deg, #0E419C, #f6f6f6);
+  background: linear-gradient(90deg, #4A148C, #f6f6f6);
+  //background: linear-gradient(90deg, #004D40, #f6f6f6);
+
+}
+
+.course-content-container {
+  margin: 50px;
+}
+
+.project-list-container {
+  display: flex;
+  flex-flow:row wrap;
+  justify-content:center;
+  align-items:center;
+}
+
+.project-card {
+  max-height: 200px;
+  min-height: 200px;
+  max-width: 300px;
+  min-width: 300px;
+  flex: 1;
+  margin: 10px;
+}

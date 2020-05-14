@@ -1,0 +1,35 @@
+
+<form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm.value)">
+  <h1>请注册</h1>
+
+  <!--username-->
+  <mat-form-field class="register-item">
+    <input matInput placeholder="请输入用户名" id="username" formControlName="username" required>
+  </mat-form-field>
+
+  <!--user password-->
+  <mat-form-field class="register-item">
+    <input matInput placeholder="请输入密码" type="password" id="password" formControlName="password" required>
+  </mat-form-field>
+
+  <!--user name-->
+  <mat-form-field class="register-item">
+    <input matInput placeholder="请输入姓名" id="name" formControlName="name" required>
+  </mat-form-field>
+
+  <!--user gender-->
+  <mat-radio-group class="register-item" id="gender" formControlName="gender">
+    <mat-radio-button class="radio-button" value="male">男</mat-radio-button>
+    <mat-radio-button class="radio-button" value="female">女</mat-radio-button>
+  </mat-radio-group>
+
+  <!--profile photo-->
+  <input class="register-item" name="请选择头像" id="picture" type="file" formControlName="picture"
+         accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" (change)="preview($event)">
+  <p id="addImageAlert"></p>
+  <img *ngIf="picture != null" id="imgPreview" style="width: 250px; height: 250px; border: solid 1px;" /><br>
+
+  <button mat-raised-button class="register-item" color="primary" type="submit">注册</button>
+</form>
+
+
