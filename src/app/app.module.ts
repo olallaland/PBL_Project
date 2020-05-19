@@ -31,6 +31,11 @@ import {ProjectDetailDialogComponent} from './components/dialogs/project-detail-
 import { ProjectDetailsComponent } from './components/project-details/project-details.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatTreeModule} from '@angular/material/tree';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatTableModule} from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -69,7 +74,12 @@ import {MatIconModule} from '@angular/material/icon';
     MatTabsModule,
     MatListModule,
     MatSidenavModule,
-    MatIconModule
+    MatIconModule,
+    MatGridListModule,
+    MatExpansionModule,
+    MatTreeModule,
+    MatProgressBarModule,
+    MatTableModule
   ],
   providers: [CourseService, SessionService, FormBuilder, MatMenuModule, ProjectService],
   bootstrap: [AppComponent]

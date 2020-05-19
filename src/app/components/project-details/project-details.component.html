@@ -30,28 +30,257 @@
 </div>
 
 <section id="tab-content-container">
+  <!-- 项目简介 -->
   <div class="tab-content current-tab">
-    项目简介
+
+    <mat-list>
+      <h3 mat-subheader>项目名称</h3>
+      <mat-list-item >
+        <p mat-line> 慕课英雄 MOOC HERO（第一人称射击完整版）项目详情 </p>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+
+      <h3 mat-subheader>项目简介</h3>
+      <p mat-line>
+          大家好，欢迎学习本门课程，踏上游戏开发之路！ 本课程，我们使用Unity游戏引擎学习游戏开发，将开发的游戏部署到PC端和移动终端。
+          本周课程的学习中，我们首先介绍课程的基本信息。接着，我们学习下载、安装Unity编辑器，并对Unity编辑器的界面、操作进行初步了解；
+          最后，我们学习图形、音频等游戏资源的相关知识以及制作获取途径。 如果在概念、测试或是技术细节上遇到困难，可以在讨论区寻求帮助。
+          希望大家融入Coursera学习社区，互相帮助，共同进步。 现在，让我们开始游戏开发之旅！
+      </p>
+      <mat-divider></mat-divider>
+
+      <h3 mat-subheader>项目人数</h3>
+      <mat-list-item >
+        <p mat-line> 3/4 </p>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+
+      <h3 mat-subheader>起止时间</h3>
+      <mat-list-item >
+        <p mat-line> 2020-04-28 - 2020-06-25 </p>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    </mat-list>
+
+    <button *ngIf="sessionService.get('userIdentity') != 'student'" mat-raised-button>
+      <mat-icon> border_color</mat-icon>
+      修改
+    </button>
   </div>
 
+  <!-- 项目成员 -->
   <div class="tab-content">
-    小组成员
+    <mat-list>
+      <h3 mat-subheader>组长</h3>
+      <mat-list-item >
+        <p mat-line> 我是组长 </p>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+
+      <h3 mat-subheader>小组成员</h3>
+      <p mat-line>
+        章三、李四、王苏
+      </p>
+      <mat-divider></mat-divider>
+
+    </mat-list>
   </div>
 
+  <!-- 任务列表 -->
   <div class="tab-content">
-    任务
+
+    <button mat-raised-button color="primary">
+        添加任务
+    </button><br><br><br>
+
+    <mat-accordion multi="true">
+      <mat-expansion-panel (opened)="panelOpenState = true"
+                           (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            任务名称：
+          </mat-panel-title>
+          <mat-panel-title>
+            优先级：
+          </mat-panel-title>
+          <mat-panel-title>
+            deadline：
+          </mat-panel-title>
+          <mat-panel-description>
+            Currently I am {{panelOpenState ? 'open' : 'closed'}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <p>
+          content
+        </p>
+        <p>
+          任务归属： someone
+        </p>
+        <button mat-raised-button>
+          认领
+        </button>
+      </mat-expansion-panel>
+    </mat-accordion>
   </div>
 
+  <!-- 讨论面板 -->
   <div class="tab-content">
-    讨论
+    <button mat-raised-button color="primary">发起讨论</button><br><br><br>
+    <mat-accordion multi="true">
+      <mat-expansion-panel>
+        <!--话题header-->
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            讨论主题：游戏
+          </mat-panel-title>
+          <mat-panel-description>
+           发起人:小李
+          </mat-panel-description>
+          <mat-panel-description>
+            发起时间:2020-07-12
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <!--话题描述-->
+        <mat-card style="background-color: rgba(0, 0, 0, 0.2);">
+          <mat-card-content>
+            <p>
+            问题描述: <br>这是一个问题，希望有小伙伴能够解答。显示之前的讨论，包括人名、讨论内容、发送时间
+            </p>
+          </mat-card-content>
+        </mat-card>
+
+        <!--话题reply-->
+        <mat-list>
+          <h3 mat-subheader>校长 2020-07-26</h3>
+          <mat-list-item >
+            <p>
+              大家好，欢迎学习本门课程，踏上游戏开发之路！ 本课程，我们使用Unity游戏引擎学习游戏开发，将开发的游戏部署到PC端和移动终端。
+              本周课程的学习中，我们首先介绍课程的基本信息。接着，我们学习下载、安装
+            </p>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+
+          <h3 mat-subheader>校长 2020-07-26</h3>
+          <mat-list-item >
+            <p> 大家好，欢迎学习本门课程，踏上游戏开发之路！ 本课程，我们使用Unity游戏引擎学习游戏开发，将开发的游戏部署到PC端和移动终端。
+              本周课程的学习中，我们首先介绍课程的基本信息。接着，我们学习下载、安装 </p>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+
+          <h3 mat-subheader>校长 2020-07-26</h3>
+          <mat-list-item >
+            <p> 大家好，欢迎学习本门课程，踏上游戏开发之路！ 本课程，我们使用Unity游戏引擎学习游戏开发，将开发的游戏部署到PC端和移动终端。
+              本周课程的学习中，我们首先介绍课程的基本信息。接着，我们学习下载、安装 </p>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+
+        </mat-list>
+
+
+        <mat-form-field style="width: 100%">
+          <label>
+            <textarea matInput placeholder="Enter your comment"></textarea>
+          </label>
+        </mat-form-field>
+        <button mat-raised-button>回复</button>
+
+      </mat-expansion-panel>
+    </mat-accordion>
   </div>
 
+  <!-- 评分面板 -->
   <div class="tab-content">
-    评分
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            同学名字：小王
+          </mat-panel-title>
+          <mat-panel-description>
+            已评分/ 未评分
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <!-- 任务完成情况 -->
+        <table mat-table [dataSource]="taskInfo" class="task-table">
+          <!-- id Column -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> 任务编号 </th>
+            <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> 任务名称 </th>
+            <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+          </ng-container>
+
+          <!-- status Column -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef> 完成情况 </th>
+            <td mat-cell *matCellDef="let element"> {{ element.status }} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedTaskColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedTaskColumns;"></tr>
+        </table>
+
+        <!-- 评分表单 -->
+        <form class="login-form" [formGroup]="gradeForm" (ngSubmit)="onSubmit(gradeForm.value)">
+
+          <!--discuss grade-->
+          <mat-form-field>
+            <input matInput type="number" placeholder="讨论评分" formControlName="discussGrade" id="discussGrade" required>
+          </mat-form-field>
+
+          <br>
+          <!--task grade-->
+          <mat-form-field>
+            <input matInput type="number" placeholder="任务评分" formControlName="taskGrade" id="taskGrade" required>
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" type="submit">提交</button>
+        </form>
+      </mat-expansion-panel>
+    </mat-accordion>
   </div>
 
+  <!-- 文件管理 -->
   <div class="tab-content">
-    文件管理
+    <!-- 资源列表 -->
+    <table mat-table [dataSource]="fileList" class="file-table">
+      <!-- id Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> 文件编号 </th>
+        <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> 文件名称 </th>
+        <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+      </ng-container>
+
+      <!-- uploader Column -->
+      <ng-container matColumnDef="uploader">
+        <th mat-header-cell *matHeaderCellDef> 上传者 </th>
+        <td mat-cell *matCellDef="let element"> {{ element.uploader }} </td>
+      </ng-container>
+
+      <!-- option Column -->
+      <ng-container matColumnDef="option">
+        <th mat-header-cell *matHeaderCellDef> 操作 </th>
+        <td mat-cell *matCellDef="let element"> {{ element.option }} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedFileColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedFileColumns;"></tr>
+    </table>
+
+    <!--上传文件按钮-->
+    <button mat-raised-button color="primary"> 上传 </button>
   </div>
 </section>
 

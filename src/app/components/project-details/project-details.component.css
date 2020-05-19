@@ -16,7 +16,7 @@
   background-color: #4A148C;
 }
 
-button {
+mat-toolbar button {
   color: white;
   font-size: 18px;
   text-align: center;
@@ -45,6 +45,19 @@ button {
 
 .tab-content {
   width: 100%;
-  height: 500px;
-  background-color: blanchedalmond;
+  //height: 500px;
+  //background-color: blanchedalmond;
+}
+
+mat-list p {
+  margin-left: 13px;
+}
+
+.tab-content button {
+  float: right;
+  margin: 10px;
+}
+
+.task-table, .file-table {
+  width: 100%;
 }
