@@ -1,6 +1,8 @@
 
+<!-- 左侧菜单栏 -->
 <div class="sidebar-container">
   <mat-toolbar class="sidebar">
+
     <mat-toolbar-row class="sidebar-row selected">
       <button mat-button (click)="changeTab(0)">项目简介</button>
     </mat-toolbar-row>
@@ -26,43 +28,72 @@
     </mat-toolbar-row>
 
   </mat-toolbar>
-
 </div>
 
 <section id="tab-content-container">
   <!-- 项目简介 -->
   <div class="tab-content current-tab">
 
-    <mat-list>
-      <h3 mat-subheader>项目名称</h3>
-      <mat-list-item >
-        <p mat-line> 慕课英雄 MOOC HERO（第一人称射击完整版）项目详情 </p>
-      </mat-list-item>
-      <mat-divider></mat-divider>
+<!--    <mat-list>-->
+<!--      <h3 mat-subheader>项目名称</h3>-->
+<!--      <mat-list-item >-->
+<!--        <p mat-line> 慕课英雄 MOOC HERO（第一人称射击完整版）项目详情 </p>-->
+<!--      </mat-list-item>-->
+<!--      <mat-divider></mat-divider>-->
 
-      <h3 mat-subheader>项目简介</h3>
-      <p mat-line>
-          大家好，欢迎学习本门课程，踏上游戏开发之路！ 本课程，我们使用Unity游戏引擎学习游戏开发，将开发的游戏部署到PC端和移动终端。
-          本周课程的学习中，我们首先介绍课程的基本信息。接着，我们学习下载、安装Unity编辑器，并对Unity编辑器的界面、操作进行初步了解；
-          最后，我们学习图形、音频等游戏资源的相关知识以及制作获取途径。 如果在概念、测试或是技术细节上遇到困难，可以在讨论区寻求帮助。
-          希望大家融入Coursera学习社区，互相帮助，共同进步。 现在，让我们开始游戏开发之旅！
-      </p>
-      <mat-divider></mat-divider>
+<!--      <h3 mat-subheader>项目简介</h3>-->
+<!--      <p mat-line>-->
+<!--          大家好，欢迎学习本门课程，踏上游戏开发之路！ 本课程，我们使用Unity游戏引擎学习游戏开发，将开发的游戏部署到PC端和移动终端。-->
+<!--          本周课程的学习中，我们首先介绍课程的基本信息。接着，我们学习下载、安装Unity编辑器，并对Unity编辑器的界面、操作进行初步了解；-->
+<!--          最后，我们学习图形、音频等游戏资源的相关知识以及制作获取途径。 如果在概念、测试或是技术细节上遇到困难，可以在讨论区寻求帮助。-->
+<!--          希望大家融入Coursera学习社区，互相帮助，共同进步。 现在，让我们开始游戏开发之旅！-->
+<!--      </p>-->
+<!--      <mat-divider></mat-divider>-->
 
-      <h3 mat-subheader>项目人数</h3>
-      <mat-list-item >
-        <p mat-line> 3/4 </p>
-      </mat-list-item>
-      <mat-divider></mat-divider>
+<!--      <h3 mat-subheader>项目人数</h3>-->
+<!--      <mat-list-item >-->
+<!--        <p mat-line> 3/4 </p>-->
+<!--      </mat-list-item>-->
+<!--      <mat-divider></mat-divider>-->
 
-      <h3 mat-subheader>起止时间</h3>
-      <mat-list-item >
-        <p mat-line> 2020-04-28 - 2020-06-25 </p>
-      </mat-list-item>
-      <mat-divider></mat-divider>
-    </mat-list>
+<!--      <h3 mat-subheader>起止时间</h3>-->
+<!--      <mat-list-item >-->
+<!--        <p mat-line> 2020-04-28 - 2020-06-25 </p>-->
+<!--      </mat-list-item>-->
+<!--      <mat-divider></mat-divider>-->
+<!--    </mat-list>-->
 
-    <button *ngIf="sessionService.get('userIdentity') != 'student'" mat-raised-button>
+    <form [formGroup]="pjInfoForm" (ngSubmit)="onSubmit(pjInfoForm.value)" class="pj-info-form">
+      <mat-form-field>
+        <label for="title"> 项目名称: </label>
+        <input matInput type="text" [(ngModel)]="pjInfoParams.title" formControlName="title" id="title">
+      </mat-form-field>
+
+      <mat-form-field>
+        <label for="intro"> 项目简介: </label>
+        <input matInput type="text" [(ngModel)]="pjInfoParams.intro" formControlName="intro" id="intro">
+      </mat-form-field>
+
+      <mat-form-field>
+        <label for="number"> 项目人数: </label>
+        <input matInput type="number" [(ngModel)]="pjInfoParams.number" formControlName="number" id="number">
+      </mat-form-field>
+
+      <mat-form-field>
+        <label for="PJStartDate"> 项目开始时间: </label>
+        <input matInput type="date" [(ngModel)]="pjInfoParams.startDate" formControlName="startDate" id="PJStartDate">
+      </mat-form-field>
+
+      <mat-form-field>
+        <label for="PJEndDate"> 项目结束时间: </label>
+        <input matInput type="date" [(ngModel)]="pjInfoParams.endDate" formControlName="endDate" id="PJEndDate">
+      </mat-form-field>
+
+      <button mat-raised-button type="submit" *ngIf="isEditing == true" color="primary" style="float: right"> 保存修改 </button>
+    </form>
+
+    <!-- 切换到编辑模式 -->
+    <button *ngIf="sessionService.get('userIdentity') != 'student' && isEditing == false" mat-raised-button (click)="changeEdit()">
       <mat-icon> border_color</mat-icon>
       修改
     </button>
@@ -89,7 +120,7 @@
   <!-- 任务列表 -->
   <div class="tab-content">
 
-    <button mat-raised-button color="primary">
+    <button mat-raised-button color="primary"  (click)="openDialog()">
         添加任务
     </button><br><br><br>
 
@@ -175,10 +206,9 @@
               本周课程的学习中，我们首先介绍课程的基本信息。接着，我们学习下载、安装 </p>
           </mat-list-item>
           <mat-divider></mat-divider>
-
         </mat-list>
 
-
+        <!-- 回复讨论框 -->
         <mat-form-field style="width: 100%">
           <label>
             <textarea matInput placeholder="Enter your comment"></textarea>
@@ -229,7 +259,6 @@
 
         <!-- 评分表单 -->
         <form class="login-form" [formGroup]="gradeForm" (ngSubmit)="onSubmit(gradeForm.value)">
-
           <!--discuss grade-->
           <mat-form-field>
             <input matInput type="number" placeholder="讨论评分" formControlName="discussGrade" id="discussGrade" required>
@@ -240,7 +269,7 @@
           <mat-form-field>
             <input matInput type="number" placeholder="任务评分" formControlName="taskGrade" id="taskGrade" required>
           </mat-form-field>
-
+          <br>
           <button mat-raised-button color="primary" type="submit">提交</button>
         </form>
       </mat-expansion-panel>
@@ -263,6 +292,12 @@
         <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
       </ng-container>
 
+      <!-- upload time Column -->
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef> 上传时间 </th>
+        <td mat-cell *matCellDef="let element"> {{ element.date }} </td>
+      </ng-container>
+
       <!-- uploader Column -->
       <ng-container matColumnDef="uploader">
         <th mat-header-cell *matHeaderCellDef> 上传者 </th>
@@ -272,7 +307,11 @@
       <!-- option Column -->
       <ng-container matColumnDef="option">
         <th mat-header-cell *matHeaderCellDef> 操作 </th>
-        <td mat-cell *matCellDef="let element"> {{ element.option }} </td>
+        <td mat-cell *matCellDef="let element">
+
+          <button mat-stroked-button>下载</button>
+          <button *ngIf="element.option == 'all'" mat-stroked-button color="warn">删除</button>
+        </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedFileColumns"></tr>
@@ -280,7 +319,10 @@
     </table>
 
     <!--上传文件按钮-->
-    <button mat-raised-button color="primary"> 上传 </button>
+    <button mat-raised-button color="primary"> 上传文件 </button>
+
+    <!--TODO 上传文件表单-->
+
   </div>
 </section>
 

@@ -53,11 +53,20 @@ mat-list p {
   margin-left: 13px;
 }
 
-.tab-content button {
+.tab-content > button {
   float: right;
   margin: 10px;
 }
 
 .task-table, .file-table {
   width: 100%;
+}
+
+.pj-info-form mat-form-field {
+  width: 100%;
+}
+
+.pj-info-form label {
+  margin: 20px 0;
+  font-size: 16px;
 }

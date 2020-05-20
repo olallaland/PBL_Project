@@ -1,0 +1,33 @@
+
+<h1 mat-dialog-title> 添加任务 </h1>
+
+<div mat-dialog-content>
+  <form [formGroup]="addTaskForm" (ngSubmit)="onSubmit(addTaskForm.value)"  >
+    <mat-form-field>
+      <label for="task-name">任务名称</label>
+      <input matInput formControlName="name" id="task-name" type="text" required>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput formControlName="startDate" type="date" placeholder="请输入开始时间" required>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput formControlName="endDate" type="date" placeholder="请输入截止时间" required>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput formControlName="priority" type="number" placeholder="请输入任务优先级" required>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput formControlName="intro" type="text" placeholder="请输入任务介绍" required>
+    </mat-form-field>
+
+    <button type="submit" style="float: right" mat-raised-button color="primary" (click)="onNoClick()"> 提交 </button>
+  </form>
+
+</div>
+
+
+

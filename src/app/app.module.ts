@@ -36,6 +36,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatTableModule} from '@angular/material/table';
+import { AddTaskDialogComponent } from './components/dialogs/add-task-dialog/add-task-dialog.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import {MatTableModule} from '@angular/material/table';
     CourseDetailDialogComponent,
     CourseDetailsComponent,
     ProjectDetailDialogComponent,
-    ProjectDetailsComponent
+    ProjectDetailsComponent,
+    AddTaskDialogComponent
   ],
   imports: [
     BrowserModule,
