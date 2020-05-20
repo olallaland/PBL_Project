@@ -1,0 +1,25 @@
+
+<form class="add-course-form" [formGroup]="addCourseForm" (ngSubmit)="onSubmit(addCourseForm.value)">
+  <h1>新建课程</h1>
+  <mat-form-field class="form-item">
+    <label for="course-name"> 请输入课程名称: </label>
+    <input matInput type="text" formControlName="name" id="course-name" required>
+  </mat-form-field>
+
+  <mat-form-field class="form-item">
+    <label for="teacher"> 请选择授课教师: </label>
+    <input matInput type="text" formControlName="teacher" id="teacher" required>
+  </mat-form-field>
+
+  <mat-form-field class="form-item">
+    <label for="course-intro"> 请输入课程简介: </label>
+    <input matInput type="text" formControlName="intro" id="course-intro" required>
+  </mat-form-field>
+
+  <mat-form-field class="form-item">
+    <label for="class-time"> 请选择上课时间: </label>
+    <input matInput type="text" formControlName="classTime" id="class-time" required>
+  </mat-form-field>
+
+  <button class="form-item" mat-raised-button type="submit" color="primary"> 创建 </button>
+</form>

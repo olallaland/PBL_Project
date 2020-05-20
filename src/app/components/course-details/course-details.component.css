@@ -28,3 +28,9 @@
   flex: 1;
   margin: 10px;
 }
+
+.project-card #add-project {
+  margin-left: 100px;
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
