@@ -4,6 +4,8 @@ import {FormBuilder} from '@angular/forms';
 import {ProjectDetailDialogComponent} from '../dialogs/project-detail-dialog/project-detail-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {AddTaskDialogComponent} from '../dialogs/add-task-dialog/add-task-dialog.component';
+import {CreateDiscussionDialogComponent} from '../dialogs/create-discussion-dialog/create-discussion-dialog.component';
+import {UploadFileDialogComponent} from '../dialogs/upload-file-dialog/upload-file-dialog.component';
 
 export interface Task {
   id: number;
@@ -16,6 +18,7 @@ export interface ProjectFile {
   name: string;
   date: string;
   uploader: string;
+  size: number;
   option: string;
 }
 
@@ -27,10 +30,10 @@ const ELEMENT_DATA: Task[] = [
 ];
 
 const TEST_FILE_DATA: ProjectFile[] = [
-  {id: 1, name: 'IMAGE', date: '2020-05-01', uploader: 'who', option: 'all'},
-  {id: 2, name: 'Helium', date: '2020-05-02', uploader: 'who', option: 'read'},
-  {id: 3, name: 'Lithium', date: '2020-05-03', uploader: 'who', option: 'all'},
-  {id: 4, name: 'Beryllium', date: '2020-05-04', uploader: 'who', option: 'all'},
+  {id: 1, name: 'IMAGE', date: '2020-05-01', uploader: 'who', size: 365, option: 'all'},
+  {id: 2, name: 'Helium', date: '2020-05-02', uploader: 'who', size: 128, option: 'read'},
+  {id: 3, name: 'Lithium', date: '2020-05-03', uploader: 'who', size: 999, option: 'all'},
+  {id: 4, name: 'Beryllium', date: '2020-05-04', uploader: 'who', size: 50, option: 'all'},
 ];
 
 
@@ -57,7 +60,7 @@ export class ProjectDetailsComponent implements OnInit {
   displayedTaskColumns: string[] = ['id', 'name', 'status'];
   taskInfo = ELEMENT_DATA;
 
-  displayedFileColumns: string[] = ['id', 'name', 'uploader', 'date', 'option'];
+  displayedFileColumns: string[] = ['id', 'name', 'uploader', 'date', 'size', 'option'];
   fileList = TEST_FILE_DATA;
 
   // 表单
@@ -76,7 +79,7 @@ export class ProjectDetailsComponent implements OnInit {
     });
 
     this.uploadForm = this.formBuilder.group({
-      file: '',
+      file: null,
     });
 
     this.createPJInfoForm();
@@ -138,11 +141,30 @@ export class ProjectDetailsComponent implements OnInit {
     console.log(userData);
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(AddTaskDialogComponent, {
-      // width: '700px',
-      // height: '450px',
-    });
+  openDialog(module): void {
+    let dialogRef;
+    switch (module) {
+      case 'task':
+        dialogRef = this.dialog.open(AddTaskDialogComponent, {
+          // width: '700px',
+          // height: '450px',
+        });
+        break;
+      case 'discussion':
+        dialogRef = this.dialog.open(CreateDiscussionDialogComponent, {
+          // width: '700px',
+          // height: '450px',
+        });
+        break;
+      case 'file':
+        dialogRef = this.dialog.open(UploadFileDialogComponent, {
+          // width: '700px',
+          // height: '450px',
+        });
+        break;
+      default:
+        break;
+    }
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
@@ -153,4 +175,5 @@ export class ProjectDetailsComponent implements OnInit {
     this.isEditing = !this.isEditing;
     this.createPJInfoForm();
   }
+
 }

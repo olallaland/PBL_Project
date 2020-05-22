@@ -1,0 +1,32 @@
+
+<h1 mat-dialog-title> 上传文件 </h1>
+
+<div mat-dialog-content>
+  <form [formGroup]="uploadFileForm" (ngSubmit)="onSubmit(uploadFileForm.value)"  >
+    <section>
+      <input type="file"
+             formControlName="file"
+             multiple
+             (change)="handleFileInput($event.target.files)">
+    </section>
+
+    <!-- 展示已选择哪些文件 -->
+    <div *ngIf="fileToUploadList != null">
+      <mat-list>
+        <section *ngFor="let file of fileToUploadList">
+          <mat-list-item >
+            <p>
+              {{  file.name }}
+            </p>
+          </mat-list-item>
+        </section>
+      </mat-list>
+    </div>
+
+    <button type="submit" style="float: right" mat-raised-button color="primary" (click)="onNoClick()"> 上传文件 </button>
+  </form>
+</div>
+
+
+
+

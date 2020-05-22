@@ -71,7 +71,7 @@
 
       <mat-form-field>
         <label for="intro"> 项目简介: </label>
-        <input matInput type="text" [(ngModel)]="pjInfoParams.intro" formControlName="intro" id="intro">
+        <textarea matInput type="text" [(ngModel)]="pjInfoParams.intro" formControlName="intro" id="intro"></textarea>
       </mat-form-field>
 
       <mat-form-field>
@@ -120,7 +120,7 @@
   <!-- 任务列表 -->
   <div class="tab-content">
 
-    <button mat-raised-button color="primary"  (click)="openDialog()">
+    <button mat-raised-button color="primary"  (click)="openDialog('task')">
         添加任务
     </button><br><br><br>
 
@@ -157,7 +157,7 @@
 
   <!-- 讨论面板 -->
   <div class="tab-content">
-    <button mat-raised-button color="primary">发起讨论</button><br><br><br>
+    <button mat-raised-button color="primary" (click)="openDialog('discussion')">发起讨论</button><br><br><br>
     <mat-accordion multi="true">
       <mat-expansion-panel>
         <!--话题header-->
@@ -304,6 +304,12 @@
         <td mat-cell *matCellDef="let element"> {{ element.uploader }} </td>
       </ng-container>
 
+      <!-- file size Column -->
+      <ng-container matColumnDef="size">
+        <th mat-header-cell *matHeaderCellDef> 文件大小 </th>
+        <td mat-cell *matCellDef="let element"> {{ element.size }} KB </td>
+      </ng-container>
+
       <!-- option Column -->
       <ng-container matColumnDef="option">
         <th mat-header-cell *matHeaderCellDef> 操作 </th>
@@ -319,9 +325,7 @@
     </table>
 
     <!--上传文件按钮-->
-    <button mat-raised-button color="primary"> 上传文件 </button>
-
-    <!--TODO 上传文件表单-->
+    <button mat-raised-button color="primary" (click)="openDialog('file')"> 上传文件 </button>
 
   </div>
 </section>

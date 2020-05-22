@@ -4,8 +4,7 @@
 <div mat-dialog-content>
   <form [formGroup]="addTaskForm" (ngSubmit)="onSubmit(addTaskForm.value)"  >
     <mat-form-field>
-      <label for="task-name">任务名称</label>
-      <input matInput formControlName="name" id="task-name" type="text" required>
+      <input matInput formControlName="name" type="text" placeholder="请输入任务名称" required>
     </mat-form-field>
 
     <mat-form-field>

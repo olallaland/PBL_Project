@@ -38,6 +38,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatTableModule} from '@angular/material/table';
 import { AddTaskDialogComponent } from './components/dialogs/add-task-dialog/add-task-dialog.component';
 import { AddCourseComponent } from './components/add-course/add-course.component';
+import { CreateDiscussionDialogComponent } from './components/dialogs/create-discussion-dialog/create-discussion-dialog.component';
+import { UploadFileDialogComponent } from './components/dialogs/upload-file-dialog/upload-file-dialog.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import { AddCourseComponent } from './components/add-course/add-course.component
     ProjectDetailDialogComponent,
     ProjectDetailsComponent,
     AddTaskDialogComponent,
-    AddCourseComponent
+    AddCourseComponent,
+    CreateDiscussionDialogComponent,
+    UploadFileDialogComponent
   ],
   imports: [
     BrowserModule,

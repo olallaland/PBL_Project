@@ -1,0 +1,9 @@
+section {
+  width: 500px;
+  display: block;
+  margin: 10px;
+}
+
+input {
+  width: 100%;
+}
