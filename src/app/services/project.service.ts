@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class ProjectService {
 
   projectList = [];
+  taskList = [];
   constructor() { }
 
   getProjectList(courseID) {
@@ -89,5 +90,48 @@ export class ProjectService {
     ];
 
     return this.projectList;
+  }
+
+  getTaskList(courseID, PJ_ID) {
+    this.taskList = [
+      {
+        task_id: '001',
+        task_name: '冲鸭',
+        desc: '这是任务描述',
+        start_time: '2020-03-25',
+        end_time: '2020-04-01',
+        level: 1,
+        status: 'ongoing',
+      },
+      {
+        task_id: '002',
+        task_name: '这是任务名称',
+        desc: '这是任务描述',
+        start_time: '2020-03-27',
+        end_time: '2020-04-02',
+        level: 2,
+        status: 'finish',
+      },
+      {
+        task_id: '003',
+        task_name: 'lalala',
+        desc: '这是任务描述',
+        start_time: '2020-03-24',
+        end_time: '2020-04-05',
+        level: 1,
+        status: 'unclaimed',
+      },
+      {
+        task_id: '004',
+        task_name: 'xixi',
+        desc: '这是任务描述',
+        start_time: '2020-03-26',
+        end_time: '2020-04-04',
+        level: 0,
+        status: 'finish',
+      }
+    ];
+
+    return this.taskList;
   }
 }

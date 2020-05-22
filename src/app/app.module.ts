@@ -40,6 +40,7 @@ import { AddTaskDialogComponent } from './components/dialogs/add-task-dialog/add
 import { AddCourseComponent } from './components/add-course/add-course.component';
 import { CreateDiscussionDialogComponent } from './components/dialogs/create-discussion-dialog/create-discussion-dialog.component';
 import { UploadFileDialogComponent } from './components/dialogs/upload-file-dialog/upload-file-dialog.component';
+import { ScoreDialogComponent } from './components/dialogs/score-dialog/score-dialog.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { UploadFileDialogComponent } from './components/dialogs/upload-file-dial
     AddTaskDialogComponent,
     AddCourseComponent,
     CreateDiscussionDialogComponent,
-    UploadFileDialogComponent
+    UploadFileDialogComponent,
+    ScoreDialogComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,19 @@
+<h1 mat-dialog-title> 评分 </h1>
+
+<div mat-dialog-content>
+<!-- 评分表单 -->
+<form class="login-form" [formGroup]="gradeForm" (ngSubmit)="onSubmit(gradeForm.value)">
+  <!--discuss score-->
+  <mat-form-field>
+    <input matInput type="number" placeholder="讨论评分" formControlName="discussScore" id="discussScore" required>
+  </mat-form-field>
+
+  <br>
+  <!--task score-->
+  <mat-form-field>
+    <input matInput type="number" placeholder="任务评分" formControlName="taskScore" id="taskScore" required>
+  </mat-form-field>
+  <br>
+  <button mat-raised-button style="float: right" color="primary" type="submit">提交</button>
+</form>
+</div>

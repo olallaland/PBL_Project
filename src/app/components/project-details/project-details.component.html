@@ -124,18 +124,20 @@
         添加任务
     </button><br><br><br>
 
-    <mat-accordion multi="true">
-      <mat-expansion-panel (opened)="panelOpenState = true"
-                           (closed)="panelOpenState = false">
+    <mat-accordion>
+      <mat-expansion-panel
+        (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false"
+        *ngFor="let task of taskList">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            任务名称：
+            任务名称： {{ task.task_name }}
           </mat-panel-title>
           <mat-panel-title>
-            优先级：
+            优先级： {{ task.level }}
           </mat-panel-title>
           <mat-panel-title>
-            deadline：
+            deadline：{{ task.end_time }}
           </mat-panel-title>
           <mat-panel-description>
             Currently I am {{panelOpenState ? 'open' : 'closed'}}
@@ -143,12 +145,15 @@
         </mat-expansion-panel-header>
 
         <p>
-          content
+          任务描述： {{ task.desc }}
         </p>
         <p>
-          任务归属： someone
+          任务时间： {{ task.start_time }} ~ {{ task.end_time }}
         </p>
-        <button mat-raised-button>
+        <p>
+          任务状态： {{ task.status }}
+        </p>
+        <button *ngIf="task.status == 'unclaimed'" mat-raised-button>
           认领
         </button>
       </mat-expansion-panel>
@@ -257,21 +262,9 @@
           <tr mat-row *matRowDef="let row; columns: displayedTaskColumns;"></tr>
         </table>
 
-        <!-- 评分表单 -->
-        <form class="login-form" [formGroup]="gradeForm" (ngSubmit)="onSubmit(gradeForm.value)">
-          <!--discuss grade-->
-          <mat-form-field>
-            <input matInput type="number" placeholder="讨论评分" formControlName="discussGrade" id="discussGrade" required>
-          </mat-form-field>
+        <!-- 评分按钮（teacher）-->
+        <button mat-raised-button color="primary" (click)="openDialog('score')"> 评分 </button>
 
-          <br>
-          <!--task grade-->
-          <mat-form-field>
-            <input matInput type="number" placeholder="任务评分" formControlName="taskGrade" id="taskGrade" required>
-          </mat-form-field>
-          <br>
-          <button mat-raised-button color="primary" type="submit">提交</button>
-        </form>
       </mat-expansion-panel>
     </mat-accordion>
   </div>

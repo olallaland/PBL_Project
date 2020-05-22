@@ -6,6 +6,8 @@ import {MatDialog} from '@angular/material/dialog';
 import {AddTaskDialogComponent} from '../dialogs/add-task-dialog/add-task-dialog.component';
 import {CreateDiscussionDialogComponent} from '../dialogs/create-discussion-dialog/create-discussion-dialog.component';
 import {UploadFileDialogComponent} from '../dialogs/upload-file-dialog/upload-file-dialog.component';
+import {ProjectService} from '../../services/project.service';
+import {ScoreDialogComponent} from '../dialogs/score-dialog/score-dialog.component';
 
 export interface Task {
   id: number;
@@ -51,7 +53,6 @@ export class ProjectDetailsComponent implements OnInit {
     endDate: '2020-06-26',
   };
   isEditing = false;
-  pjInfoForm;
 
   tabs = [];
   contents = [];
@@ -64,34 +65,32 @@ export class ProjectDetailsComponent implements OnInit {
   fileList = TEST_FILE_DATA;
 
   // 表单
-  gradeForm;
-  uploadForm;
+  pjInfoForm;
+
+  taskList;
 
   constructor(
     private elementRef: ElementRef,
     public sessionService: SessionService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
+    private projectService: ProjectService,
   ) {
-    this.gradeForm = this.formBuilder.group({
-      discussGrade: '',
-      taskGrade: '',
-    });
-
-    this.uploadForm = this.formBuilder.group({
-      file: null,
-    });
-
     this.createPJInfoForm();
   }
 
   ngOnInit(): void {
     this.tabs = this.elementRef.nativeElement.querySelectorAll('.sidebar-row');
     this.contents = this.elementRef.nativeElement.querySelectorAll('.tab-content');
+    // 获取任务列表需要两个参数，第一个为course_id, 第二个为pj_id
+    this.taskList = this.projectService.getTaskList('01', '02');
     console.log(this.tabs);
     console.log(this.contents);
   }
 
+  /**
+   * 初始化pjInfoForm
+   */
   createPJInfoForm() {
     this.pjInfoForm = this.formBuilder.group({
       title: [{
@@ -117,6 +116,10 @@ export class ProjectDetailsComponent implements OnInit {
     });
   }
 
+  /**
+   * 侧边栏切换控制
+   * @parameter index
+   */
   changeTab(index) {
     console.log(index);
     // console.log(this.tabs);
@@ -135,31 +138,37 @@ export class ProjectDetailsComponent implements OnInit {
     }
   }
 
+  /**
+   * 表单提交函数
+   * @parameter userData 表单数据
+   */
   onSubmit(userData) {
     this.isEditing = false;
     this.createPJInfoForm();
     console.log(userData);
   }
 
+  /**
+   * 打开弹窗
+   * @parameter module 弹窗的类型
+   */
   openDialog(module): void {
     let dialogRef;
     switch (module) {
       case 'task':
         dialogRef = this.dialog.open(AddTaskDialogComponent, {
-          // width: '700px',
-          // height: '450px',
         });
         break;
       case 'discussion':
         dialogRef = this.dialog.open(CreateDiscussionDialogComponent, {
-          // width: '700px',
-          // height: '450px',
+        });
+        break;
+      case 'score':
+        dialogRef = this.dialog.open(ScoreDialogComponent, {
         });
         break;
       case 'file':
         dialogRef = this.dialog.open(UploadFileDialogComponent, {
-          // width: '700px',
-          // height: '450px',
         });
         break;
       default:
@@ -171,6 +180,9 @@ export class ProjectDetailsComponent implements OnInit {
     });
   }
 
+  /**
+   * 切换项目简介 只读 和 可编辑状态
+   */
   changeEdit() {
     this.isEditing = !this.isEditing;
     this.createPJInfoForm();
