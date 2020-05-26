@@ -27,6 +27,7 @@ import { CourseDetailsComponent } from './components/course-details/course-detai
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatListModule} from '@angular/material/list';
 import {ProjectService} from './services/project.service';
+import {LoginService} from './services/login.service';
 import {ProjectDetailDialogComponent} from './components/dialogs/project-detail-dialog/project-detail-dialog.component';
 import { ProjectDetailsComponent } from './components/project-details/project-details.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -41,6 +42,8 @@ import { AddCourseComponent } from './components/add-course/add-course.component
 import { CreateDiscussionDialogComponent } from './components/dialogs/create-discussion-dialog/create-discussion-dialog.component';
 import { UploadFileDialogComponent } from './components/dialogs/upload-file-dialog/upload-file-dialog.component';
 import { ScoreDialogComponent } from './components/dialogs/score-dialog/score-dialog.component';
+import {ToastrModule} from 'ngx-toastr';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +60,8 @@ import { ScoreDialogComponent } from './components/dialogs/score-dialog/score-di
     AddCourseComponent,
     CreateDiscussionDialogComponent,
     UploadFileDialogComponent,
-    ScoreDialogComponent
+    ScoreDialogComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -73,6 +77,7 @@ import { ScoreDialogComponent } from './components/dialogs/score-dialog/score-di
       {path: '', component: CourseListComponent},
       {path: 'user/register', component: RegisterComponent},
       {path: 'user/login', component: LoginComponent},
+      {path: 'user/profile', component: ProfileComponent},
       {path: 'course/details/:courseId', component: CourseDetailsComponent},
       {path: 'project/details/:projectId', component: ProjectDetailsComponent},
       {path: 'course/add', component: AddCourseComponent},
@@ -90,9 +95,20 @@ import { ScoreDialogComponent } from './components/dialogs/score-dialog/score-di
     MatExpansionModule,
     MatTreeModule,
     MatProgressBarModule,
-    MatTableModule
+    MatTableModule,
+    ToastrModule.forRoot({
+      maxOpened: 1,
+      autoDismiss: true,
+      positionClass: 'toast-top-center',
+      closeButton: true,
+      progressBar: true,
+      timeOut: 2000,
+      extendedTimeOut: 1000,
+      preventDuplicates: true,
+      countDuplicates: true
+    })
   ],
-  providers: [CourseService, SessionService, FormBuilder, MatMenuModule, ProjectService],
+  providers: [CourseService, SessionService, FormBuilder, MatMenuModule, ProjectService, LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

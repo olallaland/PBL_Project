@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {SessionService} from '../../services/session.service';
+import {ToastrService} from 'ngx-toastr';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,8 +14,17 @@ export class LoginComponent implements OnInit {
   loginForm;
   constructor(
     private formBuilder: FormBuilder,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private toastrService: ToastrService,
+    private router: Router
   ) {
+    this.createLoginForm();
+  }
+
+  ngOnInit(): void {
+  }
+
+  createLoginForm() {
     this.loginForm = this.formBuilder.group({
       username: '',
       password: '',
@@ -21,16 +32,30 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-  }
-
   onSubmit(userData) {
+    // 提交空的表单
     // tslint:disable-next-line:triple-equals
     if (userData.type == '' || userData.username == '' || userData.password == '') {
-      console.log('none');
+      // console.log('none');
       return;
     }
-    console.log(userData);
+
+    // tslint:disable-next-line:triple-equals
+    if (userData.type == 'admin') {
+      // tslint:disable-next-line:triple-equals
+      if (userData.username != 'admin' || userData.password != '123456') {
+        this.toastrService.warning('用户名或密码不正确', '登录失败');
+      } else {
+        console.log('gg');
+        this.toastrService.success('登录成功', '',{
+          timeOut: 1000,
+        });
+        this.router.navigate(['user/profile']);
+      }
+    } else {
+
+    }
+
     this.sessionService.put('userIdentity', userData.type);
     this.sessionService.put('user', userData.username);
   }
