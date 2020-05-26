@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {ProjectService} from '../../services/project.service';
 import {ProjectDetailDialogComponent} from '../dialogs/project-detail-dialog/project-detail-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {SessionService} from '../../services/session.service';
+import {Router} from '@angular/router';
 
 export interface DialogData {
   pj_id: string;
@@ -24,9 +26,16 @@ export class CourseDetailsComponent implements OnInit {
   constructor(
     private projectService: ProjectService,
     private dialog: MatDialog,
+    public sessionService: SessionService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
+    // 限制未登录的用户打开本页面
+    if (this.sessionService.get('user') == null) {
+      this.router.navigate(['user/login']);
+    }
+
     this.projectList = this.projectService.getProjectList('id');
   }
 

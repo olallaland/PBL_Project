@@ -8,6 +8,7 @@ import {CreateDiscussionDialogComponent} from '../dialogs/create-discussion-dial
 import {UploadFileDialogComponent} from '../dialogs/upload-file-dialog/upload-file-dialog.component';
 import {ProjectService} from '../../services/project.service';
 import {ScoreDialogComponent} from '../dialogs/score-dialog/score-dialog.component';
+import {Router} from '@angular/router';
 
 export interface Task {
   id: number;
@@ -75,11 +76,17 @@ export class ProjectDetailsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private projectService: ProjectService,
+    private router: Router
   ) {
     this.createPJInfoForm();
   }
 
   ngOnInit(): void {
+    // 限制未登录的用户打开本页面
+    if (this.sessionService.get('user') == null) {
+      this.router.navigate(['user/login']);
+    }
+
     this.tabs = this.elementRef.nativeElement.querySelectorAll('.sidebar-row');
     this.contents = this.elementRef.nativeElement.querySelectorAll('.tab-content');
     // 获取任务列表需要两个参数，第一个为course_id, 第二个为pj_id

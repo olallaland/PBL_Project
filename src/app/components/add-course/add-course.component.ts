@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {SessionService} from '../../services/session.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-add-course',
@@ -13,12 +14,17 @@ export class AddCourseComponent implements OnInit {
 
   constructor(
     public formBuilder: FormBuilder,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private router: Router
   ) {
     this.createAddCourseForm();
   }
 
   ngOnInit(): void {
+    // 限制未登录的用户打开本页面
+    if (this.sessionService.get('user') == null) {
+      this.router.navigate(['user/login']);
+    }
   }
 
   createAddCourseForm() {

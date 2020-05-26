@@ -4,6 +4,7 @@ import {CourseDetailDialogComponent} from '../dialogs/course-detail-dialog/cours
 import {MatDialog} from '@angular/material/dialog';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {SessionService} from '../../services/session.service';
+import {Router} from '@angular/router';
 
 export interface DialogData {
   course_id: string;
@@ -26,10 +27,16 @@ export class CourseListComponent implements OnInit {
   constructor(
     private courseService: CourseService,
     private dialog: MatDialog,
-    public sessionService: SessionService
+    public sessionService: SessionService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
+    // 限制未登录的用户打开本页面
+    if (this.sessionService.get('user') == null) {
+      this.router.navigate(['user/login']);
+    }
+
     this.courseList = this.courseService.getCourseList('student', '001');
   }
 

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder} from '@angular/forms';
+import {SessionService} from '../../services/session.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -12,6 +14,8 @@ export class RegisterComponent implements OnInit {
   picture;
   constructor(
     private formBuilder: FormBuilder,
+    private sessionService: SessionService,
+    private router: Router
   ) {
     this.registerForm = this.formBuilder.group({
       username: '',
@@ -23,6 +27,10 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // 限制已登录的用户打开本页面
+    if (this.sessionService.get('user') != null) {
+      this.router.navigate(['course/list']);
+    }
   }
 
   preview(event) {

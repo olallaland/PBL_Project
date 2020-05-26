@@ -78,6 +78,7 @@ import { ProfileComponent } from './components/profile/profile.component';
       {path: 'user/register', component: RegisterComponent},
       {path: 'user/login', component: LoginComponent},
       {path: 'user/profile', component: ProfileComponent},
+      {path: 'course/list', component: CourseListComponent},
       {path: 'course/details/:courseId', component: CourseDetailsComponent},
       {path: 'project/details/:projectId', component: ProjectDetailsComponent},
       {path: 'course/add', component: AddCourseComponent},

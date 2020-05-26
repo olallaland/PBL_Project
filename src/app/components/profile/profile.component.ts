@@ -15,7 +15,7 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // 限制未登录的用户打开本页面
+    // 限制已登录的用户打开本页面
     if (this.sessionService.get('user') == null) {
       this.router.navigate(['user/login']);
     }
