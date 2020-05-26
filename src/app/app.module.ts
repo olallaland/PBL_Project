@@ -74,7 +74,7 @@ import { ProfileComponent } from './components/profile/profile.component';
     MatSelectModule,
     MatInputModule,
     RouterModule.forRoot([
-      {path: '', component: CourseListComponent},
+      {path: '', component: LoginComponent},
       {path: 'user/register', component: RegisterComponent},
       {path: 'user/login', component: LoginComponent},
       {path: 'user/profile', component: ProfileComponent},
