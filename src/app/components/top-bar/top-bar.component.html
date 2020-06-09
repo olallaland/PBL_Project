@@ -14,7 +14,7 @@
   </button>
 
   <mat-menu #actions="matMenu">
-    <button mat-menu-item [routerLink]="['user/profile']">个人主页</button>
+    <button mat-menu-item [routerLink]="['user/profile', this.sessionService.get('userID')]">个人主页</button>
     <button mat-menu-item (click)="logout()" [routerLink]="['user/login']">退出</button>
   </mat-menu>
 

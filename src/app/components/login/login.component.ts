@@ -3,6 +3,8 @@ import {FormBuilder} from '@angular/forms';
 import {SessionService} from '../../services/session.service';
 import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
+import {UserService} from '../../services/user.service';
+
 
 @Component({
   selector: 'app-login',
@@ -16,7 +18,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private sessionService: SessionService,
     private toastrService: ToastrService,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {
     this.createLoginForm();
   }
@@ -44,12 +47,16 @@ export class LoginComponent implements OnInit {
       return;
     }
 
+    // 如果登录用户的身份为admin，直接在前端判断用户名和密码是否正确
     // tslint:disable-next-line:triple-equals
     if (userData.type == 'admin') {
       // tslint:disable-next-line:triple-equals
       if (userData.username != 'admin' || userData.password != '123456') {
         this.toastrService.warning('用户名或密码不正确', '登录失败');
+        return;
       } else {
+        this.sessionService.put('userIdentity', userData.type);
+        this.sessionService.put('user', userData.username);
         console.log('gg');
         this.toastrService.success('登录成功', '',{
           timeOut: 1000,
@@ -57,10 +64,11 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['user/profile']);
       }
     } else {
-
+      // 如果登录身份为老师或学生，将数据交由loginService，由loginService和后端通信并判断
+      // const loginResult = this.userService.login(userData);
+      this.userService.login(userData);
     }
 
-    this.sessionService.put('userIdentity', userData.type);
-    this.sessionService.put('user', userData.username);
+
   }
 }

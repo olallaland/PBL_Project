@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -27,7 +28,6 @@ import { CourseDetailsComponent } from './components/course-details/course-detai
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatListModule} from '@angular/material/list';
 import {ProjectService} from './services/project.service';
-import {LoginService} from './services/login.service';
 import {ProjectDetailDialogComponent} from './components/dialogs/project-detail-dialog/project-detail-dialog.component';
 import { ProjectDetailsComponent } from './components/project-details/project-details.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -44,6 +44,8 @@ import { UploadFileDialogComponent } from './components/dialogs/upload-file-dial
 import { ScoreDialogComponent } from './components/dialogs/score-dialog/score-dialog.component';
 import {ToastrModule} from 'ngx-toastr';
 import { ProfileComponent } from './components/profile/profile.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import {UserService} from './services/user.service';
 
 @NgModule({
   declarations: [
@@ -61,11 +63,13 @@ import { ProfileComponent } from './components/profile/profile.component';
     CreateDiscussionDialogComponent,
     UploadFileDialogComponent,
     ScoreDialogComponent,
-    ProfileComponent
+    ProfileComponent,
+    EditProfileComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     NoopAnimationsModule,
     MatToolbarModule,
     MatRadioModule,
@@ -77,7 +81,8 @@ import { ProfileComponent } from './components/profile/profile.component';
       {path: '', component: LoginComponent},
       {path: 'user/register', component: RegisterComponent},
       {path: 'user/login', component: LoginComponent},
-      {path: 'user/profile', component: ProfileComponent},
+      {path: 'user/profile/:userID', component: ProfileComponent},
+      {path: 'user/edit/:userID', component: EditProfileComponent},
       {path: 'course/list', component: CourseListComponent},
       {path: 'course/details/:courseId', component: CourseDetailsComponent},
       {path: 'project/details/:projectId', component: ProjectDetailsComponent},
@@ -109,7 +114,7 @@ import { ProfileComponent } from './components/profile/profile.component';
       countDuplicates: true
     })
   ],
-  providers: [CourseService, SessionService, FormBuilder, MatMenuModule, ProjectService, LoginService],
+  providers: [CourseService, SessionService, FormBuilder, MatMenuModule, ProjectService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

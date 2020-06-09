@@ -1,1 +1,38 @@
-<p>profile works!</p>
+
+<div class="profile-container">
+  <mat-card class="userinfo-card">
+    <!-- 如果用户未设置头像，就设置为默认的头像 -->
+    <div *ngIf="user.picture == null">
+      <img mat-card-image src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1804608256,3242520732&fm=26&gp=0.jpg" alt="头像">
+    </div>
+
+    <div *ngIf="user.picture != null">
+      <img mat-card-image src="{{ user.picture }}" alt="头像">
+    </div>
+
+    <mat-card-header>
+      <div mat-card-avatar id="profile-image"></div>
+      <mat-card-title>{{ user.name }}</mat-card-title>
+      <mat-card-subtitle>{{ user.username }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-stroked-button id="edit-button" [routerLink]="['/user/edit', user.id]">修改个人信息</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-tab-group class="task-list">
+    <mat-tab label="课程">
+      <app-course-list></app-course-list>
+    </mat-tab>
+    <mat-tab label="项目">
+      list all projects
+    </mat-tab>
+    <mat-tab label="任务">
+      list all tasks
+    </mat-tab>
+  </mat-tab-group>
+
+</div>

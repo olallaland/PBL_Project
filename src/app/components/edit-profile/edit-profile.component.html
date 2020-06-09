@@ -1,0 +1,36 @@
+
+<form class="edit-form" [formGroup]="editUserInfoForm" (ngSubmit)="onSubmit(editUserInfoForm.values)">
+  <h1>修改个人信息</h1>
+
+  <!--username-->
+
+  <mat-form-field class="edit-item">
+    <input matInput placeholder="请输入用户名" id="username" [(ngModel)]="user.username" formControlName="username" required>
+  </mat-form-field>
+
+  <!--user password-->
+  <mat-form-field class="edit-item">
+    <input matInput placeholder="请输入密码" type="password" id="password" [ngModel]="user.password" formControlName="password" required>
+  </mat-form-field>
+
+  <!--user name-->
+  <mat-form-field class="edit-item">
+    <input matInput placeholder="请输入姓名" id="name" [ngModel]="user.name" formControlName="name" required>
+  </mat-form-field>
+
+  <!--user gender-->
+  <mat-radio-group class="edit-item" id="gender" [ngModel]="user.gender" formControlName="gender">
+    <mat-radio-button class="radio-button" value="male">男</mat-radio-button>
+    <mat-radio-button class="radio-button" value="female">女</mat-radio-button>
+  </mat-radio-group>
+
+  <!--profile photo-->
+  <input class="edit-item" name="请选择头像" id="picture" type="file" formControlName="picture"
+         accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" (change)="preview($event)">
+  <p id="addImageAlert"></p>
+  <img *ngIf="user.picture != null" src="{{ user.picture }}" id="imgPreview" style="width: 250px; height: 250px; border: solid 1px;" /><br>
+
+  <button mat-raised-button class="edit-item" color="primary" type="submit">提交</button>
+</form>
+
+

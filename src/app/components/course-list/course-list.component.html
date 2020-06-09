@@ -1,4 +1,4 @@
-<h1 class="content-header">课程详情</h1>
+
 <div class="course-list-container">
   <div *ngFor="let course of courseList; index as courseIndex" class="course-card">
     <mat-card>
@@ -19,8 +19,11 @@
     </mat-card>
   </div>
 
-  <!-- add course list-->
-  <div *ngIf="sessionService.get('userIdentity') == 'teacher'" class="course-card" matRipple>
+  <!-- add course button-->
+  <div *ngIf="sessionService.get('userIdentity') == 'teacher' ||
+       sessionService.get('userIdentity') == 'admin'  "
+       class="course-card"
+       matRipple>
     <mat-card>
       <mat-card-header>
 
@@ -29,7 +32,7 @@
 
       </mat-card-content>
       <mat-card-actions id="add-course">
-        <button mat-fab color="primary" [routerLink]="['course/add']"> + </button>
+        <button mat-fab color="primary" [routerLink]="['/course/add']"> + </button>
       </mat-card-actions>
 
     </mat-card>
