@@ -1,12 +1,12 @@
 
-<form class="edit-form" [formGroup]="editUserInfoForm" (ngSubmit)="onSubmit(editUserInfoForm.values)">
+<form class="edit-form" [formGroup]="editUserInfoForm" (ngSubmit)="onSubmit(editUserInfoForm.value)" ngNativeValidate>
   <h1>修改个人信息</h1>
 
   <!--username-->
 
-  <mat-form-field class="edit-item">
-    <input matInput placeholder="请输入用户名" id="username" [(ngModel)]="user.username" formControlName="username" required>
-  </mat-form-field>
+<!--  <mat-form-field class="edit-item">-->
+<!--    <input matInput placeholder="请输入用户名" id="username" [ngModel]="user.username" formControlName="username" required>-->
+<!--  </mat-form-field>-->
 
   <!--user password-->
   <mat-form-field class="edit-item">

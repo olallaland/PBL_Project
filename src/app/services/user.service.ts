@@ -29,29 +29,35 @@ export class UserService {
   ) { }
 
   /**
-   * 登录判断
+   * 将登录数据发送给后端并返回response
    * @parameter userData
    */
   login(userData) {
-    this.http.post(this.serviceUrl + '/pbl/user/login', userData, httpOptions).subscribe((response: UserInfo) => {
-      console.log(response);
-      if (response.code === 200) {
-        this.sessionService.put('userIdentity', userData.type);
-        this.sessionService.put('user', userData.username);
-        this.sessionService.put('userID', response.id);
-        console.log(response.message);
-        console.log(response.id);
-        // 登录成功，跳转到用户个人页面
-        this.router.navigate(['/user/profile', response.id]);
-      } else {
-        console.log(response.code);
-      }
-    }, (err) => {
-      console.log(err);
-    });
+    return this.http.post(this.serviceUrl + '/pbl/user/login', userData, httpOptions);
   }
 
+  /**
+   * 将注册信息发送给后端并返回response
+   * @parameter userData
+   */
+  register(userData) {
+    return this.http.post(this.serviceUrl + '/pbl/user/register', userData, httpOptions);
+  }
+
+  /**
+   * 根据ID返回user信息
+   * @parameter userID
+   */
   getSingleUser(userID){
     return this.http.get(this.serviceUrl + '/pbl/user/getSingleUser/' + userID);
+  }
+
+  /**
+   * 更新user的信息
+   * @parameter data
+   */
+  updateUser(data) {
+    console.log('update data: ' + data);
+    return this.http.post(this.serviceUrl + '/pbl/user/infoManagement', data, httpOptions);
   }
 }

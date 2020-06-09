@@ -4,6 +4,7 @@ import {SessionService} from '../../services/session.service';
 import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
 import {UserService} from '../../services/user.service';
+import {UserInfo} from '../../entities/UserInfo';
 
 
 @Component({
@@ -40,13 +41,6 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(userData) {
-    // 提交空的表单
-    // tslint:disable-next-line:triple-equals
-    if (userData.type == '' || userData.username == '' || userData.password == '') {
-      // console.log('none');
-      return;
-    }
-
     // 如果登录用户的身份为admin，直接在前端判断用户名和密码是否正确
     // tslint:disable-next-line:triple-equals
     if (userData.type == 'admin') {
@@ -58,17 +52,41 @@ export class LoginComponent implements OnInit {
         this.sessionService.put('userIdentity', userData.type);
         this.sessionService.put('user', userData.username);
         console.log('gg');
-        this.toastrService.success('登录成功', '',{
+        this.toastrService.success('登录成功', '', {
           timeOut: 1000,
         });
         this.router.navigate(['user/profile']);
       }
+
     } else {
       // 如果登录身份为老师或学生，将数据交由loginService，由loginService和后端通信并判断
       // const loginResult = this.userService.login(userData);
       this.userService.login(userData);
+      this.userService.login(userData).subscribe((response: UserInfo) => {
+        // 根据后端返回的状态码确定用户登录是否成功
+        if (response.code === 200) {
+          this.sessionService.put('userIdentity', userData.type);
+          this.sessionService.put('user', userData.username);
+          this.sessionService.put('userID', response.id);
+          console.log(response.message);
+          console.log(response.id);
+          // 登录成功，弹出提示框
+          this.toastrService.success('登录成功', '', {
+            timeOut: 1000,
+          });
+          // 登录成功，跳转到用户个人页面
+          this.router.navigate(['/user/profile', response.id]);
+
+        } else {
+          // 登录失败，弹出提示框
+          this.toastrService.error(response.message, '登录失败', {
+            timeOut: 1000,
+          });
+          console.log(response.code);
+        }
+      }, (err) => {
+        console.log(err);
+      });
     }
-
-
   }
 }

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {UserService} from '../../services/user.service';
 import {FormBuilder} from '@angular/forms';
 import {UserInfo} from '../../entities/UserInfo';
+import {ToastrService} from 'ngx-toastr';
+import {SessionService} from '../../services/session.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -17,7 +19,10 @@ export class EditProfileComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toastrService: ToastrService,
+    private sessionService: SessionService,
+    private router: Router
   ) {
   }
 
@@ -38,17 +43,41 @@ export class EditProfileComponent implements OnInit {
     this.initForm();
   }
 
-  onSubmit(data) {
-    console.log(this.editUserInfoForm);
+  onSubmit(userData) {
+    console.log('user data: ' + userData.userID);
+    this.userService.updateUser(userData).subscribe((response: UserInfo) => {
+      // 根据后端返回的状态码确定用户登录是否成功
+      if (response.code === 200) {
+        // 注册成功，弹出提示框
+        this.toastrService.success('修改成功', '', {
+          timeOut: 1500,
+        });
+        // this.sessionService.put('userIdentity', response.type);
+        this.sessionService.put('user', response.username);
+        // 登录成功，跳转到用户个人页面
+        this.router.navigate(['/user/profile', this.sessionService.get('userID')]);
+
+      } else {
+        // 注册失败，弹出提示框
+        this.toastrService.error(response.message, '修改失败', {
+          timeOut: 2000,
+        });
+        console.log(response.code);
+      }
+    }, (err) => {
+      console.log(err);
+    });
   }
 
   initForm() {
     this.editUserInfoForm = this.formBuilder.group({
-      username: '',
+      username: this.sessionService.get('user'),
       password: '',
       name: '',
       gender: '',
-      picture: ''
+      picture: '',
+      type: this.sessionService.get('userIdentity'),
+      id: this.userID
     });
 
     console.log(this.editUserInfoForm);

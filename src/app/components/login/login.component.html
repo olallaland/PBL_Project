@@ -1,5 +1,5 @@
 
-<form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
+<form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)" ngNativeValidate>
   <h1>请登录</h1>
   <!--<h4>请选择登录身份:</h4>-->
   <!--user identity-->
