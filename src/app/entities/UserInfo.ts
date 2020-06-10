@@ -2,9 +2,8 @@
 export class UserInfo {
   code: number;
   message: string;
-  id: number;
   type: string;
-  username: string;
+  userID: string;
   password: string;
   name: string;
   gender: string;
@@ -20,12 +19,11 @@ export class UserInfo {
   // }
 
   // tslint:disable-next-line:max-line-length
-  constructor(code: number, message: string, id: number, type: string, username: string, password: string, name: string, gender: string, picture: string) {
+  constructor(code: number, message: string, type: string, userID: string, password: string, name: string, gender: string, picture: string) {
     this.code = code;
     this.message = message;
-    this.id = id;
     this.type = type;
-    this.username = username;
+    this.userID = userID;
     this.password = password;
     this.name = name;
     this.gender = gender;
@@ -35,9 +33,4 @@ export class UserInfo {
 // public constructor(name: string) {
   //   this.userName = name;
   // }
-
-
-  getFullName(): string {
-    return this.id + ' ' + this.username;
-  }
 }

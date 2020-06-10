@@ -22,7 +22,7 @@ export class AddCourseComponent implements OnInit {
 
   ngOnInit(): void {
     // 限制未登录的用户打开本页面
-    if (this.sessionService.get('user') == null) {
+    if (this.sessionService.get('userID') == null) {
       this.router.navigate(['user/login']);
     }
   }

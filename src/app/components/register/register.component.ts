@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit {
     private toastrService: ToastrService,
   ) {
     this.registerForm = this.formBuilder.group({
-      username: '',
+      user_id: '',
       password: '',
       name: '',
       gender: '',
@@ -33,7 +33,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     // 限制已登录的用户打开本页面
-    if (this.sessionService.get('user') != null) {
+    if (this.sessionService.get('userID') != null) {
       this.router.navigate(['course/list']);
     }
   }

@@ -7,10 +7,10 @@
 <!--    <button mat-button>基于PBL的学习平台</button>-->
 <!--  </span>-->
 
-  <button *ngIf="sessionService.get('user') == null" mat-raised-button class="top-bar-btn" [routerLink]="['user/login']">登录</button>
-  <button *ngIf="sessionService.get('user') == null" mat-raised-button class="top-bar-btn" [routerLink]="['user/register']">注册</button>
-  <button *ngIf="sessionService.get('user') != null" mat-button class="top-bar-btn" [matMenuTriggerFor]="actions">
-    {{ sessionService.get('user') }}
+  <button *ngIf="sessionService.get('userID') == null" mat-raised-button class="top-bar-btn" [routerLink]="['user/login']">登录</button>
+  <button *ngIf="sessionService.get('userID') == null" mat-raised-button class="top-bar-btn" [routerLink]="['user/register']">注册</button>
+  <button *ngIf="sessionService.get('userID') != null" mat-button class="top-bar-btn" [matMenuTriggerFor]="actions">
+    {{ sessionService.get('userID') }}
   </button>
 
   <mat-menu #actions="matMenu">

@@ -21,3 +21,10 @@
 #add-course {
   padding: 50px 150px;
 }
+
+/*desc 超出部分省略号表示*/
+#desc-container {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

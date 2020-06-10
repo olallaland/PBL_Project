@@ -15,12 +15,7 @@ const httpOptions = {
 })
 export class UserService {
 
-  singleUser: UserInfo;
-
   private serviceUrl = 'http://localhost:8080';
-
-  private studentSample: UserInfo = new UserInfo(200, 'suecess', 1,
-    'student', '17302010083', 'password', 'lty', 'female', null);
 
   constructor(
     public http: HttpClient,

@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // 限制未登录的用户打开本页面
+    // 限制只能未登录的用户打开本页面
     if (this.sessionService.get('user') != null) {
       this.router.navigate(['course/list']);
     }
@@ -34,23 +34,24 @@ export class LoginComponent implements OnInit {
 
   createLoginForm() {
     this.loginForm = this.formBuilder.group({
-      username: '',
+      user_id: '',
       password: '',
       type: ''
     });
   }
 
   onSubmit(userData) {
+    console.log(userData);
     // 如果登录用户的身份为admin，直接在前端判断用户名和密码是否正确
     // tslint:disable-next-line:triple-equals
     if (userData.type == 'admin') {
       // tslint:disable-next-line:triple-equals
-      if (userData.username != 'admin' || userData.password != '123456') {
+      if (userData.user_id != 'admin' || userData.password != '123456') {
         this.toastrService.warning('用户名或密码不正确', '登录失败');
         return;
       } else {
         this.sessionService.put('userIdentity', userData.type);
-        this.sessionService.put('user', userData.username);
+        this.sessionService.put('userID', userData.user_id);
         console.log('gg');
         this.toastrService.success('登录成功', '', {
           timeOut: 1000,
@@ -66,16 +67,15 @@ export class LoginComponent implements OnInit {
         // 根据后端返回的状态码确定用户登录是否成功
         if (response.code === 200) {
           this.sessionService.put('userIdentity', userData.type);
-          this.sessionService.put('user', userData.username);
-          this.sessionService.put('userID', response.id);
+          this.sessionService.put('userID', userData.user_id);
           console.log(response.message);
-          console.log(response.id);
+          console.log(response.userID);
           // 登录成功，弹出提示框
           this.toastrService.success('登录成功', '', {
             timeOut: 1000,
           });
           // 登录成功，跳转到用户个人页面
-          this.router.navigate(['/user/profile', response.id]);
+          this.router.navigate(['/user/profile', response.userID]);
 
         } else {
           // 登录失败，弹出提示框

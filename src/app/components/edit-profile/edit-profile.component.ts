@@ -27,6 +27,11 @@ export class EditProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // 限制只能已登录的用户打开本页面
+    if (this.sessionService.get('userID') == null) {
+      this.router.navigate(['user/login']);
+    }
+
     // 获得url中的 user ID
     this.activatedRoute.params.subscribe((data) => {
       console.log(data);
@@ -53,7 +58,7 @@ export class EditProfileComponent implements OnInit {
           timeOut: 1500,
         });
         // this.sessionService.put('userIdentity', response.type);
-        this.sessionService.put('user', response.username);
+        this.sessionService.put('userID', response.userID);
         // 登录成功，跳转到用户个人页面
         this.router.navigate(['/user/profile', this.sessionService.get('userID')]);
 
@@ -71,13 +76,12 @@ export class EditProfileComponent implements OnInit {
 
   initForm() {
     this.editUserInfoForm = this.formBuilder.group({
-      username: this.sessionService.get('user'),
+      userID: this.sessionService.get('userID'),
       password: '',
       name: '',
       gender: '',
       picture: '',
       type: this.sessionService.get('userIdentity'),
-      id: this.userID
     });
 
     console.log(this.editUserInfoForm);

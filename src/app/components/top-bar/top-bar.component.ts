@@ -16,7 +16,7 @@ export class TopBarComponent implements OnInit {
   }
 
   logout() {
-    this.sessionService.remove('user');
+    this.sessionService.remove('userID');
     this.sessionService.remove('userIdentity');
   }
 }

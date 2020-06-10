@@ -6,17 +6,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {SessionService} from '../../services/session.service';
 import {Router} from '@angular/router';
 
-export interface DialogData {
-  course_id: string;
-  name: string;
-  teacher_name: string;
-  exam_time: string;
-  course_time: string;
-  desc: string;
-  amount: number;
-}
-
-
 @Component({
   selector: 'app-course-list',
   templateUrl: './course-list.component.html',
@@ -33,11 +22,17 @@ export class CourseListComponent implements OnInit {
 
   ngOnInit(): void {
     // 限制未登录的用户打开本页面
-    if (this.sessionService.get('user') == null) {
+    if (this.sessionService.get('userID') == null) {
       this.router.navigate(['user/login']);
     }
 
-    this.courseList = this.courseService.getCourseList('student', '001');
+    // this.courseList = this.courseService.getCourseList('student', '001');
+
+    // 获得user信息
+    this.courseService.getCourseList1().subscribe( (res: [] ) => {
+      this.courseList = res;
+      console.log(this.courseList);
+    });
   }
 
   openDialog(index): void {
@@ -46,12 +41,12 @@ export class CourseListComponent implements OnInit {
       // height: '450px',
       data: {
         course_id: this.courseList[index].course_id,
-        name: this.courseList[index].name,
+        course_name: this.courseList[index].name,
         teacher_name: this.courseList[index].teacher_name,
-        exam_time: this.courseList[index].exam_time,
-        course_time: this.courseList[index].course_time,
-        desc: this.courseList[index].desc,
-        amount: this.courseList[index].amount
+        teacher_id: this.courseList[index].teacher_id,
+        start_time: this.courseList[index].startTime,
+        end_time: this.courseList[index].endTime,
+        desc: this.courseList[index].description
       }
     });
 

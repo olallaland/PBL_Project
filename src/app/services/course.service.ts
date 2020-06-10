@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import {SessionService} from './session.service';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -6,7 +8,11 @@ import { Injectable } from '@angular/core';
 export class CourseService {
 
   courseList = [];
-  constructor() { }
+  private serviceUrl = 'http://localhost:8080';
+  constructor(
+    private sessionService: SessionService,
+    public http: HttpClient,
+  ) { }
 
   getCourseList(type, id) {
     this.courseList = [
@@ -84,4 +90,12 @@ export class CourseService {
 
     return this.courseList;
   }
+
+  getCourseList1() {
+    const type = this.sessionService.get('userIdentity');
+    const id = this.sessionService.get('user');
+
+    return this.http.get(this.serviceUrl + '/pbl/course/getCourse/' + type + '/' + id);
+  }
+
 }
