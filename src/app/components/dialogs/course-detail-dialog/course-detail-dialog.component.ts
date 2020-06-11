@@ -17,6 +17,8 @@ export class CourseDetailDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log('course details dialog: ' + this.data);
+    console.log(this.data.course_id);
   }
 
   onNoClick(): void {

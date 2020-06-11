@@ -14,7 +14,7 @@ export class CourseService {
     public http: HttpClient,
   ) { }
 
-  getCourseList(type, id) {
+  getCourseList1(type, id) {
     this.courseList = [
       {
         course_id: '001',
@@ -91,11 +91,15 @@ export class CourseService {
     return this.courseList;
   }
 
-  getCourseList1() {
+  getCourseList() {
     const type = this.sessionService.get('userIdentity');
-    const id = this.sessionService.get('user');
+    const id = this.sessionService.get('userID');
 
     return this.http.get(this.serviceUrl + '/pbl/course/getCourse/' + type + '/' + id);
+  }
+
+  getCourseByID(courseID) {
+    return this.http.get(this.serviceUrl + '/pbl/course/getCourseByID/' + courseID);
   }
 
 }

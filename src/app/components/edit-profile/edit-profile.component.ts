@@ -38,6 +38,8 @@ export class EditProfileComponent implements OnInit {
       this.userID = data.userID;
     });
 
+    console.log(this.userID);
+
     // 获得user信息
     this.userService.getSingleUser(this.userID).subscribe( (res: UserInfo ) => {
       this.user = res;

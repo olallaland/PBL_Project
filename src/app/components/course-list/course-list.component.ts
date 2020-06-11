@@ -28,8 +28,8 @@ export class CourseListComponent implements OnInit {
 
     // this.courseList = this.courseService.getCourseList('student', '001');
 
-    // 获得user信息
-    this.courseService.getCourseList1().subscribe( (res: [] ) => {
+    // 获得course list信息
+    this.courseService.getCourseList().subscribe( (res: [] ) => {
       this.courseList = res;
       console.log(this.courseList);
     });
@@ -40,7 +40,7 @@ export class CourseListComponent implements OnInit {
       // width: '700px',
       // height: '450px',
       data: {
-        course_id: this.courseList[index].course_id,
+        course_id: this.courseList[index].id,
         course_name: this.courseList[index].name,
         teacher_name: this.courseList[index].teacher_name,
         teacher_id: this.courseList[index].teacher_id,

@@ -1,6 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {DialogData} from '../../course-details/course-details.component';
 import {FormBuilder} from '@angular/forms';
 
 @Component({
@@ -15,7 +14,6 @@ export class UploadFileDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<UploadFileDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
     public formBuilder: FormBuilder,
   ) {
     this.createUploadFileForm();

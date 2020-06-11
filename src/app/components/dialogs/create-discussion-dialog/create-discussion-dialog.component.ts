@@ -1,6 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {DialogData} from '../../course-details/course-details.component';
 import {FormBuilder} from '@angular/forms';
 
 @Component({
@@ -14,7 +13,6 @@ export class CreateDiscussionDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<CreateDiscussionDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
     public formBuilder: FormBuilder,
   ) {
     this.createNewDiscussionForm();

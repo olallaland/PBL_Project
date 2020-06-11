@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {DialogData} from '../../course-details/course-details.component';
+import {ProjectInfo} from '../../../entities/ProjectInfo';
 import {SessionService} from '../../../services/session.service';
 
 @Component({
@@ -12,7 +12,7 @@ export class ProjectDetailDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<ProjectDetailDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    @Inject(MAT_DIALOG_DATA) public data: ProjectInfo,
     public sessionService: SessionService
   ) { }
 

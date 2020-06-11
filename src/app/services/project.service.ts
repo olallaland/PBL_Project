@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -7,9 +8,12 @@ export class ProjectService {
 
   projectList = [];
   taskList = [];
-  constructor() { }
+  private serviceUrl = 'http://localhost:8080';
+  constructor(
+    public http: HttpClient,
+  ) { }
 
-  getProjectList(courseID) {
+  getProjectList1(courseID) {
     this.projectList = [
       {
         pj_id: '001',
@@ -90,6 +94,10 @@ export class ProjectService {
     ];
 
     return this.projectList;
+  }
+
+  getProjectList(courseID) {
+    return this.http.get(this.serviceUrl + '/pbl/course/getPj/' + courseID);
   }
 
   getTaskList(courseID, PJ_ID) {

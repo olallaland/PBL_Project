@@ -34,3 +34,10 @@
   margin-top: 60px;
   margin-bottom: 60px;
 }
+
+/*desc 超出部分省略号表示*/
+#project-info-container {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

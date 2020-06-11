@@ -1,6 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {DialogData} from '../../course-details/course-details.component';
 import {FormBuilder} from '@angular/forms';
 
 @Component({
@@ -13,7 +12,6 @@ export class ScoreDialogComponent implements OnInit {
   gradeForm;
   constructor(
     public dialogRef: MatDialogRef<ScoreDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
     public formBuilder: FormBuilder,
   ) {
     this.createGradeForm();
