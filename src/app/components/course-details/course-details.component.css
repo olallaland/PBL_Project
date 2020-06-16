@@ -1,6 +1,6 @@
 .course-header {
   padding: 50px 500px 50px 50px;
-  height: 250px;
+  height: 200px;
   //opacity: 0.8;
   color: #ffffff;
   //background: linear-gradient(90deg, #0E419C, #f6f6f6);
@@ -16,7 +16,8 @@
 .project-list-container {
   display: flex;
   flex-flow:row wrap;
-  justify-content:center;
+  padding: 60px;
+  /*justify-content:center;*/
   align-items:center;
 }
 
@@ -41,3 +42,4 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+

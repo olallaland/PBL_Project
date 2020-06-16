@@ -33,60 +33,30 @@
 <section id="tab-content-container">
   <!-- 项目简介 -->
   <div class="tab-content current-tab">
-
-<!--    <mat-list>-->
-<!--      <h3 mat-subheader>项目名称</h3>-->
-<!--      <mat-list-item >-->
-<!--        <p mat-line> 慕课英雄 MOOC HERO（第一人称射击完整版）项目详情 </p>-->
-<!--      </mat-list-item>-->
-<!--      <mat-divider></mat-divider>-->
-
-<!--      <h3 mat-subheader>项目简介</h3>-->
-<!--      <p mat-line>-->
-<!--          大家好，欢迎学习本门课程，踏上游戏开发之路！ 本课程，我们使用Unity游戏引擎学习游戏开发，将开发的游戏部署到PC端和移动终端。-->
-<!--          本周课程的学习中，我们首先介绍课程的基本信息。接着，我们学习下载、安装Unity编辑器，并对Unity编辑器的界面、操作进行初步了解；-->
-<!--          最后，我们学习图形、音频等游戏资源的相关知识以及制作获取途径。 如果在概念、测试或是技术细节上遇到困难，可以在讨论区寻求帮助。-->
-<!--          希望大家融入Coursera学习社区，互相帮助，共同进步。 现在，让我们开始游戏开发之旅！-->
-<!--      </p>-->
-<!--      <mat-divider></mat-divider>-->
-
-<!--      <h3 mat-subheader>项目人数</h3>-->
-<!--      <mat-list-item >-->
-<!--        <p mat-line> 3/4 </p>-->
-<!--      </mat-list-item>-->
-<!--      <mat-divider></mat-divider>-->
-
-<!--      <h3 mat-subheader>起止时间</h3>-->
-<!--      <mat-list-item >-->
-<!--        <p mat-line> 2020-04-28 - 2020-06-25 </p>-->
-<!--      </mat-list-item>-->
-<!--      <mat-divider></mat-divider>-->
-<!--    </mat-list>-->
-
     <form [formGroup]="pjInfoForm" (ngSubmit)="onSubmit(pjInfoForm.value)" class="pj-info-form">
       <mat-form-field>
-        <label for="title"> 项目名称: </label>
-        <input matInput type="text" [(ngModel)]="pjInfoParams.title" formControlName="title" id="title">
+        <label for="name"> 项目名称: </label>
+        <input matInput type="text" [(ngModel)]="projectInfo.name" formControlName="name" id="name">
       </mat-form-field>
 
       <mat-form-field>
-        <label for="intro"> 项目简介: </label>
-        <textarea matInput type="text" [(ngModel)]="pjInfoParams.intro" formControlName="intro" id="intro"></textarea>
+        <label for="descs"> 项目简介: </label>
+        <textarea matInput type="text" [(ngModel)]="projectInfo.descs" formControlName="descs" id="descs"></textarea>
       </mat-form-field>
 
       <mat-form-field>
         <label for="number"> 项目人数: </label>
-        <input matInput type="number" [(ngModel)]="pjInfoParams.number" formControlName="number" id="number">
+        <input matInput type="number" [(ngModel)]="projectInfo.number" formControlName="number" id="number">
       </mat-form-field>
 
       <mat-form-field>
-        <label for="PJStartDate"> 项目开始时间: </label>
-        <input matInput type="date" [(ngModel)]="pjInfoParams.startDate" formControlName="startDate" id="PJStartDate">
+        <label for="PJStart"> 项目开始时间: </label>
+        <input matInput type="date" [(ngModel)]="projectInfo.start.split(' ')[0]" formControlName="start" id="PJStart">
       </mat-form-field>
 
       <mat-form-field>
-        <label for="PJEndDate"> 项目结束时间: </label>
-        <input matInput type="date" [(ngModel)]="pjInfoParams.endDate" formControlName="endDate" id="PJEndDate">
+        <label for="PJEnd"> 项目结束时间: </label>
+        <input matInput type="date" [(ngModel)]="projectInfo.end.split(' ')[0]" formControlName="end" id="PJEnd">
       </mat-form-field>
 
       <button mat-raised-button type="submit" *ngIf="isEditing == true" color="primary" style="float: right"> 保存修改 </button>
@@ -104,7 +74,7 @@
     <mat-list>
       <h3 mat-subheader>组长</h3>
       <mat-list-item >
-        <p mat-line> 我是组长 </p>
+        <p mat-line> 姓名（ID）的形式 </p>
       </mat-list-item>
       <mat-divider></mat-divider>
 

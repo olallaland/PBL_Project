@@ -1,16 +1,16 @@
 <script src="course-details.component.ts"></script>
 <div class="course-header">
-  <h1 class="course-info" style="font-size: 50px;">{{ courseInfo.name }}</h1>
+  <h1 class="course-info" style="font-size: 50px;">{{ courseInfo.course_name }}</h1>
   <p>授课老师： {{ courseInfo.teacher_name}}</p>
-  <p> {{ courseInfo.description }}</p>
+  <p> {{ courseInfo.descs }}</p>
 
 </div>
 
 <mat-tab-group>
   <mat-tab label="关于">
     <div class="course-content-container">
-      <p>开始时间： {{ courseInfo.startTime }}</p>
-      <p>结束时间： {{ courseInfo.endTime }}</p>
+      <p>上课时间： {{ courseInfo.course_time }}</p>
+      <p>考试时间： {{ courseInfo.exam_time }}</p>
     </div>
   </mat-tab>
 
@@ -21,13 +21,13 @@
         <mat-card-header>
           <mat-card-title>{{ project.name }}</mat-card-title>
           <mat-card-subtitle>{{ project.pj_id }}</mat-card-subtitle>
-          <mat-card-subtitle>开始时间：{{ project.start_time }}</mat-card-subtitle>
-          <mat-card-subtitle>开始时间：{{ project.end_time }}</mat-card-subtitle>
+          <mat-card-subtitle>开始时间：{{ project.start }}</mat-card-subtitle>
+          <mat-card-subtitle>开始时间：{{ project.end }}</mat-card-subtitle>
         </mat-card-header>
         <!--      <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
         <mat-card-content>
           <p id="project-info-container">
-          {{ project.desc }}
+          {{ project.descs }}
         </p>
         </mat-card-content>
         <mat-card-actions>

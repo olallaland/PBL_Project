@@ -5,6 +5,9 @@ import {FormBuilder} from '@angular/forms';
 import {UserInfo} from '../../entities/UserInfo';
 import {ToastrService} from 'ngx-toastr';
 import {SessionService} from '../../services/session.service';
+import {SuccessfulResponse} from '../../entities/SuccessfulResponse';
+import {User} from '../../entities/User';
+import {RResponse} from '../../entities/RResponse';
 
 @Component({
   selector: 'app-edit-profile',
@@ -41,8 +44,8 @@ export class EditProfileComponent implements OnInit {
     console.log(this.userID);
 
     // 获得user信息
-    this.userService.getSingleUser(this.userID).subscribe( (res: UserInfo ) => {
-      this.user = res;
+    this.userService.getSingleUser(this.userID).subscribe( (res: RResponse) => {
+      this.user = res.data;
 
     });
 
@@ -52,21 +55,22 @@ export class EditProfileComponent implements OnInit {
 
   onSubmit(userData) {
     console.log('user data: ' + userData.userID);
-    this.userService.updateUser(userData).subscribe((response: UserInfo) => {
+    this.userService.updateUser(userData).subscribe((response: RResponse) => {
       // 根据后端返回的状态码确定用户登录是否成功
       if (response.code === 200) {
         // 注册成功，弹出提示框
         this.toastrService.success('修改成功', '', {
           timeOut: 1500,
         });
-        // this.sessionService.put('userIdentity', response.type);
-        this.sessionService.put('userID', response.userID);
+
+        // 更新session信息
+        this.sessionService.put('pwd', response.data.password);
         // 登录成功，跳转到用户个人页面
         this.router.navigate(['/user/profile', this.sessionService.get('userID')]);
 
       } else {
         // 注册失败，弹出提示框
-        this.toastrService.error(response.message, '修改失败', {
+        this.toastrService.error(response.msg, '修改失败', {
           timeOut: 2000,
         });
         console.log(response.code);
@@ -78,11 +82,11 @@ export class EditProfileComponent implements OnInit {
 
   initForm() {
     this.editUserInfoForm = this.formBuilder.group({
-      userID: this.sessionService.get('userID'),
+      username: this.sessionService.get('userID'),
       password: '',
       name: '',
-      gender: '',
-      picture: '',
+      gender: null,
+      picture: null,
       type: this.sessionService.get('userIdentity'),
     });
 

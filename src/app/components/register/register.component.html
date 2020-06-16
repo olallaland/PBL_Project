@@ -1,10 +1,11 @@
 
 <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm.value)" ngNativeValidate>
   <h1>请注册</h1>
+  <p>已有账户？请<a [routerLink]="['/user/login']">登录</a></p>
 
   <!--username-->
   <mat-form-field class="register-item">
-    <input matInput placeholder="请输入用户名" id="user_id" formControlName="user_id" required>
+    <input matInput placeholder="请输入用户名" id="username" formControlName="username" required>
   </mat-form-field>
 
   <!--user password-->
@@ -19,8 +20,8 @@
 
   <!--user gender-->
   <mat-radio-group class="register-item" id="gender" formControlName="gender">
-    <mat-radio-button class="radio-button" value="male">男</mat-radio-button>
-    <mat-radio-button class="radio-button" value="female">女</mat-radio-button>
+    <mat-radio-button class="radio-button" value="M">男</mat-radio-button>
+    <mat-radio-button class="radio-button" value="F">女</mat-radio-button>
   </mat-radio-group>
 
   <!--profile photo-->

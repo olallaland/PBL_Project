@@ -46,6 +46,9 @@ import {ToastrModule} from 'ngx-toastr';
 import { ProfileComponent } from './components/profile/profile.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import {UserService} from './services/user.service';
+import {TaskService} from './services/task.service';
+import {DiscussionService} from './services/discussion.service';
+import {FileService} from './services/file.service';
 
 @NgModule({
   declarations: [
@@ -85,7 +88,7 @@ import {UserService} from './services/user.service';
       {path: 'user/edit/:userID', component: EditProfileComponent},
       {path: 'course/list', component: CourseListComponent},
       {path: 'course/details/:courseID', component: CourseDetailsComponent},
-      {path: 'project/details/:courseID', component: ProjectDetailsComponent},
+      {path: 'project/details/:courseID/:projectID', component: ProjectDetailsComponent},
       {path: 'course/add', component: AddCourseComponent},
     ]),
     MatCardModule,
@@ -102,6 +105,7 @@ import {UserService} from './services/user.service';
     MatTreeModule,
     MatProgressBarModule,
     MatTableModule,
+    // 为提示框设定默认参数
     ToastrModule.forRoot({
       maxOpened: 1,
       autoDismiss: true,
@@ -114,7 +118,8 @@ import {UserService} from './services/user.service';
       countDuplicates: true
     })
   ],
-  providers: [CourseService, SessionService, FormBuilder, MatMenuModule, ProjectService, UserService],
+  providers: [CourseService, SessionService, FormBuilder, MatMenuModule, ProjectService, UserService, TaskService,
+             DiscussionService, FileService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

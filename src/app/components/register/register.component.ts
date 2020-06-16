@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {SessionService} from '../../services/session.service';
 import {Router} from '@angular/router';
-import {UserInfo} from '../../entities/UserInfo';
 import {UserService} from '../../services/user.service';
 import {ToastrService} from 'ngx-toastr';
+import {RResponse} from '../../entities/RResponse';
 
 @Component({
   selector: 'app-register',
@@ -23,11 +23,12 @@ export class RegisterComponent implements OnInit {
     private toastrService: ToastrService,
   ) {
     this.registerForm = this.formBuilder.group({
-      user_id: '',
+      type: 'student',
+      username: '',
       password: '',
       name: '',
-      gender: '',
-      picture: ''
+      gender: null,
+      picture: null
     });
   }
 
@@ -81,7 +82,7 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(userData: any) {
-    this.userService.register(userData).subscribe((response: UserInfo) => {
+    this.userService.register(userData).subscribe((response: RResponse) => {
       // 根据后端返回的状态码确定用户登录是否成功
       if (response.code === 200) {
         // 注册成功，弹出提示框
@@ -93,7 +94,7 @@ export class RegisterComponent implements OnInit {
 
       } else {
         // 注册失败，弹出提示框
-        this.toastrService.error(response.message, '注册失败', {
+        this.toastrService.error(response.msg, '注册失败', {
           timeOut: 2000,
         });
         console.log(response.code);

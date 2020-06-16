@@ -5,6 +5,7 @@ import {MatDialog} from '@angular/material/dialog';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {SessionService} from '../../services/session.service';
 import {Router} from '@angular/router';
+import {RResponse} from '../../entities/RResponse';
 
 @Component({
   selector: 'app-course-list',
@@ -26,13 +27,20 @@ export class CourseListComponent implements OnInit {
       this.router.navigate(['user/login']);
     }
 
-    // this.courseList = this.courseService.getCourseList('student', '001');
+    // 获得course list信息，如果在用户个人页面，展示用户take or teach的课程
+    // 如果在课程列表页面，展示所有课程
+    if (this.router.url.startsWith('/user')) {
+      this.courseService.getCourseList().subscribe( (res: RResponse) => {
+        this.courseList = res.data;
+        console.log(this.courseList);
+      });
+    } else if (this.router.url.startsWith('/course')) {
+      this.courseService.getAllCourse().subscribe( (res: RResponse) => {
+        this.courseList = res.data;
+        console.log(this.courseList);
+      });
+    }
 
-    // 获得course list信息
-    this.courseService.getCourseList().subscribe( (res: [] ) => {
-      this.courseList = res;
-      console.log(this.courseList);
-    });
   }
 
   openDialog(index): void {
@@ -40,13 +48,14 @@ export class CourseListComponent implements OnInit {
       // width: '700px',
       // height: '450px',
       data: {
-        course_id: this.courseList[index].id,
-        course_name: this.courseList[index].name,
+        course_id: this.courseList[index].course_id,
+        course_name: this.courseList[index].course_name,
         teacher_name: this.courseList[index].teacher_name,
         teacher_id: this.courseList[index].teacher_id,
-        start_time: this.courseList[index].startTime,
-        end_time: this.courseList[index].endTime,
-        desc: this.courseList[index].description
+        exam_time: this.courseList[index].exam_time,
+        course_time: this.courseList[index].course_time,
+        descs: this.courseList[index].descs,
+        amount: this.courseList[index].amount
       }
     });
 

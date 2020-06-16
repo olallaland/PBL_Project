@@ -1,5 +1,11 @@
-import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json'
+  })
+};
 
 @Injectable({
   providedIn: 'root'
@@ -8,10 +14,13 @@ export class ProjectService {
 
   projectList = [];
   taskList = [];
-  private serviceUrl = 'http://localhost:8080';
+  // private serviceUrl = 'http://3.94.89.139:8080';
+  private serviceUrl = 'http://localhost:8089';
+
   constructor(
     public http: HttpClient,
-  ) { }
+  ) {
+  }
 
   getProjectList1(courseID) {
     this.projectList = [
@@ -96,50 +105,60 @@ export class ProjectService {
     return this.projectList;
   }
 
+  /**
+   * 根据courseID获取该门课程下所有项目信息
+   * @parameter courseID
+   */
   getProjectList(courseID) {
-    return this.http.get(this.serviceUrl + '/pbl/course/getPj/' + courseID);
+    return this.http.post(this.serviceUrl + '/pbl/project/getPjList/' + courseID, httpOptions);
   }
 
-  getTaskList(courseID, PJ_ID) {
-    this.taskList = [
-      {
-        task_id: '001',
-        task_name: '冲鸭',
-        desc: '这是任务描述',
-        start_time: '2020-03-25',
-        end_time: '2020-04-01',
-        level: 1,
-        status: 'ongoing',
-      },
-      {
-        task_id: '002',
-        task_name: '这是任务名称',
-        desc: '这是任务描述',
-        start_time: '2020-03-27',
-        end_time: '2020-04-02',
-        level: 2,
-        status: 'finish',
-      },
-      {
-        task_id: '003',
-        task_name: 'lalala',
-        desc: '这是任务描述',
-        start_time: '2020-03-24',
-        end_time: '2020-04-05',
-        level: 1,
-        status: 'unclaimed',
-      },
-      {
-        task_id: '004',
-        task_name: 'xixi',
-        desc: '这是任务描述',
-        start_time: '2020-03-26',
-        end_time: '2020-04-04',
-        level: 0,
-        status: 'finish',
-      }
-    ];
-
-    return this.taskList;
+  /**
+   * 根据courseID和projectID获取某个项目的信息
+   * @parameter courseID
+   * @parameter projectID
+   */
+  getProjectInfo(courseID, projectID) {
+    const data = {
+      course_id: courseID,
+      pj_id: projectID
+    };
+    return this.http.post(this.serviceUrl + '/pbl/project/getPj', data, httpOptions);
   }
+
+  /**
+   * 创建新项目
+   * @parameter projectData
+   */
+  createProject(projectData) {
+
+  }
+
+  /**
+   * 更新项目信息
+   * @parameter projectData
+   */
+  updateProject(projectData) {
+    return this.http.post(this.serviceUrl + '/pbl/project/updatePj', projectData, httpOptions);
+  }
+
+  /**
+   * 删除项目
+   * @parameter courseID
+   * @parameter projectID
+   */
+  deleteProject(courseID, projectID) {
+
+  }
+
+  /**
+   * 学生加入项目
+   * @parameter studentID
+   * @parameter courseID
+   * @parameter projectID
+   */
+  joinProject(studentID, courseID, projectID) {
+
+  }
+
 }

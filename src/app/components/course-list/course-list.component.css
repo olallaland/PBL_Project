@@ -8,9 +8,9 @@
 .course-list-container {
   display: flex;
   flex-flow:row wrap;
-  justify-content:center;
+  /*justify-content:center;*/
   align-items:center;
-
+  padding: 60px 110px;
 }
 
 .content-header {
@@ -22,7 +22,7 @@
   padding: 50px 150px;
 }
 
-/*desc 超出部分省略号表示*/
+/* 课程描述超出部分省略号表示*/
 #desc-container {
   overflow: hidden;
   text-overflow: ellipsis;

@@ -15,7 +15,8 @@ const httpOptions = {
 })
 export class UserService {
 
-  private serviceUrl = 'http://localhost:8080';
+  private serviceUrl = 'http://localhost:8089';
+  // private serviceUrl = 'http://3.94.89.139:8080';
 
   constructor(
     public http: HttpClient,
@@ -28,7 +29,12 @@ export class UserService {
    * @parameter userData
    */
   login(userData) {
-    return this.http.post(this.serviceUrl + '/pbl/user/login', userData, httpOptions);
+
+    console.log(this.serviceUrl + '/pbl/user/login?type=' + userData.type + '&username='
+      + userData.user_id + '&password=' + userData.password);
+    return this.http.get(this.serviceUrl + '/pbl/user/login?type=' + userData.type + '&username='
+      + userData.user_id + '&password=' + userData.password);
+    // return this.http.post(this.serviceUrl + '/pbl/user/login', userData, httpOptions);
   }
 
   /**
@@ -43,8 +49,13 @@ export class UserService {
    * 根据ID返回user信息
    * @parameter userID
    */
-  getSingleUser(userID){
-    return this.http.get(this.serviceUrl + '/pbl/user/getSingleUser/' + userID);
+  getSingleUser(userID) {
+    const type = this.sessionService.get('userIdentity');
+    const id = this.sessionService.get('userID');
+    const pwd = this.sessionService.get('pwd');
+
+    return this.http.get(this.serviceUrl + '/pbl/user/login?type=' + type + '&username=' + id + '&password=' + pwd);
+    // return this.http.get(this.serviceUrl + '/pbl/user/getSingleUser/' + userID);
   }
 
   /**

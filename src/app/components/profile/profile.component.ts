@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {SessionService} from '../../services/session.service';
-import {UserInfo} from '../../entities/UserInfo';
 import {UserService} from '../../services/user.service';
+import {SuccessfulResponse} from '../../entities/SuccessfulResponse';
+import {User} from '../../entities/User';
+import {RResponse} from '../../entities/RResponse';
 
 @Component({
   selector: 'app-profile',
@@ -12,7 +14,7 @@ import {UserService} from '../../services/user.service';
 export class ProfileComponent implements OnInit {
 
   userID;
-  user: UserInfo;
+  user;
 
   constructor(
     private sessionService: SessionService,
@@ -39,8 +41,8 @@ export class ProfileComponent implements OnInit {
 
     console.log('userID: ' + this.userID);
 
-    this.userService.getSingleUser(this.userID).subscribe( (res: UserInfo ) => {
-      this.user = res;
+    this.userService.getSingleUser(this.userID).subscribe( (res: RResponse ) => {
+      this.user = res.data;
     });
   }
 

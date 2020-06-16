@@ -3,14 +3,15 @@
 
 <div mat-dialog-content>
   <p>授课教师：{{ data.teacher_name }}</p>
-  <p>开课时间：{{ data.start_time }}</p>
-  <p>结束时间：{{ data.end_time }}</p>
+  <p>上课时间：{{ data.course_time }}</p>
+  <p>考试时间：{{ data.exam_time }}</p>
 <!--  <p *ngIf="sessionService.get('userIdentity') == 'teacher'">选课人数：{{ data.amount }}</p>-->
-  <p>课程描述：{{ data.desc }}</p>
+  <p>选课人数：{{ data.amount }}</p>
+  <p>课程描述：{{ data.descs }}</p>
 </div>
 <div mat-dialog-actions>
 <!--  <button mat-button>加入课程</button>-->
   <button mat-button [routerLink]="['course/details', data.course_id]" (click)="onNoClick()">进入课程</button>
-  <button *ngIf="sessionService.get('user') == data.teacher_id" mat-button>删除课程</button>
+  <button *ngIf="sessionService.get('userID') == data.teacher_id" mat-button>删除课程</button>
   <button mat-button (click)="onNoClick()" cdkFocusInitial>关闭</button>
 </div>

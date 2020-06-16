@@ -8,7 +8,12 @@ import {CreateDiscussionDialogComponent} from '../dialogs/create-discussion-dial
 import {UploadFileDialogComponent} from '../dialogs/upload-file-dialog/upload-file-dialog.component';
 import {ProjectService} from '../../services/project.service';
 import {ScoreDialogComponent} from '../dialogs/score-dialog/score-dialog.component';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {RResponse} from '../../entities/RResponse';
+import {TaskService} from '../../services/task.service';
+import {DiscussionService} from '../../services/discussion.service';
+import {FileService} from '../../services/file.service';
+import {ToastrService} from 'ngx-toastr';
 
 export interface Task {
   id: number;
@@ -63,12 +68,24 @@ export class ProjectDetailsComponent implements OnInit {
   taskInfo = ELEMENT_DATA;
 
   displayedFileColumns: string[] = ['id', 'name', 'uploader', 'date', 'size', 'option'];
-  fileList = TEST_FILE_DATA;
 
-  // 表单
+  // 项目信息表单
   pjInfoForm;
 
+  // course id
+  courseID;
+  // pj id
+  projectID;
+  // project info
+  projectInfo;
+  // 小组成员work情况
+  memberList;
+  // 项目任务列表
   taskList;
+  // 讨论列表
+  discussionList;
+  // 文件列表
+  fileList = TEST_FILE_DATA;
 
   constructor(
     private elementRef: ElementRef,
@@ -76,9 +93,13 @@ export class ProjectDetailsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private projectService: ProjectService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private taskService: TaskService,
+    private discussionService: DiscussionService,
+    private fileService: FileService,
+    private toastrService: ToastrService
   ) {
-    this.createPJInfoForm();
   }
 
   ngOnInit(): void {
@@ -87,12 +108,55 @@ export class ProjectDetailsComponent implements OnInit {
       this.router.navigate(['user/login']);
     }
 
+    // tab 切换
     this.tabs = this.elementRef.nativeElement.querySelectorAll('.sidebar-row');
     this.contents = this.elementRef.nativeElement.querySelectorAll('.tab-content');
-    // 获取任务列表需要两个参数，第一个为course_id, 第二个为pj_id
-    this.taskList = this.projectService.getTaskList('01', '02');
-    console.log(this.tabs);
-    console.log(this.contents);
+    // console.log(this.tabs);
+    // console.log(this.contents);
+
+    // 获得url中的 project ID
+    this.activatedRoute.params.subscribe((data) => {
+      this.courseID = data.courseID;
+      this.projectID = data.projectID;
+      console.log('inner course id: ' + this.courseID);
+      console.log('inner pj id: ' + this.projectID);
+    });
+
+    // 根据course ID 和 pj id 获得pj list信息
+    this.projectService.getProjectInfo(this.courseID, this.projectID).subscribe( (res: RResponse) => {
+      this.projectInfo = res.data;
+      console.log(this.projectInfo);
+      this.createPJInfoForm();
+    });
+
+    // 获取组员信息（每个组员的姓名、组内身份以及任务完成情况）
+
+    // // 获取项目的任务列表
+    // this.taskService.getTaskList(this.courseID, this.projectID).subscribe( (res: RResponse) => {
+    //   this.taskList = res.data;
+    //   console.log(this.taskList);
+    // });
+    //
+    // // 获取项目的讨论列表
+    // this.discussionService.getDiscussionList(this.courseID, this.projectID).subscribe( (res: RResponse) => {
+    //   this.discussionList = res.data;
+    //
+    //   // 获取每个讨论下的回复
+    //   // tslint:disable-next-line:prefer-for-of
+    //   for (let i = 0; i < this.discussionList.length; i++) {
+    //     this.discussionService.getAnswerList(this.discussionList[i].discussion_id).subscribe((response: RResponse) => {
+    //       this.discussionList[i].answers = response.data;
+    //     });
+    //   }
+    //   console.log(this.discussionList);
+    // });
+    //
+    // // 获取项目的文件列表
+    // this.fileService.getFileList(this.courseID, this.projectID).subscribe( (res: RResponse) => {
+    //   this.fileList = res.data;
+    //   console.log(this.fileList);
+    // });
+    this.createPJInfoForm();
   }
 
   /**
@@ -100,26 +164,29 @@ export class ProjectDetailsComponent implements OnInit {
    */
   createPJInfoForm() {
     this.pjInfoForm = this.formBuilder.group({
-      title: [{
-        value: this.pjInfoParams.title,
+      name: [{
+        value: this.projectInfo.name,
         disabled: !this.isEditing,
       }],
-      intro: [{
-        value: this.pjInfoParams.intro,
+      descs: [{
+        value: this.projectInfo.descs,
         disabled: !this.isEditing,
       }],
       number: [{
-        value: this.pjInfoParams.number,
+        value: this.projectInfo.number,
         disabled: true,
       }],
-      startDate: [{
-        value: this.pjInfoParams.startDate,
+      start: [{
+        value: this.projectInfo.start,
         disabled: !this.isEditing,
       }],
-      endDate: [{
-        value: this.pjInfoParams.endDate,
+      end: [{
+        value: this.projectInfo.end,
         disabled: !this.isEditing,
       }],
+      course_id: this.projectInfo.course_id,
+      pj_id: this.projectInfo.pj_id,
+      captain: this.projectInfo.captain
     });
   }
 
@@ -149,10 +216,21 @@ export class ProjectDetailsComponent implements OnInit {
    * 表单提交函数
    * @parameter userData 表单数据
    */
-  onSubmit(userData) {
+  onSubmit(projectData) {
+    this.projectService.updateProject(projectData).subscribe((res: RResponse) => {
+      if (res.code === 200) {
+        this.toastrService.success('修改成功', '', {
+          timeOut: 1500,
+        });
+      } else{
+        this.toastrService.error(res.msg, '修改失败', {
+          timeOut: 1500,
+        });
+      }
+    });
     this.isEditing = false;
     this.createPJInfoForm();
-    console.log(userData);
+    console.log(projectData);
   }
 
   /**

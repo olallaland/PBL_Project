@@ -3,14 +3,14 @@
   <div *ngFor="let course of courseList; index as courseIndex" class="course-card">
     <mat-card>
       <mat-card-header>
-        <mat-card-title>{{ course.id }}</mat-card-title>
-        <mat-card-subtitle>{{ course.name }}</mat-card-subtitle>
+        <mat-card-title>{{ course.course_name }}</mat-card-title>
+        <mat-card-subtitle>{{ course.course_id }}</mat-card-subtitle>
         <mat-card-subtitle>授课教师：{{ course.teacher_name }}</mat-card-subtitle>
       </mat-card-header>
 <!--      <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
       <mat-card-content>
         <p id="desc-container">
-          {{ course.description }}
+          {{ course.descs }}
         </p>
       </mat-card-content>
       <mat-card-actions>
