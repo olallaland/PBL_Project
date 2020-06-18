@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit} from '@angular/core';
+import {Component, ElementRef, Inject, OnInit} from '@angular/core';
 import {SessionService} from '../../services/session.service';
 import {FormBuilder} from '@angular/forms';
 import {ProjectDetailDialogComponent} from '../dialogs/project-detail-dialog/project-detail-dialog.component';
@@ -14,20 +14,13 @@ import {TaskService} from '../../services/task.service';
 import {DiscussionService} from '../../services/discussion.service';
 import {FileService} from '../../services/file.service';
 import {ToastrService} from 'ngx-toastr';
+import {ProjectFile} from '../../entities/ProjectFile';
+import {config} from 'rxjs';
 
 export interface Task {
   id: number;
   name: string;
   status: string;
-}
-
-export interface ProjectFile {
-  id: number;
-  name: string;
-  date: string;
-  uploader: string;
-  size: number;
-  option: string;
 }
 
 const ELEMENT_DATA: Task[] = [
@@ -36,14 +29,6 @@ const ELEMENT_DATA: Task[] = [
   {id: 3, name: 'Lithium', status: 'finish'},
   {id: 4, name: 'Beryllium', status: 'undo'},
 ];
-
-const TEST_FILE_DATA: ProjectFile[] = [
-  {id: 1, name: 'IMAGE', date: '2020-05-01', uploader: 'who', size: 365, option: 'all'},
-  {id: 2, name: 'Helium', date: '2020-05-02', uploader: 'who', size: 128, option: 'read'},
-  {id: 3, name: 'Lithium', date: '2020-05-03', uploader: 'who', size: 999, option: 'all'},
-  {id: 4, name: 'Beryllium', date: '2020-05-04', uploader: 'who', size: 50, option: 'all'},
-];
-
 
 @Component({
   selector: 'app-project-details',
@@ -67,7 +52,7 @@ export class ProjectDetailsComponent implements OnInit {
   displayedTaskColumns: string[] = ['id', 'name', 'status'];
   taskInfo = ELEMENT_DATA;
 
-  displayedFileColumns: string[] = ['id', 'name', 'uploader', 'date', 'size', 'option'];
+  displayedFileColumns: string[] = ['file_id', 'name', 'user_id', 'upload_date', 'size', 'description', 'option'];
 
   // 项目信息表单
   pjInfoForm;
@@ -85,7 +70,9 @@ export class ProjectDetailsComponent implements OnInit {
   // 讨论列表
   discussionList;
   // 文件列表
-  fileList = TEST_FILE_DATA;
+  fileList: ProjectFile;
+
+  baseUrl;
 
   constructor(
     private elementRef: ElementRef,
@@ -98,8 +85,10 @@ export class ProjectDetailsComponent implements OnInit {
     private taskService: TaskService,
     private discussionService: DiscussionService,
     private fileService: FileService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    @Inject('BASE_CONFIG') bgConfig
   ) {
+    this.baseUrl = bgConfig;
   }
 
   ngOnInit(): void {
@@ -151,11 +140,11 @@ export class ProjectDetailsComponent implements OnInit {
     //   console.log(this.discussionList);
     // });
     //
-    // // 获取项目的文件列表
-    // this.fileService.getFileList(this.courseID, this.projectID).subscribe( (res: RResponse) => {
-    //   this.fileList = res.data;
-    //   console.log(this.fileList);
-    // });
+    // 获取项目的文件列表
+    this.fileService.getFileList(this.courseID, this.projectID).subscribe( (res: RResponse) => {
+      this.fileList = res.data;
+      console.log(this.fileList);
+    });
     this.createPJInfoForm();
   }
 
@@ -254,6 +243,10 @@ export class ProjectDetailsComponent implements OnInit {
         break;
       case 'file':
         dialogRef = this.dialog.open(UploadFileDialogComponent, {
+          data: {
+            courseID: this.courseID,
+            projectID: this.projectID
+          }
         });
         break;
       default:
@@ -271,6 +264,15 @@ export class ProjectDetailsComponent implements OnInit {
   changeEdit() {
     this.isEditing = !this.isEditing;
     this.createPJInfoForm();
+  }
+
+
+  /**
+   * 根据文件 id 删除文件
+   * @parameter fileID
+   */
+  deleteFile(fileID) {
+    console.log('delete: ' + fileID);
   }
 
 }

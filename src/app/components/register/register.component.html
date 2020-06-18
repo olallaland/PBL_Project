@@ -1,5 +1,9 @@
 
-<form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm.value)" ngNativeValidate>
+<form class="register-form"
+      [formGroup]="registerForm"
+      (ngSubmit)="onSubmit(registerForm.value)"
+      enctype="multipart/form-data"
+      ngNativeValidate>
   <h1>请注册</h1>
   <p>已有账户？请<a [routerLink]="['/user/login']">登录</a></p>
 

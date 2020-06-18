@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {UserInfo} from '../entities/UserInfo';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
@@ -16,13 +16,15 @@ const httpOptions = {
 export class UserService {
 
   private serviceUrl = 'http://localhost:8089';
+
   // private serviceUrl = 'http://3.94.89.139:8080';
 
   constructor(
     public http: HttpClient,
     private router: Router,
     private sessionService: SessionService
-  ) { }
+  ) {
+  }
 
   /**
    * 将登录数据发送给后端并返回response
@@ -42,7 +44,8 @@ export class UserService {
    * @parameter userData
    */
   register(userData) {
-    return this.http.post(this.serviceUrl + '/pbl/user/register', userData, httpOptions);
+    return this.http.post(this.serviceUrl + '/pbl/user/register', userData);
+    // return this.http.post(this.serviceUrl + '/pbl/file/test', userData);
   }
 
   /**

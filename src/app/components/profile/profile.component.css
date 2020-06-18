@@ -11,3 +11,10 @@
 #edit-button {
   margin-right: 100px!important;
 }
+
+img {
+  max-width: 350px;
+  max-height: 350px;
+  min-width: 300px;
+  min-height: 300px;
+}

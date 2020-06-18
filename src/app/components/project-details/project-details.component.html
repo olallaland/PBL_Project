@@ -33,7 +33,7 @@
 <section id="tab-content-container">
   <!-- 项目简介 -->
   <div class="tab-content current-tab">
-    <form [formGroup]="pjInfoForm" (ngSubmit)="onSubmit(pjInfoForm.value)" class="pj-info-form">
+    <form [formGroup]="pjInfoForm" (ngSubmit)="onSubmit(pjInfoForm.value)" class="pj-info-form" ngNativeValidate>
       <mat-form-field>
         <label for="name"> 项目名称: </label>
         <input matInput type="text" [(ngModel)]="projectInfo.name" formControlName="name" id="name">
@@ -244,9 +244,9 @@
     <!-- 资源列表 -->
     <table mat-table [dataSource]="fileList" class="file-table">
       <!-- id Column -->
-      <ng-container matColumnDef="id">
+      <ng-container matColumnDef="file_id">
         <th mat-header-cell *matHeaderCellDef> 文件编号 </th>
-        <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
+        <td mat-cell *matCellDef="let element"> {{ element.file_id }} </td>
       </ng-container>
 
       <!-- Name Column -->
@@ -256,30 +256,50 @@
       </ng-container>
 
       <!-- upload time Column -->
-      <ng-container matColumnDef="date">
+      <ng-container matColumnDef="upload_date">
         <th mat-header-cell *matHeaderCellDef> 上传时间 </th>
-        <td mat-cell *matCellDef="let element"> {{ element.date }} </td>
+        <td mat-cell *matCellDef="let element"> {{ element.upload_date }} </td>
       </ng-container>
 
       <!-- uploader Column -->
-      <ng-container matColumnDef="uploader">
+      <ng-container matColumnDef="user_id">
         <th mat-header-cell *matHeaderCellDef> 上传者 </th>
-        <td mat-cell *matCellDef="let element"> {{ element.uploader }} </td>
+        <td mat-cell *matCellDef="let element"> {{ element.user_id }} </td>
       </ng-container>
 
       <!-- file size Column -->
       <ng-container matColumnDef="size">
         <th mat-header-cell *matHeaderCellDef> 文件大小 </th>
-        <td mat-cell *matCellDef="let element"> {{ element.size }} KB </td>
+        <td mat-cell *matCellDef="let element"> {{ element.size }} B </td>
+      </ng-container>
+
+      <!-- file desc Column -->
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> 文件描述 </th>
+        <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
       </ng-container>
 
       <!-- option Column -->
-      <ng-container matColumnDef="option">
+      <ng-container matColumnDef="option" *ngIf="sessionService.get('userIdentity') != 'admin'">
         <th mat-header-cell *matHeaderCellDef> 操作 </th>
         <td mat-cell *matCellDef="let element">
 
-          <button mat-stroked-button>下载</button>
-          <button *ngIf="element.option == 'all'" mat-stroked-button color="warn">删除</button>
+          <!-- 下载按钮 -->
+          <button mat-stroked-button>
+            <a
+              href="{{this.baseUrl}}{{element.path}}"
+              download="{{ element.name }}"
+            >下载
+            </a>
+          </button>
+
+          <!-- 删除按钮 -->
+          <button *ngIf="element.user_id == sessionService.get('userID') ||
+                          sessionService.get('userIdentity') == 'teacher'"
+                  mat-stroked-button color="warn"
+                  (click)="deleteFile(element.file_id)"
+          >删除
+          </button>
         </td>
       </ng-container>
 

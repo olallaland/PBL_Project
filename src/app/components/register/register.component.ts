@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {SessionService} from '../../services/session.service';
 import {Router} from '@angular/router';
 import {UserService} from '../../services/user.service';
 import {ToastrService} from 'ngx-toastr';
 import {RResponse} from '../../entities/RResponse';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
@@ -14,13 +15,16 @@ import {RResponse} from '../../entities/RResponse';
 export class RegisterComponent implements OnInit {
 
   registerForm;
-  picture;
+  picture: File = null;
+  imgSrc;
+
   constructor(
     private formBuilder: FormBuilder,
     private sessionService: SessionService,
     private router: Router,
     private userService: UserService,
     private toastrService: ToastrService,
+    private http: HttpClient
   ) {
     this.registerForm = this.formBuilder.group({
       type: 'student',
@@ -40,15 +44,18 @@ export class RegisterComponent implements OnInit {
   }
 
   preview(event) {
+
+    this.picture = event.srcElement.files[0]; // 获取图片这里只操作一张图片
+    this.imgSrc = window.URL.createObjectURL(this.picture); // 获取上传的图片临时路径
+
     let file;
     if (event.target.files[0]) {
       // tslint:disable-next-line:no-shadowed-variable
       file = event.target.files[0];
       console.log(file);
       console.log('file.size = ' + file.size);
-     // obj.file = file;
+      // obj.file = file;
     }
-    this.picture = file;
 
     // file.size 单位为byte
     const reader = new FileReader();
@@ -82,6 +89,19 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(userData: any) {
+    // const formData = new FormData();
+    // // formData.append('type', 'student');
+    // formData.append('username', 'name');
+    // formData.append('password', 'pwd');
+    // formData.append('name', 'n');
+    // formData.append('gender', 'f');
+    // formData.append('picture', this.picture);
+    //
+    // console.log(this.picture);
+    //
+    // userData.picture = this.picture;
+    // console.log(formData);
+
     this.userService.register(userData).subscribe((response: RResponse) => {
       // 根据后端返回的状态码确定用户登录是否成功
       if (response.code === 200) {
@@ -103,5 +123,4 @@ export class RegisterComponent implements OnInit {
       console.log(err);
     });
   }
-
 }

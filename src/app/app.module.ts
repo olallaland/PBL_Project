@@ -119,7 +119,11 @@ import {FileService} from './services/file.service';
     })
   ],
   providers: [CourseService, SessionService, FormBuilder, MatMenuModule, ProjectService, UserService, TaskService,
-             DiscussionService, FileService],
+             DiscussionService, FileService,
+    {
+      provide: 'BASE_CONFIG',
+      useValue: 'http://localhost:8089'
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

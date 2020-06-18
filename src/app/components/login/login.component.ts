@@ -87,9 +87,9 @@ export class LoginComponent implements OnInit {
           });
           // 跳转到用户个人页面
           console.log(user.student_id);
-          if (userData.type.equals('student')) {
+          if (userData.type === 'student') {
             this.router.navigate(['/user/profile', user.student_id]);
-          } else if (userData.type.equals('teacher')) {
+          } else if (userData.type === 'teacher') {
             this.router.navigate(['/user/profile', user.teacher_id]);
           }
 

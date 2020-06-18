@@ -29,7 +29,7 @@ export class FileService {
       course_id: courseID,
       pj_id: projectID
     };
-    return this.http.post(this.serviceUrl + '/pbl/file/getFiles', data, httpOptions);
+    return this.http.post(this.serviceUrl + '/pbl/file/getFiles/' + courseID + '/' + projectID, httpOptions);
   }
 
   /**
@@ -37,7 +37,7 @@ export class FileService {
    * @parameter data
    */
   uploadFile(data) {
-
+    return this.http.post(this.serviceUrl + '/pbl/file/upload', data);
   }
 
   /**
