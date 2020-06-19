@@ -43,3 +43,6 @@
   white-space: nowrap;
 }
 
+#project-list {
+  display: none !important;
+}

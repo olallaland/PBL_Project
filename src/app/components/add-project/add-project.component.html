@@ -1,0 +1,30 @@
+
+<form class="add-course-form" [formGroup]="addPJForm" (ngSubmit)="onSubmit(addPJForm.value)" ngNativeValidate>
+  <h1>新建项目</h1>
+  <mat-form-field class="form-item">
+    <label for="pj-id"> 请输入项目编号: </label>
+    <input matInput type="text" formControlName="pj_id" id="pj-id" required>
+  </mat-form-field>
+
+  <mat-form-field class="form-item">
+    <label for="pj-name"> 请输入项目名称: </label>
+    <input matInput type="text" formControlName="name" id="pj-name" required>
+  </mat-form-field>
+
+  <mat-form-field class="form-item">
+    <label for="pj-intro"> 请输入项目简介: </label>
+    <textarea matInput type="text" formControlName="describe" id="pj-intro" required></textarea>
+  </mat-form-field>
+
+  <mat-form-field class="form-item">
+    <label for="start-time"> 请选择开始时间: </label>
+    <input matInput type="date" formControlName="start" id="start-time" readonly required>
+  </mat-form-field>
+
+  <mat-form-field class="form-item">
+    <label for="end-time"> 请选择结束时间: </label>
+    <input matInput type="date" formControlName="end" id="end-time" [min]="startDate" required>
+  </mat-form-field>
+
+  <button class="form-item" mat-raised-button type="submit" color="primary"> 创建 </button>
+</form>

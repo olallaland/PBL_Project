@@ -14,7 +14,7 @@
     </div>
   </mat-tab>
 
-  <mat-tab label="课程项目" class="course-content-container">
+  <mat-tab label="课程项目" id="project-list" class="course-content-container">
     <!-- project list-->
     <div class="project-list-container">
       <mat-card *ngFor="let project of projectList; index as projectIndex" class="project-card">
@@ -36,11 +36,11 @@
       </mat-card>
 
       <!-- add project button-->
-      <div class="project-card" matRipple>
+      <div class="project-card" matRipple *ngIf="sessionService.get('userIdentity') != 'student'">
         <mat-card>
 
           <mat-card-actions id="add-project">
-            <button mat-fab color="primary"> + </button>
+            <button mat-fab color="primary" [routerLink]="['/project/add', courseID]"> + </button>
           </mat-card-actions>
 
         </mat-card>

@@ -14,6 +14,7 @@ import {RResponse} from '../../entities/RResponse';
 })
 export class CourseDetailsComponent implements OnInit {
 
+  studentList = [];
   projectList = [];
   courseID;
   courseInfo;
@@ -46,6 +47,13 @@ export class CourseDetailsComponent implements OnInit {
       console.log(this.courseInfo);
     });
 
+    // // 限制非开课老师和选课学生查看项目列表
+    // if (this.sessionService.get('userID') !== this.courseInfo.teacher_id ||
+    //   this.studentList.indexOf(this.sessionService.get('userID')) === -1) {
+    //   console.log('you are not in this course');
+    //
+    // }
+
     // 根据course ID 获得pj list信息
     this.projectService.getProjectList(this.courseID).subscribe( (res: RResponse) => {
       this.projectList = res.data;
@@ -55,10 +63,11 @@ export class CourseDetailsComponent implements OnInit {
 
   openDialog(index): void {
     const dialogRef = this.dialog.open(ProjectDetailDialogComponent, {
-      // width: '700px',
-      // height: '450px',
+      minWidth: '500px',
+      minHeight: '300px',
       data: {
         course_id: this.courseID,
+        teacher_id: this.courseInfo.teacher_id,
         pj_id: this.projectList[index].pj_id,
         name: this.projectList[index].name,
         start_time: this.projectList[index].start,

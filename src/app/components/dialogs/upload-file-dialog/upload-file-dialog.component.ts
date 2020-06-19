@@ -62,13 +62,20 @@ export class UploadFileDialogComponent implements OnInit {
   }
 
   onSubmit(data) {
-
     console.log('submit');
     const formData = new FormData();
     const date = new Date();
     const month = date.getMonth() + 1;
-    console.log(date.getFullYear() + '-' + month + '-' + date.getDate());
-    const formatDate = date.getFullYear() + '-' + month + '-' + date.getDate();
+
+    let formatDate = '';
+    if (month < 10) {
+      console.log('need zero');
+      formatDate =  date.getFullYear() + '-0' + month + '-' + date.getDate();
+    } else {
+      formatDate =  date.getFullYear() + '-' + month + '-' + date.getDate();
+    }
+    console.log(formatDate);
+
     // formData.append('type', 'student');
     formData.append('course_id', this.referData.courseID);
     formData.append('pj_id', this.referData.projectID);

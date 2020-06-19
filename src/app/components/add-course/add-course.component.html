@@ -1,24 +1,43 @@
 
-<form class="add-course-form" [formGroup]="addCourseForm" (ngSubmit)="onSubmit(addCourseForm.value)">
+<form class="add-course-form" [formGroup]="addCourseForm" (ngSubmit)="onSubmit(addCourseForm.value)" ngNativeValidate>
   <h1>新建课程</h1>
   <mat-form-field class="form-item">
-    <label for="course-name"> 请输入课程名称: </label>
-    <input matInput type="text" formControlName="name" id="course-name" required>
+    <label for="course-id"> 请输入课程编号: </label>
+    <input matInput type="text" formControlName="course_id" id="course-id" required>
   </mat-form-field>
 
   <mat-form-field class="form-item">
+    <label for="course-name"> 请输入课程名称: </label>
+    <input matInput type="text" formControlName="course_name" id="course-name" required>
+  </mat-form-field>
+
+  <mat-form-field class="form-item" *ngIf="sessionService.get('userIdentity') == 'teacher'">
+    <label for="teacherSelect"> 请选择授课教师: </label>
+    <mat-select matNativeControl id="teacherSelect" formControlName="teacher_id" required>
+      <mat-option *ngFor="let teacher of teacherList" [value]="teacher.teacher_id">
+        {{ teacher.name }} ({{ teacher.teacher_id }})
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="form-item" *ngIf="sessionService.get('userIdentity') == 'admin'">
     <label for="teacher"> 请选择授课教师: </label>
     <input matInput type="text" formControlName="teacher" id="teacher" required>
   </mat-form-field>
 
   <mat-form-field class="form-item">
     <label for="course-intro"> 请输入课程简介: </label>
-    <input matInput type="text" formControlName="intro" id="course-intro" required>
+    <textarea matInput type="text" formControlName="desc" id="course-intro" required></textarea>
   </mat-form-field>
 
   <mat-form-field class="form-item">
     <label for="class-time"> 请选择上课时间: </label>
-    <input matInput type="text" formControlName="classTime" id="class-time" required>
+    <input matInput type="text" formControlName="course_time" id="class-time" required>
+  </mat-form-field>
+
+  <mat-form-field class="form-item">
+    <label for="exam-time"> 请选择考试时间: </label>
+    <input matInput type="date" formControlName="exam_time" id="exam-time" required>
   </mat-form-field>
 
   <button class="form-item" mat-raised-button type="submit" color="primary"> 创建 </button>

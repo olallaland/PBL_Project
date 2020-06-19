@@ -22,7 +22,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { CourseDetailDialogComponent } from './components/dialogs/course-detail-dialog/course-detail-dialog.component';
 import {MatRippleModule} from '@angular/material/core';
 import {SessionService} from './services/session.service';
-import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
+import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatMenuModule} from '@angular/material/menu';
 import { CourseDetailsComponent } from './components/course-details/course-details.component';
 import {MatTabsModule} from '@angular/material/tabs';
@@ -49,6 +49,7 @@ import {UserService} from './services/user.service';
 import {TaskService} from './services/task.service';
 import {DiscussionService} from './services/discussion.service';
 import {FileService} from './services/file.service';
+import { AddProjectComponent } from './components/add-project/add-project.component';
 
 @NgModule({
   declarations: [
@@ -67,62 +68,66 @@ import {FileService} from './services/file.service';
     UploadFileDialogComponent,
     ScoreDialogComponent,
     ProfileComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    AddProjectComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    NoopAnimationsModule,
-    MatToolbarModule,
-    MatRadioModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-    RouterModule.forRoot([
-      {path: '', component: LoginComponent},
-      {path: 'user/register', component: RegisterComponent},
-      {path: 'user/login', component: LoginComponent},
-      {path: 'user/profile/:userID', component: ProfileComponent},
-      {path: 'user/edit/:userID', component: EditProfileComponent},
-      {path: 'course/list', component: CourseListComponent},
-      {path: 'course/details/:courseID', component: CourseDetailsComponent},
-      {path: 'project/details/:courseID/:projectID', component: ProjectDetailsComponent},
-      {path: 'course/add', component: AddCourseComponent},
-    ]),
-    MatCardModule,
-    MatDialogModule,
-    MatRippleModule,
-    ReactiveFormsModule,
-    MatMenuModule,
-    MatTabsModule,
-    MatListModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatGridListModule,
-    MatExpansionModule,
-    MatTreeModule,
-    MatProgressBarModule,
-    MatTableModule,
-    // 为提示框设定默认参数
-    ToastrModule.forRoot({
-      maxOpened: 1,
-      autoDismiss: true,
-      positionClass: 'toast-top-center',
-      closeButton: true,
-      progressBar: true,
-      timeOut: 2000,
-      extendedTimeOut: 1000,
-      preventDuplicates: true,
-      countDuplicates: true
-    })
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        NoopAnimationsModule,
+        MatToolbarModule,
+        MatRadioModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        RouterModule.forRoot([
+            {path: '', component: LoginComponent},
+            {path: 'user/register', component: RegisterComponent},
+            {path: 'user/login', component: LoginComponent},
+            {path: 'user/profile/:userID', component: ProfileComponent},
+            {path: 'user/edit/:userID', component: EditProfileComponent},
+            {path: 'course/list', component: CourseListComponent},
+            {path: 'course/details/:courseID', component: CourseDetailsComponent},
+            {path: 'project/details/:courseID/:projectID', component: ProjectDetailsComponent},
+            {path: 'project/add/:courseID', component: AddProjectComponent},
+            {path: 'course/add', component: AddCourseComponent},
+        ]),
+        MatCardModule,
+        MatDialogModule,
+        MatRippleModule,
+        ReactiveFormsModule,
+        MatMenuModule,
+        MatTabsModule,
+        MatListModule,
+        MatSidenavModule,
+        MatIconModule,
+        MatGridListModule,
+        MatExpansionModule,
+        MatTreeModule,
+        MatProgressBarModule,
+        MatTableModule,
+        // 为提示框设定默认参数
+        ToastrModule.forRoot({
+            maxOpened: 1,
+            autoDismiss: true,
+            positionClass: 'toast-top-center',
+            closeButton: true,
+            progressBar: true,
+            timeOut: 2000,
+            extendedTimeOut: 1000,
+            preventDuplicates: true,
+            countDuplicates: true
+        }),
+        FormsModule
+    ],
   providers: [CourseService, SessionService, FormBuilder, MatMenuModule, ProjectService, UserService, TaskService,
              DiscussionService, FileService,
     {
       provide: 'BASE_CONFIG',
-      useValue: 'http://localhost:8089'
+      // 3.94.89.139 localhost
+      useValue: 'http://localhost:8080'
     }],
   bootstrap: [AppComponent]
 })

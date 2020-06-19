@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 const httpOptions = {
@@ -12,11 +12,14 @@ const httpOptions = {
 })
 export class FileService {
 
-  private serviceUrl = 'http://localhost:8089';
+  // private serviceUrl = 'http://localhost:8089';
+  private readonly serviceUrl;
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    @Inject('BASE_CONFIG') serviceUrl
   ) {
+    this.serviceUrl = serviceUrl;
   }
 
   /**
@@ -45,6 +48,6 @@ export class FileService {
    * @parameter fileID
    */
   deleteFile(fileID) {
-
+    return this.http.post(this.serviceUrl + '/pbl/file/deleteFile/' + fileID, httpOptions);
   }
 }

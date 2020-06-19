@@ -28,7 +28,7 @@
   <input class="edit-item" name="请选择头像" id="picture" type="file" formControlName="picture"
          accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" (change)="preview($event)">
   <p id="addImageAlert"></p>
-  <img *ngIf="user.picture != null" src="{{ user.picture }}" id="imgPreview" style="width: 250px; height: 250px; border: solid 1px;" /><br>
+  <img *ngIf="user.picture != null" src="{{serviceUrl}}{{user.picture}}" id="imgPreview" style="width: 250px; height: 250px; border: solid 1px;" /><br>
 
   <button mat-raised-button class="edit-item" color="primary" type="submit">提交</button>
 </form>

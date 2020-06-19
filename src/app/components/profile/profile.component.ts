@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {SessionService} from '../../services/session.service';
 import {UserService} from '../../services/user.service';
@@ -15,14 +15,16 @@ export class ProfileComponent implements OnInit {
 
   userID;
   user;
+  serviceUrl;
 
   constructor(
-    private sessionService: SessionService,
+    public sessionService: SessionService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private userService: UserService
+    private userService: UserService,
+    @Inject('BASE_CONFIG') serviceUrl
   ) {
-
+    this.serviceUrl = serviceUrl;
   }
 
   ngOnInit(): void {

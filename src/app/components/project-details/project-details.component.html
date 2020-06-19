@@ -1,62 +1,69 @@
-
 <!-- 左侧菜单栏 -->
 <div class="sidebar-container">
+
   <mat-toolbar class="sidebar">
 
+    <mat-toolbar-row class="sidebar-row">
+      <button mat-button [routerLink]="['/course/details', courseID]"><-返回课程主页</button>
+    </mat-toolbar-row>
+
     <mat-toolbar-row class="sidebar-row selected">
-      <button mat-button (click)="changeTab(0)">项目简介</button>
+      <button mat-button (click)="changeTab(1)">项目简介</button>
     </mat-toolbar-row>
 
     <mat-toolbar-row class="sidebar-row">
-      <button mat-button (click)="changeTab(1)">小组成员</button>
+      <button mat-button (click)="changeTab(2)">小组成员</button>
     </mat-toolbar-row>
 
     <mat-toolbar-row class="sidebar-row">
-      <button mat-button (click)="changeTab(2)">任务</button>
+      <button mat-button (click)="changeTab(3)">任务</button>
     </mat-toolbar-row>
 
     <mat-toolbar-row class="sidebar-row">
-      <button mat-button  (click)="changeTab(3)">讨论</button>
+      <button mat-button  (click)="changeTab(4)">讨论</button>
     </mat-toolbar-row>
 
     <mat-toolbar-row class="sidebar-row">
-      <button mat-button  (click)="changeTab(4)">评分</button>
+      <button mat-button  (click)="changeTab(5)">评分</button>
     </mat-toolbar-row>
 
     <mat-toolbar-row class="sidebar-row">
-      <button mat-button  (click)="changeTab(5)">文件管理</button>
+      <button mat-button  (click)="changeTab(6)">文件管理</button>
     </mat-toolbar-row>
 
   </mat-toolbar>
 </div>
 
 <section id="tab-content-container">
+
+  <div class="tab-content"></div>
+
   <!-- 项目简介 -->
   <div class="tab-content current-tab">
-    <form [formGroup]="pjInfoForm" (ngSubmit)="onSubmit(pjInfoForm.value)" class="pj-info-form" ngNativeValidate>
+    <form [formGroup]="pjInfoForm" (ngSubmit)="updateProject(pjInfoForm.value)" class="pj-info-form" ngNativeValidate>
       <mat-form-field>
         <label for="name"> 项目名称: </label>
-        <input matInput type="text" [(ngModel)]="projectInfo.name" formControlName="name" id="name">
+        <input matInput type="text" [(ngModel)]="projectInfo.name" formControlName="name" id="name" required>
       </mat-form-field>
 
       <mat-form-field>
         <label for="descs"> 项目简介: </label>
-        <textarea matInput type="text" [(ngModel)]="projectInfo.descs" formControlName="descs" id="descs"></textarea>
+        <textarea matInput type="text" [(ngModel)]="projectInfo.descs" formControlName="descs" id="descs" required></textarea>
       </mat-form-field>
 
       <mat-form-field>
         <label for="number"> 项目人数: </label>
-        <input matInput type="number" [(ngModel)]="projectInfo.number" formControlName="number" id="number">
+        <input matInput type="number" [(ngModel)]="projectInfo.number" formControlName="number" id="number" readonly>
       </mat-form-field>
 
       <mat-form-field>
         <label for="PJStart"> 项目开始时间: </label>
-        <input matInput type="date" [(ngModel)]="projectInfo.start.split(' ')[0]" formControlName="start" id="PJStart">
+        <input matInput type="date" [(ngModel)]="projectInfo.start" formControlName="start" id="PJStart" readonly required>
       </mat-form-field>
 
       <mat-form-field>
         <label for="PJEnd"> 项目结束时间: </label>
-        <input matInput type="date" [(ngModel)]="projectInfo.end.split(' ')[0]" formControlName="end" id="PJEnd">
+        <input matInput type="date" [(ngModel)]="projectInfo.end" [min]="projectInfo.start" formControlName="end" id="PJEnd">
       </mat-form-field>
 
       <button mat-raised-button type="submit" *ngIf="isEditing == true" color="primary" style="float: right"> 保存修改 </button>
@@ -74,13 +81,13 @@
     <mat-list>
       <h3 mat-subheader>组长</h3>
       <mat-list-item >
-        <p mat-line> 姓名（ID）的形式 </p>
+        <p mat-line> {{ captain.name }} ({{ captain.student_id }}) </p>
       </mat-list-item>
       <mat-divider></mat-divider>
 
       <h3 mat-subheader>小组成员</h3>
-      <p mat-line>
-        章三、李四、王苏
+      <p mat-line *ngFor="let student of studentList">
+        {{ student.name }} ({{ student.student_id }})
       </p>
       <mat-divider></mat-divider>
 
@@ -90,61 +97,101 @@
   <!-- 任务列表 -->
   <div class="tab-content">
 
-    <button mat-raised-button color="primary"  (click)="openDialog('task')">
-        添加任务
-    </button><br><br><br>
+    <button
+      mat-raised-button color="primary"
+      (click)="openDialog('task')"
+      *ngIf="sessionService.get('userIdentity') == 'admin' ||
+       sessionService.get('userIdentity') == 'teacher' ||
+       sessionService.get('userID') == captain.student_id">
+      添加任务
+    </button>
+
+    <button mat-raised-button (click)="refreshTaskList()">
+      <mat-icon> autorenew </mat-icon>
+      刷新
+    </button>
+    <br><br><br>
 
     <mat-accordion>
       <mat-expansion-panel
         (opened)="panelOpenState = true"
         (closed)="panelOpenState = false"
-        *ngFor="let task of taskList">
+        *ngFor="let task of taskList; index as taskIndex">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            任务名称： {{ task.task_name }}
+            任务名称： {{ task.mission_name }}
           </mat-panel-title>
           <mat-panel-title>
             优先级： {{ task.level }}
           </mat-panel-title>
           <mat-panel-title>
-            deadline：{{ task.end_time }}
+            deadline：{{ task.end }}
           </mat-panel-title>
-          <mat-panel-description>
-            Currently I am {{panelOpenState ? 'open' : 'closed'}}
-          </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <p>
-          任务描述： {{ task.desc }}
+        <p *ngIf="task.stu_id != null">
+          任务负责人： {{ task.stu_id }}
         </p>
         <p>
-          任务时间： {{ task.start_time }} ~ {{ task.end_time }}
+          任务时间： {{ task.start }} ~ {{ task.end }}
         </p>
+
+        <!-- 非任务负责人 只显示任务状态-->
         <p>
           任务状态： {{ task.status }}
         </p>
-        <button *ngIf="task.status == 'unclaimed'" mat-raised-button>
+
+        <button *ngIf="sessionService.get('userID') == task.stu_id &&
+                task.status == '未开始'"
+                (click)="updateTask(taskIndex, 'status', '进行中')"
+                mat-raised-button>
+          开始任务
+        </button>
+
+        <button *ngIf="sessionService.get('userID') == task.stu_id &&
+                task.status == '进行中'"
+                (click)="updateTask(taskIndex, 'status', '已结束')"
+                mat-raised-button>
+          完成任务
+        </button>
+
+        <button *ngIf="task.stu_id == null &&
+                sessionService.get('userIdentity') == 'student'"
+                (click)="updateTask(taskIndex, 'stu_id', sessionService.get('userID'))"
+                mat-raised-button>
           认领
         </button>
+
       </mat-expansion-panel>
     </mat-accordion>
   </div>
 
   <!-- 讨论面板 -->
   <div class="tab-content">
-    <button mat-raised-button color="primary" (click)="openDialog('discussion')">发起讨论</button><br><br><br>
-    <mat-accordion multi="true">
-      <mat-expansion-panel>
+    <button mat-raised-button color="primary"
+            (click)="openDialog('discussion')"
+            *ngIf="sessionService.get('userIdentity') != 'admin'"
+    >发起讨论
+    </button>
+
+    <button mat-raised-button (click)="refreshDisList()">
+      <mat-icon> autorenew </mat-icon>
+      刷新
+    </button>
+    <br><br><br>
+
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let discussion of discussionList; index as disIndex">
         <!--话题header-->
         <mat-expansion-panel-header>
           <mat-panel-title>
-            讨论主题：游戏
+            讨论主题：{{ discussion.title }}
           </mat-panel-title>
           <mat-panel-description>
-           发起人:小李
+           发起人:{{ discussion.initiator }}
           </mat-panel-description>
           <mat-panel-description>
-            发起时间:2020-07-12
+            发起时间:{{ discussion.start }}
           </mat-panel-description>
         </mat-expansion-panel-header>
 
@@ -152,44 +199,32 @@
         <mat-card style="background-color: rgba(0, 0, 0, 0.2);">
           <mat-card-content>
             <p>
-            问题描述: <br>这是一个问题，希望有小伙伴能够解答。显示之前的讨论，包括人名、讨论内容、发送时间
+            问题描述: <br>{{ discussion.question }}
             </p>
           </mat-card-content>
         </mat-card>
 
         <!--话题reply-->
         <mat-list>
-          <h3 mat-subheader>校长 2020-07-26</h3>
-          <mat-list-item >
-            <p>
-              大家好，欢迎学习本门课程，踏上游戏开发之路！ 本课程，我们使用Unity游戏引擎学习游戏开发，将开发的游戏部署到PC端和移动终端。
-              本周课程的学习中，我们首先介绍课程的基本信息。接着，我们学习下载、安装
-            </p>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-
-          <h3 mat-subheader>校长 2020-07-26</h3>
-          <mat-list-item >
-            <p> 大家好，欢迎学习本门课程，踏上游戏开发之路！ 本课程，我们使用Unity游戏引擎学习游戏开发，将开发的游戏部署到PC端和移动终端。
-              本周课程的学习中，我们首先介绍课程的基本信息。接着，我们学习下载、安装 </p>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-
-          <h3 mat-subheader>校长 2020-07-26</h3>
-          <mat-list-item >
-            <p> 大家好，欢迎学习本门课程，踏上游戏开发之路！ 本课程，我们使用Unity游戏引擎学习游戏开发，将开发的游戏部署到PC端和移动终端。
-              本周课程的学习中，我们首先介绍课程的基本信息。接着，我们学习下载、安装 </p>
-          </mat-list-item>
-          <mat-divider></mat-divider>
+          <section *ngFor="let reply of discussion.answerList; index as replyIndex">
+            <h3 mat-subheader>{{ reply.user_id }}   {{ reply.answer_time }}</h3>
+            <mat-list-item >
+              <p>
+                {{ reply.content }}
+              </p>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </section>
         </mat-list>
 
         <!-- 回复讨论框 -->
+
         <mat-form-field style="width: 100%">
           <label>
-            <textarea matInput placeholder="Enter your comment"></textarea>
+            <textarea matInput placeholder="Enter your comment" [(ngModel)]="replyContent" required></textarea>
           </label>
         </mat-form-field>
-        <button mat-raised-button>回复</button>
+        <button mat-raised-button (click)="addReply(discussion.discussion_id)">回复</button>
 
       </mat-expansion-panel>
     </mat-accordion>
@@ -198,28 +233,31 @@
   <!-- 评分面板 -->
   <div class="tab-content">
     <mat-accordion>
-      <mat-expansion-panel>
+      <mat-expansion-panel *ngFor="let student of memberTaskInfo; index as studentIndex">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            同学名字：小王
+            学生ID：{{ student.student.student_id}}
           </mat-panel-title>
-          <mat-panel-description>
-            已评分/ 未评分
+          <mat-panel-description *ngIf="memberScoreInfo[studentIndex].score.scored == 'true'">
+            已评分
+          </mat-panel-description>
+          <mat-panel-description *ngIf="memberScoreInfo[studentIndex].score.scored == 'false'">
+            未评分
           </mat-panel-description>
         </mat-expansion-panel-header>
 
         <!-- 任务完成情况 -->
-        <table mat-table [dataSource]="taskInfo" class="task-table">
+        <table mat-table [dataSource]="student.taskInfo" class="task-table">
           <!-- id Column -->
-          <ng-container matColumnDef="id">
+          <ng-container matColumnDef="mission_id">
             <th mat-header-cell *matHeaderCellDef> 任务编号 </th>
-            <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
+            <td mat-cell *matCellDef="let element"> {{ element.mission_id }} </td>
           </ng-container>
 
           <!-- Name Column -->
-          <ng-container matColumnDef="name">
+          <ng-container matColumnDef="mission_name">
             <th mat-header-cell *matHeaderCellDef> 任务名称 </th>
-            <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+            <td mat-cell *matCellDef="let element"> {{ element.mission_name }} </td>
           </ng-container>
 
           <!-- status Column -->
@@ -233,7 +271,20 @@
         </table>
 
         <!-- 评分按钮（teacher）-->
-        <button mat-raised-button color="primary" (click)="openDialog('score')"> 评分 </button>
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="sessionService.get('userIdentity') == 'teacher' &&
+          memberScoreInfo[studentIndex].score.scored == 'false'"
+          (click)="openScoreDialog(studentIndex)"
+        > 评分
+        </button>
+
+        <!-- 得分详情 -->
+        <section *ngIf="memberScoreInfo[studentIndex].score.scored == 'true'">
+          <p> 任务得分： {{ memberScoreInfo[studentIndex].score.mission_score }}</p>
+          <p> 其他得分： {{ memberScoreInfo[studentIndex].score.other_score }} </p>
+        </section>
 
       </mat-expansion-panel>
     </mat-accordion>
@@ -307,6 +358,10 @@
       <tr mat-row *matRowDef="let row; columns: displayedFileColumns;"></tr>
     </table>
 
+    <button mat-raised-button (click)="refreshFileList()">
+      <mat-icon> autorenew </mat-icon>
+      刷新
+    </button>
     <!--上传文件按钮-->
     <button mat-raised-button color="primary" (click)="openDialog('file')"> 上传文件 </button>
 

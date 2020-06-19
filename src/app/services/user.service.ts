@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {UserInfo} from '../entities/UserInfo';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
@@ -15,15 +15,17 @@ const httpOptions = {
 })
 export class UserService {
 
-  private serviceUrl = 'http://localhost:8089';
+  // private serviceUrl = 'http://localhost:8089';
 
-  // private serviceUrl = 'http://3.94.89.139:8080';
+  private readonly serviceUrl;
 
   constructor(
     public http: HttpClient,
     private router: Router,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    @Inject('BASE_CONFIG') serviceUrl
   ) {
+    this.serviceUrl = serviceUrl;
   }
 
   /**
@@ -67,6 +69,13 @@ export class UserService {
    */
   updateUser(data) {
     console.log('update data: ' + data);
-    return this.http.post(this.serviceUrl + '/pbl/user/infoManagement', data, httpOptions);
+    return this.http.post(this.serviceUrl + '/pbl/user/infoManagement', data);
+  }
+
+  /**
+   * 获取教师列表
+   */
+  getTeacherList() {
+    return this.http.post(this.serviceUrl + '/pbl/user/getTeachers', httpOptions);
   }
 }

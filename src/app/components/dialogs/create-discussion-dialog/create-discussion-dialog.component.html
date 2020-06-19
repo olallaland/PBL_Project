@@ -2,16 +2,16 @@
 <h1 mat-dialog-title> 新建讨论 </h1>
 
 <div mat-dialog-content>
-  <form [formGroup]="newDiscussionForm" (ngSubmit)="onSubmit(newDiscussionForm.value)"  >
+  <form [formGroup]="newDiscussionForm" (ngSubmit)="onSubmit(newDiscussionForm.value)" ngNativeValidate>
     <mat-form-field>
-      <input matInput formControlName="topic" type="text" placeholder="请输入讨论主题" required>
+      <input matInput formControlName="title" type="text" placeholder="请输入讨论主题" required>
     </mat-form-field>
 
     <mat-form-field>
-      <textarea matInput formControlName="content" type="date" placeholder="请输入具体内容" required></textarea>
+      <textarea matInput formControlName="question" type="date" placeholder="请输入具体内容" required></textarea>
     </mat-form-field>
 
-    <button type="submit" style="float: right" mat-raised-button color="primary" (click)="onNoClick()"> 提交 </button>
+    <button type="submit" style="float: right" mat-raised-button color="primary"> 提交 </button>
   </form>
 
 </div>

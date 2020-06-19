@@ -40,13 +40,12 @@ export class CourseListComponent implements OnInit {
         console.log(this.courseList);
       });
     }
-
   }
 
   openDialog(index): void {
     const dialogRef = this.dialog.open(CourseDetailDialogComponent, {
-      // width: '700px',
-      // height: '450px',
+      minWidth: '500px',
+      minHeight: '300px',
       data: {
         course_id: this.courseList[index].course_id,
         course_name: this.courseList[index].course_name,

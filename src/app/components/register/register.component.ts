@@ -89,20 +89,20 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(userData: any) {
-    // const formData = new FormData();
-    // // formData.append('type', 'student');
-    // formData.append('username', 'name');
-    // formData.append('password', 'pwd');
-    // formData.append('name', 'n');
-    // formData.append('gender', 'f');
-    // formData.append('picture', this.picture);
-    //
-    // console.log(this.picture);
-    //
-    // userData.picture = this.picture;
-    // console.log(formData);
+    const formData = new FormData();
+    formData.append('type', 'student');
+    formData.append('username', userData.username);
+    formData.append('password', userData.password);
+    formData.append('name', userData.name);
+    formData.append('gender', userData.gender);
+    formData.append('picture', this.picture);
 
-    this.userService.register(userData).subscribe((response: RResponse) => {
+    console.log(this.picture);
+
+    userData.picture = this.picture;
+    console.log(formData);
+
+    this.userService.register(formData).subscribe((response: RResponse) => {
       // 根据后端返回的状态码确定用户登录是否成功
       if (response.code === 200) {
         // 注册成功，弹出提示框

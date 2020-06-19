@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 const httpOptions = {
@@ -12,10 +12,13 @@ const httpOptions = {
 })
 export class TaskService {
 
-  private serviceUrl = 'http://localhost:8089';
+  private readonly serviceUrl;
   constructor(
-    private http: HttpClient
-  ) { }
+    private http: HttpClient,
+    @Inject('BASE_CONFIG') serviceUrl
+  ) {
+    this.serviceUrl = serviceUrl;
+  }
 
   /**
    * 根据课程ID和项目ID获取该项目下的所有任务
@@ -23,7 +26,7 @@ export class TaskService {
    * @parameter projectID
    */
   getTaskList(courseID, projectID) {
-    return this.http.get(this.serviceUrl + '/pbl/mission/getTasks/' + courseID + '/' + projectID);
+    return this.http.post(this.serviceUrl + '/pbl/mission/getMissionList/' + courseID + '/' + projectID, httpOptions);
   }
 
   /**
@@ -33,7 +36,7 @@ export class TaskService {
    * @parameter studentID
    */
   getStudentTasks(courseID, projectID, studentID) {
-
+    return this.http.post(this.serviceUrl + '/pbl/mission/getStudentMission/' + courseID + '/' + projectID + '/' + studentID, httpOptions);
   }
 
   /**

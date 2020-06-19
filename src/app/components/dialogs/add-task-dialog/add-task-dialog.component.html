@@ -2,28 +2,40 @@
 <h1 mat-dialog-title> 添加任务 </h1>
 
 <div mat-dialog-content>
-  <form [formGroup]="addTaskForm" (ngSubmit)="onSubmit(addTaskForm.value)"  >
+  <form [formGroup]="addTaskForm" (ngSubmit)="onSubmit(addTaskForm.value)" ngNativeValidate>
     <mat-form-field>
-      <input matInput formControlName="name" type="text" placeholder="请输入任务名称" required>
+      <input matInput formControlName="mission_id" type="text" placeholder="请输入任务编号" required>
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput formControlName="startDate" type="date" placeholder="请输入开始时间" required>
+      <input matInput formControlName="mission_name" type="text" placeholder="请输入任务名称" required>
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput formControlName="endDate" type="date" placeholder="请输入截止时间" required>
+      <input matInput formControlName="start" type="datetime-local" [(ngModel)]="taskStartTime" placeholder="请输入开始时间" readonly required>
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput formControlName="priority" type="number" placeholder="请输入任务优先级" required>
+      <input matInput formControlName="end" type="datetime-local" [min]="taskStartTime" placeholder="请输入截止时间" required>
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput formControlName="intro" type="text" placeholder="请输入任务介绍" required>
+      <label for="student_id">请选择任务完成者：</label>
+      <mat-select matNativeControl id="student_id" formControlName="stu_id" required>
+        <mat-option *ngFor="let student of this.data.studentList" [value]="student.student_id">
+          {{ student.name }} ({{ student.student_id }})
+        </mat-option>
+      </mat-select>
     </mat-form-field>
 
-    <button type="submit" style="float: right" mat-raised-button color="primary" (click)="onNoClick()"> 提交 </button>
+    <mat-form-field>
+      <input matInput formControlName="level" type="number"
+             placeholder="请输入任务优先级(1-3，'1'表示优先级最高)"
+             min="1" max="3"
+             required>
+    </mat-form-field>
+
+    <button type="submit" style="float: right" mat-raised-button color="primary"> 提交 </button>
   </form>
 
 </div>

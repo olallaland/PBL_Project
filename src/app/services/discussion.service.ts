@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 const httpOptions = {
@@ -12,11 +12,13 @@ const httpOptions = {
 })
 export class DiscussionService {
 
-  private serviceUrl = 'http://localhost:8089';
+  private readonly serviceUrl;
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    @Inject('BASE_CONFIG') serviceUrl
   ) {
+    this.serviceUrl = serviceUrl;
   }
 
   /**
@@ -29,7 +31,7 @@ export class DiscussionService {
       course_id: courseID,
       pj_id: projectID
     };
-    return this.http.post(this.serviceUrl + '/pbl/discussion/getDiscussion' + courseID, data, httpOptions);
+    return this.http.post(this.serviceUrl + '/pbl/discussion/getDiscussionList/' + courseID + '/' + projectID, httpOptions);
   }
 
   /**
@@ -37,7 +39,7 @@ export class DiscussionService {
    * @parameter data
    */
   createDiscussion(data) {
-
+    return this.http.post(this.serviceUrl + '/pbl/discussion/addDiscussion', data, httpOptions);
   }
 
   /**
@@ -56,6 +58,6 @@ export class DiscussionService {
    * @parameter data
    */
   addAnswer(data) {
-
+    return this.http.post(this.serviceUrl + '/pbl/discussion/addAnswer', data, httpOptions);
   }
 }

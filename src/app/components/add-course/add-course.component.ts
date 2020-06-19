@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {SessionService} from '../../services/session.service';
 import {Router} from '@angular/router';
+import {UserService} from '../../services/user.service';
+import {RResponse} from '../../entities/RResponse';
+import {CourseService} from '../../services/course.service';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-course',
@@ -11,11 +15,15 @@ import {Router} from '@angular/router';
 export class AddCourseComponent implements OnInit {
 
   addCourseForm;
+  teacherList;
 
   constructor(
     public formBuilder: FormBuilder,
-    private sessionService: SessionService,
-    private router: Router
+    public sessionService: SessionService,
+    private router: Router,
+    private userService: UserService,
+    private courseService: CourseService,
+    private toastrService: ToastrService
   ) {
     this.createAddCourseForm();
   }
@@ -25,18 +33,45 @@ export class AddCourseComponent implements OnInit {
     if (this.sessionService.get('userID') == null) {
       this.router.navigate(['user/login']);
     }
+
+    // 获得教师列表
+    this.userService.getTeacherList().subscribe( (res: RResponse) => {
+      this.teacherList = res.data;
+    });
+
   }
 
   createAddCourseForm() {
     this.addCourseForm = this.formBuilder.group({
-      name: '',
-      teacher: [{value: this.sessionService.get('user'), disabled: true}],
-      intro: '',
-      classTime: ''
+      course_id: '',
+      course_name: '',
+      teacher_id: [{value: this.sessionService.get('userID'), disabled: false}],
+      desc: '',
+      exam_time: '',
+      course_time: ''
     });
   }
 
   onSubmit(courseData) {
+    console.log(courseData);
+    console.log('submit');
 
+    this.courseService.createCourse(courseData).subscribe((response: RResponse) => {
+      console.log(response);
+      if (response.code === 200) {
+        // 创建成功，弹出提示框
+        this.toastrService.success('创建成功', '', {
+          timeOut: 1500,
+        });
+
+        // 创建成功，跳转到课程列表
+        this.router.navigate(['/course/list']);
+      } else {
+        // 创建失败，弹出提示框
+        this.toastrService.error(response.msg, '创建失败', {
+          timeOut: 1500,
+        });
+      }
+    });
   }
 }

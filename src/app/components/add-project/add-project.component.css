@@ -1,0 +1,13 @@
+.add-course-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+  margin-top: 100px;
+  padding-left: 500px;
+}
+
+.form-item {
+  margin: 10px 0 10px 0;
+  width: 100%;
+  font-size: 18px;
+}

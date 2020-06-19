@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UserService} from '../../services/user.service';
 import {FormBuilder} from '@angular/forms';
@@ -18,6 +18,9 @@ export class EditProfileComponent implements OnInit {
   userID;
   user;
   editUserInfoForm;
+  serviceUrl;
+  picture: File = null;
+  imgSrc;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -25,8 +28,10 @@ export class EditProfileComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastrService: ToastrService,
     private sessionService: SessionService,
-    private router: Router
+    private router: Router,
+    @Inject('BASE_CONFIG') serviceUrl
   ) {
+    this.serviceUrl = serviceUrl;
   }
 
   ngOnInit(): void {
@@ -46,7 +51,6 @@ export class EditProfileComponent implements OnInit {
     // 获得user信息
     this.userService.getSingleUser(this.userID).subscribe( (res: RResponse) => {
       this.user = res.data;
-
     });
 
     // init form
@@ -54,8 +58,22 @@ export class EditProfileComponent implements OnInit {
   }
 
   onSubmit(userData) {
+    const formData = new FormData();
+    console.log(this.sessionService.get('userIdentity'));
+    formData.append('type', this.sessionService.get('userIdentity'));
+    formData.append('username', this.userID);
+    formData.append('password', userData.password);
+    formData.append('name', userData.name);
+    formData.append('gender', userData.gender);
+    formData.append('picture', this.picture);
+
+    console.log(this.picture);
+
+    userData.picture = this.picture;
+    console.log(formData);
+
     console.log('user data: ' + userData.userID);
-    this.userService.updateUser(userData).subscribe((response: RResponse) => {
+    this.userService.updateUser(formData).subscribe((response: RResponse) => {
       // 根据后端返回的状态码确定用户登录是否成功
       if (response.code === 200) {
         // 注册成功，弹出提示框
@@ -95,6 +113,10 @@ export class EditProfileComponent implements OnInit {
 
   // preview selected picture
   preview(event) {
+
+    this.picture = event.srcElement.files[0]; // 获取图片这里只操作一张图片
+    // this.imgSrc = window.URL.createObjectURL(this.picture); // 获取上传的图片临时路径
+
     let file;
     if (event.target.files[0]) {
       // tslint:disable-next-line:no-shadowed-variable
