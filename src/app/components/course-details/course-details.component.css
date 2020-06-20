@@ -16,7 +16,7 @@
 .project-list-container {
   display: flex;
   flex-flow:row wrap;
-  padding: 60px;
+  padding: 50px;
   /*justify-content:center;*/
   align-items:center;
 }

@@ -48,17 +48,17 @@ export class LoginComponent implements OnInit {
     // tslint:disable-next-line:triple-equals
     if (userData.type == 'admin') {
       // tslint:disable-next-line:triple-equals
-      if (userData.user_id != 'admin' || userData.password != '123456') {
-        this.toastrService.warning('用户名或密码不正确', '登录失败');
+      if (userData.user_id != 'root' || userData.password != '123456') {
+        this.toastrService.error('用户名或密码不正确', '登录失败');
         return;
       } else {
         this.sessionService.put('userIdentity', userData.type);
         this.sessionService.put('userID', userData.user_id);
-        console.log('gg');
+
         this.toastrService.success('登录成功', '', {
           timeOut: 1000,
         });
-        this.router.navigate(['user/profile']);
+        this.router.navigate(['user-management']);
       }
 
     } else {

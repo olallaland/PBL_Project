@@ -71,7 +71,7 @@ export class CourseDetailDialogComponent implements OnInit {
         window.location.reload();
       } else {
         // 删除课程失败，弹出提示框
-        this.toastrService.warning(response.msg, '', {
+        this.toastrService.error(response.msg, '删除失败', {
           timeOut: 1500,
         });
       }

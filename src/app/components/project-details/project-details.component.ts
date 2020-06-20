@@ -170,8 +170,8 @@ export class ProjectDetailsComponent implements OnInit {
         value: this.projectInfo.descs,
         disabled: !this.isEditing,
       }],
-      number: [{
-        value: this.projectInfo.number,
+      amount: [{
+        value: this.projectInfo.amount,
         disabled: true,
       }],
       start: [{
@@ -246,6 +246,7 @@ export class ProjectDetailsComponent implements OnInit {
    * 获得组员任务完成情况
    */
   getMemberTaskComple() {
+    this.memberTaskInfo = [];
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.studentList.length; i++) {
       if (this.sessionService.get('userIdentity') === 'student') {
@@ -405,6 +406,14 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   /**
+   * 刷新评分面板
+   */
+  refreshScoreList() {
+    this.getMemberTaskComple();
+    this.getMemberScore();
+  }
+
+  /**
    * 获取文件列表
    */
   getFileList() {
@@ -427,6 +436,10 @@ export class ProjectDetailsComponent implements OnInit {
       if (res.code === 200) {
         this.refreshFileList();
         this.toastrService.success('删除成功', '', {
+          timeOut: 1500,
+        });
+      } else {
+        this.toastrService.error(res.msg, '删除失败', {
           timeOut: 1500,
         });
       }

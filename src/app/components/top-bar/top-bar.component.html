@@ -14,7 +14,19 @@
   </button>
 
   <mat-menu #actions="matMenu">
-    <button mat-menu-item [routerLink]="['user/profile', this.sessionService.get('userID')]">个人主页</button>
+    <button mat-menu-item
+            [routerLink]="['user/profile', this.sessionService.get('userID')]"
+            *ngIf="sessionService.get('userIdentity') == 'student' ||
+            sessionService.get('userIdentity') == 'teacher'"
+    >个人主页
+    </button>
+
+    <button mat-menu-item
+            [routerLink]="['user-management']"
+            *ngIf="sessionService.get('userIdentity') == 'admin'"
+    >用户管理
+    </button>
+
     <button mat-menu-item (click)="logout()" [routerLink]="['user/login']">退出</button>
   </mat-menu>
 

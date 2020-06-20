@@ -1,0 +1,20 @@
+
+<h1 mat-dialog-title>{{ data.user_type + ' ' + data.user_id }}用户详情</h1>
+
+<div mat-dialog-content>
+  <p>用户类型：{{data.user_type}}</p>
+  <p>学号/教职工号：{{ data.user_id }}</p>
+  <p>用户名：{{ data.user_name }}</p>
+  <p>性别：
+    <span *ngIf="data.gender == 'F'">女</span>
+    <span *ngIf="data.gender == 'M'">男</span>
+  </p>
+</div>
+<div mat-dialog-actions>
+  <button *ngIf="sessionService.get('userIdentity') == 'admin'"
+          (click)="deleteUser(data.user_type, data.user_id)"
+          mat-button>
+    删除用户
+  </button>
+  <button mat-button (click)="onNoClick()" cdkFocusInitial>关闭</button>
+</div>

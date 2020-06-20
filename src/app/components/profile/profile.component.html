@@ -3,8 +3,7 @@
   <mat-card class="userinfo-card">
     <!-- 如果用户未设置头像，就设置为默认的头像 -->
     <div *ngIf="user.picture == null || user.picture == ''">
-      <img mat-card-image src="../../../assets/files/green1.jpg" alt="头像">
-<!--      <img mat-card-image src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1804608256,3242520732&fm=26&gp=0.jpg" alt="头像">-->
+      <img mat-card-image src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1804608256,3242520732&fm=26&gp=0.jpg" alt="头像">
     </div>
 
     <div *ngIf="user.picture != null && user.picture != ''">

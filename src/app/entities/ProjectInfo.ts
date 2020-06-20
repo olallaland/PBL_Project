@@ -6,5 +6,5 @@ export interface ProjectInfo {
   start_time: string;
   end_time: string;
   desc: string;
-  count: number;
+  amount: number;
 }

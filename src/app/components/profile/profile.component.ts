@@ -5,6 +5,7 @@ import {UserService} from '../../services/user.service';
 import {SuccessfulResponse} from '../../entities/SuccessfulResponse';
 import {User} from '../../entities/User';
 import {RResponse} from '../../entities/RResponse';
+import {filterErrorsAndWarnings} from '@angular/compiler-cli';
 
 @Component({
   selector: 'app-profile',
@@ -43,9 +44,22 @@ export class ProfileComponent implements OnInit {
 
     console.log('userID: ' + this.userID);
 
-    this.userService.getSingleUser(this.userID).subscribe( (res: RResponse ) => {
-      this.user = res.data;
+    this.initUser(this.userID);
+
+  }
+
+  initUser(userID) {
+    const that = this;
+    // tslint:disable-next-line:only-arrow-functions
+    this.userService.getSingleUser(this.userID).subscribe(async function(res: RResponse) {
+      console.log('dd');
+      that.user = await res.data;
+      console.log('mm');
+      // tslint:disable-next-line:only-arrow-functions
+    }, function(err) {
+      console.log(err);
     });
+    console.log('gg');
   }
 
 }

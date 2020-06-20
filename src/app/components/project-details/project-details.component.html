@@ -20,15 +20,15 @@
     </mat-toolbar-row>
 
     <mat-toolbar-row class="sidebar-row">
-      <button mat-button  (click)="changeTab(4)">讨论</button>
+      <button mat-button (click)="changeTab(4)">讨论</button>
     </mat-toolbar-row>
 
     <mat-toolbar-row class="sidebar-row">
-      <button mat-button  (click)="changeTab(5)">评分</button>
+      <button mat-button (click)="changeTab(5)">评分</button>
     </mat-toolbar-row>
 
     <mat-toolbar-row class="sidebar-row">
-      <button mat-button  (click)="changeTab(6)">文件管理</button>
+      <button mat-button (click)="changeTab(6)">文件管理</button>
     </mat-toolbar-row>
 
   </mat-toolbar>
@@ -48,29 +48,36 @@
 
       <mat-form-field>
         <label for="descs"> 项目简介: </label>
-        <textarea matInput type="text" [(ngModel)]="projectInfo.descs" formControlName="descs" id="descs" required></textarea>
+        <textarea matInput type="text" [(ngModel)]="projectInfo.descs" formControlName="descs" id="descs"
+                  required></textarea>
       </mat-form-field>
 
       <mat-form-field>
-        <label for="number"> 项目人数: </label>
-        <input matInput type="number" [(ngModel)]="projectInfo.number" formControlName="number" id="number" readonly>
+        <label for="amount"> 项目人数: </label>
+        <input matInput type="number" [(ngModel)]="projectInfo.amount" formControlName="amount" id="amount" readonly>
       </mat-form-field>
 
       <mat-form-field>
         <label for="PJStart"> 项目开始时间: </label>
-        <input matInput type="date" [(ngModel)]="projectInfo.start" formControlName="start" id="PJStart" readonly required>
+        <input matInput type="date" [(ngModel)]="projectInfo.start" formControlName="start" id="PJStart" readonly
+               required>
       </mat-form-field>
 
       <mat-form-field>
         <label for="PJEnd"> 项目结束时间: </label>
-        <input matInput type="date" [(ngModel)]="projectInfo.end" [min]="projectInfo.start" formControlName="end" id="PJEnd">
+        <input matInput type="date" [(ngModel)]="projectInfo.end" [min]="projectInfo.start" formControlName="end"
+               id="PJEnd">
       </mat-form-field>
 
-      <button mat-raised-button type="submit" *ngIf="isEditing == true" color="primary" style="float: right"> 保存修改 </button>
+      <button mat-raised-button type="submit" *ngIf="isEditing == true" color="primary" style="float: right"> 保存修改
+      </button>
     </form>
 
     <!-- 切换到编辑模式 -->
-    <button *ngIf="sessionService.get('userIdentity') != 'student' && isEditing == false" mat-raised-button (click)="changeEdit()">
+    <button *ngIf="sessionService.get('userIdentity') != 'student' &&
+            isEditing == false"
+            mat-raised-button
+            (click)="changeEdit()">
       <mat-icon> border_color</mat-icon>
       修改
     </button>
@@ -80,7 +87,7 @@
   <div class="tab-content">
     <mat-list>
       <h3 mat-subheader>组长</h3>
-      <mat-list-item >
+      <mat-list-item>
         <p mat-line> {{ captain.name }} ({{ captain.student_id }}) </p>
       </mat-list-item>
       <mat-divider></mat-divider>
@@ -100,14 +107,13 @@
     <button
       mat-raised-button color="primary"
       (click)="openDialog('task')"
-      *ngIf="sessionService.get('userIdentity') == 'admin' ||
-       sessionService.get('userIdentity') == 'teacher' ||
+      *ngIf="sessionService.get('userIdentity') == 'teacher' ||
        sessionService.get('userID') == captain.student_id">
       添加任务
     </button>
 
     <button mat-raised-button (click)="refreshTaskList()">
-      <mat-icon> autorenew </mat-icon>
+      <mat-icon> autorenew</mat-icon>
       刷新
     </button>
     <br><br><br>
@@ -175,7 +181,7 @@
     </button>
 
     <button mat-raised-button (click)="refreshDisList()">
-      <mat-icon> autorenew </mat-icon>
+      <mat-icon> autorenew</mat-icon>
       刷新
     </button>
     <br><br><br>
@@ -188,7 +194,7 @@
             讨论主题：{{ discussion.title }}
           </mat-panel-title>
           <mat-panel-description>
-           发起人:{{ discussion.initiator }}
+            发起人:{{ discussion.initiator }}
           </mat-panel-description>
           <mat-panel-description>
             发起时间:{{ discussion.start }}
@@ -199,7 +205,7 @@
         <mat-card style="background-color: rgba(0, 0, 0, 0.2);">
           <mat-card-content>
             <p>
-            问题描述: <br>{{ discussion.question }}
+              问题描述: <br>{{ discussion.question }}
             </p>
           </mat-card-content>
         </mat-card>
@@ -208,7 +214,7 @@
         <mat-list>
           <section *ngFor="let reply of discussion.answerList; index as replyIndex">
             <h3 mat-subheader>{{ reply.user_id }}   {{ reply.answer_time }}</h3>
-            <mat-list-item >
+            <mat-list-item>
               <p>
                 {{ reply.content }}
               </p>
@@ -219,12 +225,15 @@
 
         <!-- 回复讨论框 -->
 
-        <mat-form-field style="width: 100%">
+        <mat-form-field style="width: 100%" *ngIf="sessionService.get('userIdentity') != 'admin'">
           <label>
             <textarea matInput placeholder="Enter your comment" [(ngModel)]="replyContent" required></textarea>
           </label>
         </mat-form-field>
-        <button mat-raised-button (click)="addReply(discussion.discussion_id)">回复</button>
+        <button mat-raised-button
+                (click)="addReply(discussion.discussion_id)"
+                *ngIf="sessionService.get('userIdentity') != 'admin'"
+        >回复</button>
 
       </mat-expansion-panel>
     </mat-accordion>
@@ -232,6 +241,13 @@
 
   <!-- 评分面板 -->
   <div class="tab-content">
+
+    <button mat-raised-button (click)="refreshScoreList()">
+      <mat-icon> autorenew</mat-icon>
+      刷新
+    </button>
+    <br><br><br>
+
     <mat-accordion>
       <mat-expansion-panel *ngFor="let student of memberTaskInfo; index as studentIndex">
         <mat-expansion-panel-header>
@@ -250,19 +266,19 @@
         <table mat-table [dataSource]="student.taskInfo" class="task-table">
           <!-- id Column -->
           <ng-container matColumnDef="mission_id">
-            <th mat-header-cell *matHeaderCellDef> 任务编号 </th>
+            <th mat-header-cell *matHeaderCellDef> 任务编号</th>
             <td mat-cell *matCellDef="let element"> {{ element.mission_id }} </td>
           </ng-container>
 
           <!-- Name Column -->
           <ng-container matColumnDef="mission_name">
-            <th mat-header-cell *matHeaderCellDef> 任务名称 </th>
+            <th mat-header-cell *matHeaderCellDef> 任务名称</th>
             <td mat-cell *matCellDef="let element"> {{ element.mission_name }} </td>
           </ng-container>
 
           <!-- status Column -->
           <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef> 完成情况 </th>
+            <th mat-header-cell *matHeaderCellDef> 完成情况</th>
             <td mat-cell *matCellDef="let element"> {{ element.status }} </td>
           </ng-container>
 
@@ -296,47 +312,48 @@
     <table mat-table [dataSource]="fileList" class="file-table">
       <!-- id Column -->
       <ng-container matColumnDef="file_id">
-        <th mat-header-cell *matHeaderCellDef> 文件编号 </th>
+        <th mat-header-cell *matHeaderCellDef> 文件编号</th>
         <td mat-cell *matCellDef="let element"> {{ element.file_id }} </td>
       </ng-container>
 
       <!-- Name Column -->
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> 文件名称 </th>
+        <th mat-header-cell *matHeaderCellDef> 文件名称</th>
         <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
       </ng-container>
 
       <!-- upload time Column -->
       <ng-container matColumnDef="upload_date">
-        <th mat-header-cell *matHeaderCellDef> 上传时间 </th>
+        <th mat-header-cell *matHeaderCellDef> 上传时间</th>
         <td mat-cell *matCellDef="let element"> {{ element.upload_date }} </td>
       </ng-container>
 
       <!-- uploader Column -->
       <ng-container matColumnDef="user_id">
-        <th mat-header-cell *matHeaderCellDef> 上传者 </th>
+        <th mat-header-cell *matHeaderCellDef> 上传者</th>
         <td mat-cell *matCellDef="let element"> {{ element.user_id }} </td>
       </ng-container>
 
       <!-- file size Column -->
       <ng-container matColumnDef="size">
-        <th mat-header-cell *matHeaderCellDef> 文件大小 </th>
-        <td mat-cell *matCellDef="let element"> {{ element.size }} B </td>
+        <th mat-header-cell *matHeaderCellDef> 文件大小</th>
+        <td mat-cell *matCellDef="let element"> {{ element.size }} B</td>
       </ng-container>
 
       <!-- file desc Column -->
       <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef> 文件描述 </th>
+        <th mat-header-cell *matHeaderCellDef> 文件描述</th>
         <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
       </ng-container>
 
       <!-- option Column -->
-      <ng-container matColumnDef="option" *ngIf="sessionService.get('userIdentity') != 'admin'">
-        <th mat-header-cell *matHeaderCellDef> 操作 </th>
+      <ng-container matColumnDef="option">
+        <th mat-header-cell *matHeaderCellDef> 操作</th>
         <td mat-cell *matCellDef="let element">
 
           <!-- 下载按钮 -->
-          <button mat-stroked-button>
+          <button mat-stroked-button
+                  *ngIf="sessionService.get('userIdentity') != 'admin'">
             <a
               href="{{this.baseUrl}}{{element.path}}"
               download="{{ element.name }}"
@@ -344,9 +361,16 @@
             </a>
           </button>
 
+          <!-- 下载按钮 -->
+          <button *ngIf="sessionService.get('userIdentity') == 'admin'"
+                  mat-stroked-button disabled>
+            下载
+          </button>
+
           <!-- 删除按钮 -->
           <button *ngIf="element.user_id == sessionService.get('userID') ||
-                          sessionService.get('userIdentity') == 'teacher'"
+                          sessionService.get('userIdentity') == 'teacher' &&
+                          sessionService.get('userIdentity') != 'admin'"
                   mat-stroked-button color="warn"
                   (click)="deleteFile(element.file_id)"
           >删除
@@ -359,11 +383,14 @@
     </table>
 
     <button mat-raised-button (click)="refreshFileList()">
-      <mat-icon> autorenew </mat-icon>
+      <mat-icon> autorenew</mat-icon>
       刷新
     </button>
     <!--上传文件按钮-->
-    <button mat-raised-button color="primary" (click)="openDialog('file')"> 上传文件 </button>
+    <button mat-raised-button color="primary"
+            (click)="openDialog('file')"
+            *ngIf="sessionService.get('userIdentity') != 'admin'"
+    > 上传文件</button>
 
   </div>
 </section>

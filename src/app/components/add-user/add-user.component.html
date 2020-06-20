@@ -1,0 +1,47 @@
+
+<form class="add-user-form"
+      [formGroup]="addUserForm"
+      (ngSubmit)="onSubmit(addUserForm.value)"
+      enctype="multipart/form-data"
+      ngNativeValidate>
+  <h1>请输入用户信息</h1>
+
+  <!--type-->
+  <mat-form-field class="add-user-item">
+    <mat-select matNativeControl required id="type" formControlName="type">
+      <mat-option value="student">学生</mat-option>
+      <mat-option value="teacher">教师</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!--username-->
+  <mat-form-field class="add-user-item">
+    <input matInput placeholder="请输入用户名" id="username" formControlName="username" required>
+  </mat-form-field>
+
+  <!--user password-->
+  <mat-form-field class="add-user-item">
+    <input matInput placeholder="请输入密码" type="password" id="password" formControlName="password" required>
+  </mat-form-field>
+
+  <!--user name-->
+  <mat-form-field class="add-user-item">
+    <input matInput placeholder="请输入姓名" id="name" formControlName="name" required>
+  </mat-form-field>
+
+  <!--user gender-->
+  <mat-radio-group class="add-user-item" id="gender" formControlName="gender">
+    <mat-radio-button class="radio-button" value="M">男</mat-radio-button>
+    <mat-radio-button class="radio-button" value="F">女</mat-radio-button>
+  </mat-radio-group>
+
+  <!--profile photo-->
+  <input class="add-user-item" name="请选择头像" id="picture" type="file" formControlName="picture"
+         accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" (change)="preview($event)">
+  <p id="addImageAlert"></p>
+  <img *ngIf="picture != null" id="imgPreview" style="width: 250px; height: 250px; border: solid 1px;" /><br>
+
+  <button mat-raised-button class="add-user-item" color="primary" type="submit">注册</button>
+</form>
+
+

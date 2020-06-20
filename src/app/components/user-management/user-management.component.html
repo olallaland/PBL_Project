@@ -1,0 +1,34 @@
+<div class="user-list-container">
+
+  <!-- add user button-->
+  <div *ngIf="sessionService.get('userIdentity') == 'admin'"
+       class="user-card"
+       matRipple>
+    <mat-card>
+      <mat-card-actions id="add-user">
+        <button mat-fab color="primary" [routerLink]="['/user/add-user']" alt="添加用户"> + </button>
+      </mat-card-actions>
+
+    </mat-card>
+  </div>
+
+  <div class="user-list" *ngFor="let user of userList; index as userIndex">
+    <mat-grid-list cols="4">
+      <mat-grid-tile>
+        <div *ngIf="user.picture == null || user.picture == ''">
+          <img mat-card-image src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1804608256,3242520732&fm=26&gp=0.jpg" alt="头像">
+        </div>
+
+        <div *ngIf="user.picture != null && user.picture != ''">
+          <img mat-card-image src="{{serviceUrl}}{{user.picture}}" alt="头像">
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>{{ user.user_id }}</mat-grid-tile>
+      <mat-grid-tile>{{ user.user_type }}</mat-grid-tile>
+      <mat-grid-tile>
+        <button mat-stroked-button color="primary" (click)="openDialog(userIndex)">查看详情</button>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+
+</div>

@@ -50,6 +50,11 @@ import {TaskService} from './services/task.service';
 import {DiscussionService} from './services/discussion.service';
 import {FileService} from './services/file.service';
 import { AddProjectComponent } from './components/add-project/add-project.component';
+import {UserManagementComponent} from './components/user-management/user-management.component';
+import {UserManagementService} from './services/user-management.service';
+import {UserDetailDialogComponent } from './components/dialogs/user-detail-dialog/user-detail-dialog.component';
+import {AddUserComponent} from './components/add-user/add-user.component';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -69,7 +74,10 @@ import { AddProjectComponent } from './components/add-project/add-project.compon
     ScoreDialogComponent,
     ProfileComponent,
     EditProfileComponent,
-    AddProjectComponent
+    AddProjectComponent,
+    UserManagementComponent,
+    UserDetailDialogComponent,
+    AddUserComponent
   ],
     imports: [
         BrowserModule,
@@ -93,6 +101,8 @@ import { AddProjectComponent } from './components/add-project/add-project.compon
             {path: 'project/details/:courseID/:projectID', component: ProjectDetailsComponent},
             {path: 'project/add/:courseID', component: AddProjectComponent},
             {path: 'course/add', component: AddCourseComponent},
+            {path: 'user-management', component: UserManagementComponent},
+            {path: 'user/add-user', component: AddUserComponent}
         ]),
         MatCardModule,
         MatDialogModule,
@@ -123,12 +133,17 @@ import { AddProjectComponent } from './components/add-project/add-project.compon
         FormsModule
     ],
   providers: [CourseService, SessionService, FormBuilder, MatMenuModule, ProjectService, UserService, TaskService,
-             DiscussionService, FileService,
+             DiscussionService, FileService, UserManagementService,
     {
       provide: 'BASE_CONFIG',
       // 3.94.89.139 localhost
-      useValue: 'http://localhost:8080'
-    }],
+      useValue: 'http://3.94.89.139:8089'
+    },
+    {
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

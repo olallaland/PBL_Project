@@ -1,36 +1,21 @@
 
 export class UserInfo {
-  code: number;
-  message: string;
-  type: string;
-  userID: string;
-  password: string;
-  name: string;
+  // tslint:disable-next-line:variable-name
+  user_type: string;
+  // tslint:disable-next-line:variable-name
+  user_id: string;
+  // tslint:disable-next-line:variable-name
+  user_name: string;
   gender: string;
+  password: string;
   picture: string;
-  // public constructor(
-  //   fields?: {
-  //     id: number,
-  //     userName: string,
-  //     password: string
-  //   }) {
-  //   // tslint:disable-next-line:curly
-  //   if (fields) Object.assign(this, fields);
-  // }
 
-  // tslint:disable-next-line:max-line-length
-  constructor(code: number, message: string, type: string, userID: string, password: string, name: string, gender: string, picture: string) {
-    this.code = code;
-    this.message = message;
-    this.type = type;
-    this.userID = userID;
+  // tslint:disable-next-line:variable-name
+  constructor(user_type: string, user_id: string, user_name: string, password: string, picture: string) {
+    this.user_type = user_type;
+    this.user_id = user_id;
+    this.user_name = user_name;
     this.password = password;
-    this.name = name;
-    this.gender = gender;
     this.picture = picture;
   }
-
-// public constructor(name: string) {
-  //   this.userName = name;
-  // }
 }

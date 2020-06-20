@@ -73,7 +73,7 @@ export class CourseDetailsComponent implements OnInit {
         start_time: this.projectList[index].start,
         end_time: this.projectList[index].end,
         desc: this.projectList[index].descs,
-        count: this.projectList[index].count
+        amount: this.projectList[index].amount
       }
     });
 

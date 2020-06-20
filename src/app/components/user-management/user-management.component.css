@@ -1,0 +1,23 @@
+.user-card {
+  width: 100%;
+  max-width: 100%;
+  margin: 10px;
+  text-align: center;
+}
+
+mat-grid-tile {
+  width: 500px;
+  height: 50px;
+  display: block;
+  margin: 10px;
+  background: rgba(242, 247, 242, 0.5);
+}
+
+img {
+  max-width: 320px;
+  max-height: 320px;
+  min-width: 320px;
+  min-height: 320px;
+  box-shadow: 0 0 8px 2px rgba(142, 85, 114, 0.75);
+}
+

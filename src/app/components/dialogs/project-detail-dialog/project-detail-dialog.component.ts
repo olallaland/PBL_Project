@@ -40,6 +40,14 @@ export class ProjectDetailDialogComponent implements OnInit {
   }
 
   joinProject() {
+    if (this.data.amount >= 4) {
+     // 加入项目失败，弹出提示框
+      this.toastrService.warning('项目人数已满', '加入失败', {
+        timeOut: 1500,
+      });
+      return;
+    }
+
     this.projectService.joinProject(this.data.course_id, this.data.pj_id,
       this.sessionService.get('userID')).subscribe((response: RResponse) => {
       if (response.code === 200) {
@@ -71,7 +79,7 @@ export class ProjectDetailDialogComponent implements OnInit {
         window.location.reload();
       } else {
         // 删除项目失败，弹出提示框
-        this.toastrService.warning(response.msg, '删除失败', {
+        this.toastrService.error(response.msg, '删除失败', {
           timeOut: 1500,
         });
       }
@@ -80,7 +88,8 @@ export class ProjectDetailDialogComponent implements OnInit {
 
   showJoinButton(): boolean {
     return this.sessionService.get('userIdentity') === 'student' &&
-      this.studentList.indexOf(this.sessionService.get('userID')) === -1;
+      this.studentList.indexOf(this.sessionService.get('userID')) === -1
+      && this.data.amount < 4;
   }
 
   showEnterButton(): boolean {
