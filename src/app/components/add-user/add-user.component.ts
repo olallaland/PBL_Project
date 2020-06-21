@@ -97,7 +97,7 @@ export class AddUserComponent implements OnInit {
     formData.append('gender', userData.gender);
     formData.append('picture', this.picture);
 
-    console.log(formData);
+    // console.log(formData);
 
     this.userService.register(formData).subscribe((response: RResponse) => {
       // 根据后端返回的状态码确定用户注册是否成功
@@ -112,9 +112,8 @@ export class AddUserComponent implements OnInit {
       } else {
         // 注册失败，弹出提示框
         this.toastrService.error(response.msg, '添加用户失败', {
-          timeOut: 2000,
+          timeOut: 1500,
         });
-        console.log(response.code);
       }
     }, (err) => {
       console.log(err);

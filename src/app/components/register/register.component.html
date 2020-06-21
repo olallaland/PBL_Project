@@ -29,8 +29,11 @@
   </mat-radio-group>
 
   <!--profile photo-->
-  <input class="register-item" name="请选择头像" id="picture" type="file" formControlName="picture"
-         accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" (change)="preview($event)">
+  <input class="register-item"
+         name="请选择头像" id="picture" type="file" formControlName="picture"
+         accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"
+         (change)="preview($event)">
+
   <p id="addImageAlert"></p>
   <img *ngIf="picture != null" id="imgPreview" style="width: 250px; height: 250px; border: solid 1px;" /><br>
 

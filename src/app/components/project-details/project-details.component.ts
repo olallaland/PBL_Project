@@ -1,7 +1,6 @@
 import {Component, ElementRef, Inject, OnInit} from '@angular/core';
 import {SessionService} from '../../services/session.service';
 import {FormBuilder} from '@angular/forms';
-import {ProjectDetailDialogComponent} from '../dialogs/project-detail-dialog/project-detail-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {AddTaskDialogComponent} from '../dialogs/add-task-dialog/add-task-dialog.component';
 import {CreateDiscussionDialogComponent} from '../dialogs/create-discussion-dialog/create-discussion-dialog.component';
@@ -15,20 +14,12 @@ import {DiscussionService} from '../../services/discussion.service';
 import {FileService} from '../../services/file.service';
 import {ToastrService} from 'ngx-toastr';
 import {ProjectFile} from '../../entities/ProjectFile';
-import {config} from 'rxjs';
 
 export interface Task {
   id: number;
   name: string;
   status: string;
 }
-
-const ELEMENT_DATA: Task[] = [
-  {id: 1, name: 'Hydrogen', status: 'finish'},
-  {id: 2, name: 'Helium', status: 'overtime'},
-  {id: 3, name: 'Lithium', status: 'finish'},
-  {id: 4, name: 'Beryllium', status: 'undo'},
-];
 
 @Component({
   selector: 'app-project-details',
@@ -43,7 +34,6 @@ export class ProjectDetailsComponent implements OnInit {
   panelOpenState = false;
 
   displayedTaskColumns: string[] = ['mission_id', 'mission_name', 'status'];
-  taskInfo = ELEMENT_DATA;
 
   displayedFileColumns: string[] = ['file_id', 'name', 'user_id', 'upload_date', 'size', 'description', 'option'];
 
@@ -95,14 +85,13 @@ export class ProjectDetailsComponent implements OnInit {
     @Inject('BASE_CONFIG') bgConfig
   ) {
     this.baseUrl = bgConfig;
-  }
-
-  ngOnInit(): void {
     // 限制未登录的用户打开本页面
     if (this.sessionService.get('userID') == null) {
       this.router.navigate(['user/login']);
     }
+  }
 
+  ngOnInit(): void {
     // tab 切换
     this.tabs = this.elementRef.nativeElement.querySelectorAll('.sidebar-row');
     this.contents = this.elementRef.nativeElement.querySelectorAll('.tab-content');
@@ -113,21 +102,19 @@ export class ProjectDetailsComponent implements OnInit {
     this.activatedRoute.params.subscribe((data) => {
       this.courseID = data.courseID;
       this.projectID = data.projectID;
-      console.log('inner course id: ' + this.courseID);
-      console.log('inner pj id: ' + this.projectID);
     });
 
     // 根据course ID 和 pj id 获得pj 信息
     this.projectService.getProjectInfo(this.courseID, this.projectID).subscribe((res: RResponse) => {
       this.projectInfo = res.data;
       this.captain.student_id = this.projectInfo.captain;
-      console.log(this.projectInfo);
+      // console.log(this.projectInfo);
       this.createPJInfoForm();
     });
 
     // 获取参与与该项目的学生列表
     this.projectService.getProjectMembers(this.courseID, this.projectID).subscribe((response: RResponse) => {
-      console.log(response);
+      // console.log(response);
       if (response.code === 200) {
         this.studentList = response.data;
         // 组长
@@ -193,11 +180,7 @@ export class ProjectDetailsComponent implements OnInit {
    * @parameter index
    */
   changeTab(index) {
-    console.log(index);
-    // console.log(this.tabs);
-    // console.log(this.contents);
-    // console.log(this.tabs[index]);
-    // console.log(this.contents[index]);
+    // console.log(index);
     for (let i = 0; i < this.tabs.length; i++) {
       // tslint:disable-next-line:triple-equals
       if (i == index) {
@@ -216,7 +199,7 @@ export class ProjectDetailsComponent implements OnInit {
   getTaskList() {
     this.taskService.getTaskList(this.courseID, this.projectID).subscribe((res: RResponse) => {
       this.taskList = res.data;
-      console.log('tasks: ' + res.data);
+      // console.log('tasks: ' + res.data);
       // console.log(this.taskList);
     });
   }
@@ -239,7 +222,6 @@ export class ProjectDetailsComponent implements OnInit {
     });
     this.isEditing = false;
     this.createPJInfoForm();
-    console.log(projectData);
   }
 
   /**
@@ -261,10 +243,10 @@ export class ProjectDetailsComponent implements OnInit {
           }
         });
       } else {
-        console.log(this.studentList[i].student_id);
+        // console.log(this.studentList[i].student_id);
         this.taskService.getStudentTasks(this.courseID, this.projectID,
           this.studentList[i].student_id).subscribe((response: RResponse) => {
-          console.log('user de: ' + response.data);
+          // console.log('user de: ' + response.data);
           const singleStudent = {
             student: this.studentList[i],
             taskInfo: response.data
@@ -283,10 +265,10 @@ export class ProjectDetailsComponent implements OnInit {
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.studentList.length; i++) {
       if (this.sessionService.get('userIdentity') === 'student') {
-        console.log(this.studentList[i].student_id);
+        // console.log(this.studentList[i].student_id);
         this.projectService.getStudentScore(this.courseID, this.projectID,
           this.studentList[i].student_id).subscribe((response: RResponse) => {
-          console.log('score de de de : ' + response.data);
+          // console.log('score de de de : ' + response.data);
 
           const singleStudent = {
             student: this.studentList[i],
@@ -297,11 +279,9 @@ export class ProjectDetailsComponent implements OnInit {
           }
         });
       } else {
-        console.log(this.studentList[i].student_id);
+        // console.log(this.studentList[i].student_id);
         this.projectService.getStudentScore(this.courseID, this.projectID,
           this.studentList[i].student_id).subscribe((response: RResponse) => {
-          console.log('score de de de : ' + response.data);
-
           const singleStudent = {
             student: this.studentList[i],
             score: response.data
@@ -325,17 +305,26 @@ export class ProjectDetailsComponent implements OnInit {
    */
   updateTask(taskIndex, item, value) {
     if (item === 'status') {
-      console.log(this.taskList[taskIndex].status);
+      // console.log(this.taskList[taskIndex].status);
       this.taskList[taskIndex].status = value;
-      console.log(this.taskList[taskIndex].status);
+      // console.log(this.taskList[taskIndex].status);
     } else if (item === 'stu_id') {
-      console.log(this.taskList[taskIndex].status);
+      // console.log(this.taskList[taskIndex].status);
       this.taskList[taskIndex].stu_id = value;
-      console.log(this.taskList[taskIndex].status);
+      // console.log(this.taskList[taskIndex].status);
     }
 
     this.taskService.updateTask(this.taskList[taskIndex]).subscribe((response: RResponse) => {
-      console.log(response);
+      if (response.code === 200) {
+        this.toastrService.success('更新成功', '', {
+          timeOut: 1500,
+        });
+      } else {
+        this.toastrService.warning('更新失败', '', {
+          timeOut: 1500,
+        });
+      }
+      // console.log(response);
     });
   }
 
@@ -345,7 +334,7 @@ export class ProjectDetailsComponent implements OnInit {
   getDiscussionList() {
     this.discussionService.getDiscussionList(this.courseID, this.projectID).subscribe((res: RResponse) => {
       this.discussionList = res.data;
-      console.log('discussions: ' + res.data);
+      // console.log('discussions: ' + res.data);
 
       // 获取每个讨论的回复列表
       for (let i = 0; i < this.discussionList.length; i++) {
@@ -368,7 +357,7 @@ export class ProjectDetailsComponent implements OnInit {
    */
   getReplyList(index) {
     this.discussionService.getAnswerList(this.discussionList[index].discussion_id).subscribe((response: RResponse) => {
-      console.log('reply list: ' + response.data);
+      // console.log('reply list: ' + response.data);
       this.discussionList[index].answerList = response.data;
     });
   }
@@ -378,8 +367,8 @@ export class ProjectDetailsComponent implements OnInit {
    * @parameter discussionID
    */
   addReply(discussionID) {
-    console.log(discussionID);
-    console.log('content: ' + this.replyContent);
+    // console.log(discussionID);
+    // console.log('content: ' + this.replyContent);
     if (this.replyContent.trim() === '') {
       this.toastrService.warning('回复内容为空', '回复失败', {
         timeOut: 1500,
@@ -394,7 +383,7 @@ export class ProjectDetailsComponent implements OnInit {
       };
 
       this.discussionService.addAnswer(reply).subscribe((response: RResponse) => {
-        console.log(response);
+        // console.log(response);
         this.toastrService.success('回复成功！', '', {
           timeOut: 1500,
         });
@@ -420,7 +409,7 @@ export class ProjectDetailsComponent implements OnInit {
     // 获取项目的文件列表
     this.fileService.getFileList(this.courseID, this.projectID).subscribe((res: RResponse) => {
       this.fileList = res.data;
-      console.log(this.fileList);
+      // console.log(this.fileList);
     });
   }
 
@@ -429,10 +418,10 @@ export class ProjectDetailsComponent implements OnInit {
    * @parameter fileID
    */
   deleteFile(fileID) {
-    console.log('delete: ' + fileID);
+    // console.log('delete: ' + fileID);
     // 删除文件
     this.fileService.deleteFile(fileID).subscribe((res: RResponse) => {
-      console.log(res);
+      // console.log(res);
       if (res.code === 200) {
         this.refreshFileList();
         this.toastrService.success('删除成功', '', {
@@ -534,7 +523,7 @@ export class ProjectDetailsComponent implements OnInit {
     } else {
       curDateTime = date.getFullYear() + '-' + month + '-' + date.getDate() + 'T' + date.getHours() + ':' + date.getMinutes();
     }
-    console.log(curDateTime);
+    // console.log(curDateTime);
     return curDateTime;
   }
 }

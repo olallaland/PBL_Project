@@ -16,6 +16,8 @@ export class AddCourseComponent implements OnInit {
 
   addCourseForm;
   teacherList;
+  currentTeacher;
+  currentDate;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -25,6 +27,8 @@ export class AddCourseComponent implements OnInit {
     private courseService: CourseService,
     private toastrService: ToastrService
   ) {
+    this.currentTeacher = this.sessionService.get('userID');
+    this.currentDate = this.getCurrentDate();
     this.createAddCourseForm();
   }
 
@@ -38,26 +42,42 @@ export class AddCourseComponent implements OnInit {
     this.userService.getTeacherList().subscribe( (res: RResponse) => {
       this.teacherList = res.data;
     });
-
   }
 
   createAddCourseForm() {
     this.addCourseForm = this.formBuilder.group({
       course_id: '',
       course_name: '',
-      teacher_id: [{value: this.sessionService.get('userID'), disabled: false}],
+      teacher_id: this.currentTeacher,
       desc: '',
       exam_time: '',
       course_time: ''
     });
   }
 
+  /**
+   * 获取当前时间并格式化，作为项目开始时间
+   */
+  getCurrentDate() {
+    const date = new Date();
+    const month = date.getMonth() + 1;
+    let curDateTime = '';
+
+    if (month < 10) {
+      curDateTime = date.getFullYear() + '-' + '0' + month + '-' + date.getDate();
+    } else {
+      curDateTime = date.getFullYear() + '-' + month + '-' + date.getDate();
+    }
+    console.log(curDateTime);
+    return curDateTime;
+  }
+
   onSubmit(courseData) {
     console.log(courseData);
-    console.log('submit');
+    // console.log('submit');
 
     this.courseService.createCourse(courseData).subscribe((response: RResponse) => {
-      console.log(response);
+      // console.log(response);
       if (response.code === 200) {
         // 创建成功，弹出提示框
         this.toastrService.success('创建成功', '', {

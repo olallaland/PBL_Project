@@ -11,7 +11,7 @@
     <input matInput type="text" formControlName="course_name" id="course-name" required>
   </mat-form-field>
 
-  <mat-form-field class="form-item" *ngIf="sessionService.get('userIdentity') == 'teacher'">
+  <mat-form-field class="form-item" *ngIf="sessionService.get('userIdentity') == 'admin'">
     <label for="teacherSelect"> 请选择授课教师: </label>
     <mat-select matNativeControl id="teacherSelect" formControlName="teacher_id" required>
       <mat-option *ngFor="let teacher of teacherList" [value]="teacher.teacher_id">
@@ -20,9 +20,9 @@
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field class="form-item" *ngIf="sessionService.get('userIdentity') == 'admin'">
+  <mat-form-field class="form-item" *ngIf="sessionService.get('userIdentity') == 'teacher'">
     <label for="teacher"> 请选择授课教师: </label>
-    <input matInput type="text" formControlName="teacher" id="teacher" required>
+    <input matInput type="text" [(ngModel)]="currentTeacher" formControlName="teacher_id" id="teacher" readonly required>
   </mat-form-field>
 
   <mat-form-field class="form-item">
@@ -37,7 +37,7 @@
 
   <mat-form-field class="form-item">
     <label for="exam-time"> 请选择考试时间: </label>
-    <input matInput type="date" formControlName="exam_time" id="exam-time" required>
+    <input matInput type="date" formControlName="exam_time" [min]="currentDate" id="exam-time" required>
   </mat-form-field>
 
   <button class="form-item" mat-raised-button type="submit" color="primary"> 创建 </button>

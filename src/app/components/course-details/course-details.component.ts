@@ -25,9 +25,7 @@ export class CourseDetailsComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private courseService: CourseService,
-  ) { }
-
-  ngOnInit(): void {
+  ) {
     // 限制未登录的用户打开本页面
     if (this.sessionService.get('userID') == null) {
       this.router.navigate(['user/login']);
@@ -36,29 +34,25 @@ export class CourseDetailsComponent implements OnInit {
     // 获得url中的 course ID
     this.activatedRoute.params.subscribe((data) => {
       this.courseID = data.courseID;
-      console.log('inner course details: ' + this.courseID);
+      // console.log('inner course details: ' + this.courseID);
     });
 
-    console.log('course details: ' + this.courseID);
+    // console.log('course details: ' + this.courseID);
 
     // 根据course ID 获得课程信息
     this.courseService.getCourseByID(this.courseID).subscribe( (res: RResponse) => {
       this.courseInfo = res.data;
-      console.log(this.courseInfo);
+      // console.log(this.courseInfo);
     });
-
-    // // 限制非开课老师和选课学生查看项目列表
-    // if (this.sessionService.get('userID') !== this.courseInfo.teacher_id ||
-    //   this.studentList.indexOf(this.sessionService.get('userID')) === -1) {
-    //   console.log('you are not in this course');
-    //
-    // }
 
     // 根据course ID 获得pj list信息
     this.projectService.getProjectList(this.courseID).subscribe( (res: RResponse) => {
       this.projectList = res.data;
-      console.log(this.projectList);
+     // console.log(this.projectList);
     });
+  }
+
+  ngOnInit(): void {
   }
 
   openDialog(index): void {

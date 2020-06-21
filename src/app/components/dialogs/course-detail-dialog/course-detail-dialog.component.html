@@ -9,19 +9,18 @@
   <p>课程描述：{{ data.descs }}</p>
 </div>
 <div mat-dialog-actions>
-  <button mat-button
+  <button mat-button color="primary"
           *ngIf="showJoinButton()"
           (click)="joinCourse(data.course_id)"
   >加入课程</button>
 
   <button mat-button
-          [routerLink]="['course/details', data.course_id]"
-          (click)="onNoClick()"
+          (click)="enterCourse(data.course_id)"
           *ngIf="showEnterButton()"
   >进入课程</button>
 
   <button *ngIf="showDeleteButton()"
-          mat-button
+          mat-button color="warn"
           (click)="deleteCourse(data.course_id)"
   >删除课程</button>
 

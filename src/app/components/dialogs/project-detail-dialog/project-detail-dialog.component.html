@@ -10,16 +10,20 @@
     <p>项目描述：{{ data.desc }}</p>
   </div>
   <div mat-dialog-actions class="project-actions">
-    <button mat-button *ngIf="showJoinButton()" (click)="joinProject()">加入项目</button>
+    <button mat-button *ngIf="showJoinButton()"
+            (click)="joinProject()" color="primary"
+    >加入项目</button>
 
     <button mat-button *ngIf="showEnterButton()"
             [routerLink]="['project/details', data.course_id, data.pj_id]"
             (click)="onNoClick()"
+            color="primary"
     >进入项目</button>
 
-    <button *ngIf="sessionService.get('userIdentity') == 'teacher'"
+    <button *ngIf="sessionService.get('userIdentity') == 'teacher' ||
+            sessionService.get('userIdentity') == 'admin'"
             (click)="deleteProject()"
-            mat-button
+            mat-button color="warn"
     >删除项目</button>
 
     <button mat-button (click)="onNoClick()" cdkFocusInitial>关闭</button>

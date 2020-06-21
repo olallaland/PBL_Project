@@ -2,7 +2,6 @@ import { Component, OnInit, Inject} from '@angular/core';
 import { CourseService } from '../../services/course.service';
 import {CourseDetailDialogComponent} from '../dialogs/course-detail-dialog/course-detail-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {SessionService} from '../../services/session.service';
 import {Router} from '@angular/router';
 import {RResponse} from '../../entities/RResponse';
@@ -19,9 +18,7 @@ export class CourseListComponent implements OnInit {
     private dialog: MatDialog,
     public sessionService: SessionService,
     private router: Router
-  ) { }
-
-  ngOnInit(): void {
+  ) {
     // 限制未登录的用户打开本页面
     if (this.sessionService.get('userID') == null) {
       this.router.navigate(['user/login']);
@@ -32,34 +29,46 @@ export class CourseListComponent implements OnInit {
     if (this.router.url.startsWith('/user')) {
       this.courseService.getCourseList().subscribe( (res: RResponse) => {
         this.courseList = res.data;
-        console.log(this.courseList);
+        // console.log(this.courseList);
       });
     } else if (this.router.url.startsWith('/course')) {
       this.courseService.getAllCourse().subscribe( (res: RResponse) => {
         this.courseList = res.data;
-        console.log(this.courseList);
+        // console.log(this.courseList);
       });
     }
   }
 
-  openDialog(index): void {
-    const dialogRef = this.dialog.open(CourseDetailDialogComponent, {
-      minWidth: '500px',
-      minHeight: '300px',
-      data: {
-        course_id: this.courseList[index].course_id,
-        course_name: this.courseList[index].course_name,
-        teacher_name: this.courseList[index].teacher_name,
-        teacher_id: this.courseList[index].teacher_id,
-        exam_time: this.courseList[index].exam_time,
-        course_time: this.courseList[index].course_time,
-        descs: this.courseList[index].descs,
-        amount: this.courseList[index].amount
-      }
-    });
+  ngOnInit(): void {
+  }
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+  openDialog(index): void {
+    let studentList = [];
+
+    // 根据 course ID 获得选课学生列表
+    this.courseService.getCourseRoster(this.courseList[index].course_id).subscribe( (res: RResponse) => {
+      studentList = res.data;
+      // console.log(studentList);
+      // console.log('am I in this course?: ' + this.studentList.indexOf(this.sessionService.get('userID')));
+      const dialogRef = this.dialog.open(CourseDetailDialogComponent, {
+        minWidth: '500px',
+        minHeight: '300px',
+        data: {
+          student_list: studentList,
+          course_id: this.courseList[index].course_id,
+          course_name: this.courseList[index].course_name,
+          teacher_name: this.courseList[index].teacher_name,
+          teacher_id: this.courseList[index].teacher_id,
+          exam_time: this.courseList[index].exam_time,
+          course_time: this.courseList[index].course_time,
+          descs: this.courseList[index].descs,
+          amount: this.courseList[index].amount
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        // console.log('The dialog was closed');
+      });
     });
   }
 

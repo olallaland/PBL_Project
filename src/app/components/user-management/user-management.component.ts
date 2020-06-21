@@ -40,9 +40,9 @@ export class UserManagementComponent implements OnInit {
 
     // 展示所有用户
     this.userManagementService.getAllStudents().subscribe((res: RResponse) => {
-      console.log('student: ' + res.data);
+      // console.log('student: ' + res.data);
       this.studentList = res.data;
-      console.log(this.studentList);
+      // console.log(this.studentList);
 
       for (const student of this.studentList) {
         const user = {
@@ -58,9 +58,9 @@ export class UserManagementComponent implements OnInit {
     });
 
     this.userManagementService.getAllTeachers().subscribe((res: RResponse) => {
-      console.log('teacher: ' + res.data);
+      // console.log('teacher: ' + res.data);
       this.teacherList = res.data;
-      console.log(this.teacherList);
+      // console.log(this.teacherList);
 
       for (const teacher of this.teacherList) {
         const user = {

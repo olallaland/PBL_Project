@@ -26,6 +26,10 @@ export class RegisterComponent implements OnInit {
     private toastrService: ToastrService,
     private http: HttpClient
   ) {
+    this.createRegisterForm();
+  }
+
+  createRegisterForm() {
     this.registerForm = this.formBuilder.group({
       type: 'student',
       username: '',
@@ -45,8 +49,10 @@ export class RegisterComponent implements OnInit {
 
   preview(event) {
 
-    this.picture = event.srcElement.files[0]; // 获取图片这里只操作一张图片
-    this.imgSrc = window.URL.createObjectURL(this.picture); // 获取上传的图片临时路径
+    // 获取图片这里只操作一张图片
+    this.picture = event.srcElement.files[0];
+    // 获取上传的图片临时路径
+    this.imgSrc = window.URL.createObjectURL(this.picture);
 
     let file;
     if (event.target.files[0]) {
@@ -97,11 +103,6 @@ export class RegisterComponent implements OnInit {
     formData.append('gender', userData.gender);
     formData.append('picture', this.picture);
 
-    console.log(this.picture);
-
-    userData.picture = this.picture;
-    console.log(formData);
-
     this.userService.register(formData).subscribe((response: RResponse) => {
       // 根据后端返回的状态码确定用户登录是否成功
       if (response.code === 200) {
@@ -117,7 +118,7 @@ export class RegisterComponent implements OnInit {
         this.toastrService.error(response.msg, '注册失败', {
           timeOut: 2000,
         });
-        console.log(response.code);
+
       }
     }, (err) => {
       console.log(err);

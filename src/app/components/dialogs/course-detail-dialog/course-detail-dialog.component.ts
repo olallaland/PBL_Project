@@ -21,23 +21,27 @@ export class CourseDetailDialogComponent implements OnInit {
     public courseService: CourseService,
     private toastrService: ToastrService,
     public router: Router
-  ) { }
+  ) {
+    this.studentList = this.data.student_list;
+    // 根据 course ID 获得选课学生列表
+    // this.courseService.getCourseRoster(this.data.course_id).subscribe( (res: RResponse) => {
+    //   this.studentList = res.data;
+    //   // console.log(this.studentList);
+    //   // console.log('am I in this course?: ' + this.studentList.indexOf(this.sessionService.get('userID')));
+    // });
+
+  }
 
   ngOnInit(): void {
-    console.log('course details dialog: ' + this.data);
-    console.log(this.data.course_id);
-
-    // 根据 course ID 获得选课学生列表
-    this.courseService.getCourseRoster(this.data.course_id).subscribe( (res: RResponse) => {
-      this.studentList = res.data;
-      console.log(this.studentList);
-      console.log('am I in this course?: ' + this.studentList.indexOf(this.sessionService.get('userID')));
-    });
-
   }
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  enterCourse(courseID) {
+    this.dialogRef.close();
+    this.router.navigate(['course/details', courseID]);
   }
 
   joinCourse(courseID) {

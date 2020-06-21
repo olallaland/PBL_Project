@@ -15,8 +15,6 @@ const httpOptions = {
 })
 export class UserService {
 
-  // private serviceUrl = 'http://localhost:8089';
-
   private readonly serviceUrl;
 
   constructor(
@@ -57,10 +55,7 @@ export class UserService {
   getSingleUser(userID) {
     const type = this.sessionService.get('userIdentity');
     const id = this.sessionService.get('userID');
-    const pwd = this.sessionService.get('pwd');
-
-    return this.http.get(this.serviceUrl + '/pbl/user/login?type=' + type + '&username=' + id + '&password=' + pwd);
-    // return this.http.get(this.serviceUrl + '/pbl/user/getSingleUser/' + userID);
+    return this.http.post(this.serviceUrl + '/pbl/user/findUserByID/' + type + '/' + id, httpOptions);
   }
 
   /**

@@ -42,11 +42,11 @@ export class EditProfileComponent implements OnInit {
 
     // 获得url中的 user ID
     this.activatedRoute.params.subscribe((data) => {
-      console.log(data);
+      // console.log(data);
       this.userID = data.userID;
     });
 
-    console.log(this.userID);
+    // console.log(this.userID);
 
     // 获得user信息
     this.userService.getSingleUser(this.userID).subscribe( (res: RResponse) => {
@@ -59,7 +59,6 @@ export class EditProfileComponent implements OnInit {
 
   onSubmit(userData) {
     const formData = new FormData();
-    console.log(this.sessionService.get('userIdentity'));
     formData.append('type', this.sessionService.get('userIdentity'));
     formData.append('username', this.userID);
     formData.append('password', userData.password);
@@ -67,12 +66,8 @@ export class EditProfileComponent implements OnInit {
     formData.append('gender', userData.gender);
     formData.append('picture', this.picture);
 
-    console.log(this.picture);
+    // console.log(formData);
 
-    userData.picture = this.picture;
-    console.log(formData);
-
-    console.log('user data: ' + userData.userID);
     this.userService.updateUser(formData).subscribe((response: RResponse) => {
       // 根据后端返回的状态码确定用户登录是否成功
       if (response.code === 200) {
@@ -89,9 +84,8 @@ export class EditProfileComponent implements OnInit {
       } else {
         // 注册失败，弹出提示框
         this.toastrService.error(response.msg, '修改失败', {
-          timeOut: 2000,
+          timeOut: 1500,
         });
-        console.log(response.code);
       }
     }, (err) => {
       console.log(err);
@@ -107,8 +101,6 @@ export class EditProfileComponent implements OnInit {
       picture: null,
       type: this.sessionService.get('userIdentity'),
     });
-
-    console.log(this.editUserInfoForm);
   }
 
   // preview selected picture

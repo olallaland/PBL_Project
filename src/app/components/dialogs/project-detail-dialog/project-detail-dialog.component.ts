@@ -20,19 +20,20 @@ export class ProjectDetailDialogComponent implements OnInit {
     public sessionService: SessionService,
     private projectService: ProjectService,
     private toastrService: ToastrService
-  ) { }
-
-  ngOnInit(): void {
+  ) {
     // 获取参与与该项目的学生列表
     this.projectService.getProjectMembers(this.data.course_id, this.data.pj_id).subscribe((response: RResponse) => {
-      console.log(response);
+      // console.log(response);
       if (response.code === 200) {
         for (const student of response.data) {
           this.studentList.push(student.student_id);
         }
-        console.log(this.studentList);
+        // console.log(this.studentList);
       }
     });
+  }
+
+  ngOnInit(): void {
   }
 
   onNoClick(): void {

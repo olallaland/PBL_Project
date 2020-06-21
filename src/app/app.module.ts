@@ -55,6 +55,7 @@ import {UserManagementService} from './services/user-management.service';
 import {UserDetailDialogComponent } from './components/dialogs/user-detail-dialog/user-detail-dialog.component';
 import {AddUserComponent} from './components/add-user/add-user.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     AddProjectComponent,
     UserManagementComponent,
     UserDetailDialogComponent,
-    AddUserComponent
+    AddUserComponent,
+    FooterComponent
   ],
     imports: [
         BrowserModule,
@@ -136,8 +138,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
              DiscussionService, FileService, UserManagementService,
     {
       provide: 'BASE_CONFIG',
-      // 3.94.89.139 localhost
-      useValue: 'http://3.94.89.139:8089'
+      // 3.94.89.139 localhost 3.219.247.83
+      useValue: 'http://3.219.247.83:8089'
     },
     {
       provide: LocationStrategy,

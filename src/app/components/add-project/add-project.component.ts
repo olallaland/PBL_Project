@@ -24,7 +24,8 @@ export class AddProjectComponent implements OnInit {
     private sessionService: SessionService,
     private activatedRoute: ActivatedRoute,
     private toastrService: ToastrService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     // 限制未登录的用户打开本页面
@@ -39,7 +40,6 @@ export class AddProjectComponent implements OnInit {
     });
 
     this.startDate = this.getCurrentDate();
-
     this.createAddPJForm();
   }
 
@@ -72,11 +72,9 @@ export class AddProjectComponent implements OnInit {
   }
 
   onSubmit(pjData) {
-    console.log(pjData);
-    console.log('submit');
 
     this.projectService.createProject(pjData).subscribe((response: RResponse) => {
-      console.log(response);
+      // console.log(response);
       if (response.code === 200) {
         // 创建成功，弹出提示框
         this.toastrService.success('创建成功', '', {

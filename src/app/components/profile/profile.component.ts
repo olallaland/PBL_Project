@@ -26,9 +26,6 @@ export class ProfileComponent implements OnInit {
     @Inject('BASE_CONFIG') serviceUrl
   ) {
     this.serviceUrl = serviceUrl;
-  }
-
-  ngOnInit(): void {
     // 限制已登录的用户打开本页面
     if (this.sessionService.get('userID') == null) {
       this.router.navigate(['user/login']);
@@ -38,28 +35,13 @@ export class ProfileComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(params => {
       this.userID = params.get('userID');
     });
-    // this.activatedRoute.params.subscribe((data) => {
-    //   this.userID = data.userID;
-    // });
+    // console.log('userID: ' + this.userID);
 
-    console.log('userID: ' + this.userID);
-
-    this.initUser(this.userID);
-
-  }
-
-  initUser(userID) {
-    const that = this;
-    // tslint:disable-next-line:only-arrow-functions
-    this.userService.getSingleUser(this.userID).subscribe(async function(res: RResponse) {
-      console.log('dd');
-      that.user = await res.data;
-      console.log('mm');
-      // tslint:disable-next-line:only-arrow-functions
-    }, function(err) {
-      console.log(err);
+    this.userService.getSingleUser(this.userID).subscribe((res: RResponse) => {
+      this.user = res.data;
     });
-    console.log('gg');
   }
 
+  ngOnInit(): void {
+  }
 }

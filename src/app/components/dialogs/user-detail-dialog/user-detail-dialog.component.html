@@ -13,7 +13,7 @@
 <div mat-dialog-actions>
   <button *ngIf="sessionService.get('userIdentity') == 'admin'"
           (click)="deleteUser(data.user_type, data.user_id)"
-          mat-button>
+          mat-button color="warn">
     删除用户
   </button>
   <button mat-button (click)="onNoClick()" cdkFocusInitial>关闭</button>
