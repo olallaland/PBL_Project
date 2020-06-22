@@ -2,11 +2,8 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UserService} from '../../services/user.service';
 import {FormBuilder} from '@angular/forms';
-import {UserInfo} from '../../entities/UserInfo';
 import {ToastrService} from 'ngx-toastr';
 import {SessionService} from '../../services/session.service';
-import {SuccessfulResponse} from '../../entities/SuccessfulResponse';
-import {User} from '../../entities/User';
 import {RResponse} from '../../entities/RResponse';
 
 @Component({

@@ -138,8 +138,8 @@ import { FooterComponent } from './components/footer/footer.component';
              DiscussionService, FileService, UserManagementService,
     {
       provide: 'BASE_CONFIG',
-      // 3.94.89.139 localhost 3.219.247.83
-      useValue: 'http://3.219.247.83:8089'
+      // 3.94.89.139 localhost 3.219.247.83 18.212.109.155
+      useValue: 'http://18.212.109.155:8089'
     },
     {
       provide: LocationStrategy,

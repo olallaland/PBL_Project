@@ -2,10 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {SessionService} from '../../services/session.service';
 import {UserService} from '../../services/user.service';
-import {SuccessfulResponse} from '../../entities/SuccessfulResponse';
-import {User} from '../../entities/User';
 import {RResponse} from '../../entities/RResponse';
-import {filterErrorsAndWarnings} from '@angular/compiler-cli';
 
 @Component({
   selector: 'app-profile',

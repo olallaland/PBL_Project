@@ -1,10 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {FormBuilder} from '@angular/forms';
 import {SessionService} from '../../services/session.service';
-import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
-import {UserService} from '../../services/user.service';
-import {SuccessfulResponse} from '../../entities/SuccessfulResponse';
 import {RResponse} from '../../entities/RResponse';
 import {UserManagementService} from '../../services/user-management.service';
 import {MatDialog} from '@angular/material/dialog';
